@@ -13,7 +13,7 @@
 -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="theme-color" content="#0a0a0a">
+<meta name="theme-color" content="#1a1a2e">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -53,7 +53,7 @@
   --gold-500:  #C8A030;   /* 테두리·미묘한 포인트 */
 
   /* 배경 스케일 (기존 유지) */
-  --black-900: #0a0a0a;
+  --black-900: #1a1a2e;
   --black-800: #111111;
   --black-700: #1a1a1a;
   --black-600: #222222;
@@ -88,8 +88,10 @@ body  {
   color:       var(--text-primary);
   line-height: 1.85;   /* 행간 격상: 1.75 → 1.85 */
   -webkit-font-smoothing: antialiased;
-  font-size: 17px;     /* 기본 폰트 격상: 16 → 17px */
-  letter-spacing: 0.01em; /* 기본 자간 추가 */
+  font-size: 18px;     /* 기본 폰트 격상: 16 → 17px */
+  font-weight: 400;
+  letter-spacing: 0.02em; /* 기본 자간 추가 */
+  line-height: 1.9;
 }
 
 /* ============================================================
@@ -2013,7 +2015,7 @@ if ('serviceWorker' in navigator) {
   const m = {
     name: 'Sovereign Oracle', short_name: 'Sovereign Oracle',
     start_url: '/', display: 'standalone',
-    background_color: '#0a0a0a', theme_color: '#0a0a0a',
+    background_color: '#1a1a2e', theme_color: '#1a1a2e',
     orientation: 'portrait',
     icons: [
       { src: 'https://yourdomain.com/icon-192.png', sizes: '192x192', type: 'image/png' },
