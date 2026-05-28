@@ -1299,7 +1299,11 @@ function setLang(lang) {
   renderPlans();
   syncPaymentGateway(lang);   /* ← 결제 게이트웨이 자동 전환 */
 }
-
+/* 푸터 언어 전환 */
+  const ko = document.getElementById('footer-products-ko');
+  const en = document.getElementById('footer-products-en');
+  if (ko) ko.style.display = lang === 'ko' ? '' : 'none';
+  if (en) en.style.display = lang === 'en' ? '' : 'none';
 /* ── 게이트웨이 파이프라인 동기화 ──
    KO → KG이니시스(국내) 탭 강조 + Airwallex 숨김
    EN → Airwallex(글로벌) 탭 강조 + 자동 선택         */
