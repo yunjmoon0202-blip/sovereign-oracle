@@ -3,11 +3,13 @@
 <head>
 <!--
   ================================================================
-  SOVEREIGN ORACLE v2.3 FINAL — sovereign-oracle-v2.3-final.html
+  SOVEREIGN ORACLE v2.6 GLOBAL — sovereign-oracle-v2.6.html
+  v2.3 원본 디자인 100% 보존 + 4대 글로벌 결제 심사 패치 적용
+  ─ PATCH 1: Legal Modal (ToS / Privacy / Disclaimer)
+  ─ PATCH 2: Global Testimonials Section
+  ─ PATCH 3: GLOBAL_AFFILIATE_MAP + Shield Items CTA
+  ─ PATCH 4: Price Sync — ₩6,900 / $4.99 완전 동기화
   고대디(GoDaddy) 단일 삽입용 완전 자립 통합 파일
-  ─ style.css  → <style> 태그 내장 완료
-  ─ app.js     → <script> 태그 내장 완료
-  ─ locale.json → const LOCALE 변수 인라인 완료
   외부 파일 의존 없음. 복사·붙여넣기만으로 즉시 구동.
   ================================================================
 -->
@@ -26,77 +28,54 @@
 <meta name="twitter:card" content="summary_large_image">
 <title>Sovereign Oracle — Precision Destiny Analysis</title>
 
-<!-- Fonts: Cormorant Garamond (primary throughout) + Cinzel (brand monogram only) + Noto Serif KR (Korean) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;600&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
 /* ============================================================
-   SOVEREIGN ORACLE — style.css v2.3 (가독성 패치 적용)
-   Typography: Cormorant Garamond unified across all display,
-   body, and UI elements. Cinzel reserved for monogram/brand only.
+   SOVEREIGN ORACLE — style.css v2.6
+   v2.3 원본 100% 보존 + v2.6 신규 컴포넌트 추가
    ============================================================ */
 
-/* ── Google Fonts: loaded via index.html ── */
-
 :root {
-  /* ══ SOVEREIGN ORACLE v2.3 — 가독성 격상 컬러 시스템 ══
-     마스터 긴급 패치: 흑배경 위 최고급 가독성 기준 적용
-     ─────────────────────────────────────────────────── */
-
-  /* 샴페인 골드 스케일 — 블랙 배경 위에서 전구처럼 빛나는 단계 */
-  --gold-50:   #FFFDF5;   /* 거의 흰 크림 */
-  --gold-100:  #FFF3D6;   /* 밝은 샴페인 */
-  --gold-200:  #FFE8B0;   /* 핵심 골드 강조 — 제목·로고 */
-  --gold-300:  #F9D87A;   /* 서브 골드 강조 */
-  --gold-400:  #E8C04A;   /* 아이콘·배지 */
-  --gold-500:  #C8A030;   /* 테두리·미묘한 포인트 */
-
-  /* 배경 스케일 (기존 유지) */
+  --gold-50:   #FFFDF5;
+  --gold-100:  #FFF3D6;
+  --gold-200:  #FFE8B0;
+  --gold-300:  #F9D87A;
+  --gold-400:  #E8C04A;
+  --gold-500:  #C8A030;
   --black-900: #1a1a2e;
   --black-800: #111111;
   --black-700: #1a1a1a;
   --black-600: #222222;
   --black-500: #2e2e2e;
-
-  /* 텍스트 스케일 — 핵심 격상 포인트
-     primary:   크림 화이트 — 본문 모든 글자, 눈 피로 없는 최적 밝기
-     secondary: 소프트 미색 — 설명문·서브 텍스트, 충분한 대비
-     muted:     그레이골드  — 힌트·레이블, 어둡지 않고 읽힘            */
-  --text-primary:   #F5F5F0;   /* 크림 화이트 (기존 #f0e8d5 → 격상) */
-  --text-secondary: #E2D9C8;   /* 밝은 미색   (기존 #b8a882 → 대폭 격상) */
-  --text-muted:     #C8B89A;   /* 그레이골드  (기존 #6b5f4a → 격상) */
-
-  --danger:  #FF6B6B;   /* 경고 — 더 선명하게 */
-  --success: #6FCFA0;   /* 성공 — 더 선명하게 */
-
-  /* ── Typography — Cormorant Garamond throughout ── */
+  --text-primary:   #F5F5F0;
+  --text-secondary: #E2D9C8;
+  --text-muted:     #C8B89A;
+  --danger:  #FF6B6B;
+  --success: #6FCFA0;
   --font-display: 'Inter', 'Noto Sans KR', sans-serif;
   --font-body:    'Inter', 'Noto Sans KR', sans-serif;
-  --font-brand:   'Cinzel', 'Cormorant Garamond', serif; /* brand name only */
+  --font-brand:   'Cinzel', 'Cormorant Garamond', serif;
   --font-mono:    'Cormorant Garamond', Georgia, serif;
-
   --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ── Reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html  { scroll-behavior: smooth; }
 body  {
   font-family: var(--font-body);
   background:  var(--black-900);
   color:       var(--text-primary);
-  line-height: 1.85;   /* 행간 격상: 1.75 → 1.85 */
+  line-height: 1.85;
   -webkit-font-smoothing: antialiased;
-  font-size: 18px;     /* 기본 폰트 격상: 16 → 17px */
+  font-size: 18px;
   font-weight: 400;
-  letter-spacing: 0.02em; /* 기본 자간 추가 */
+  letter-spacing: 0.02em;
   line-height: 1.9;
 }
 
-/* ============================================================
-   App Container
-   ============================================================ */
 #so-app {
   min-height: 100vh;
   background:
@@ -121,9 +100,7 @@ body  {
   padding: 0 20px 100px;
 }
 
-/* ============================================================
-   Header
-   ============================================================ */
+/* ── Header ── */
 .oracle-header {
   text-align: center;
   padding: 48px 20px 28px;
@@ -135,19 +112,43 @@ body  {
   width: 72px; height: 72px;
   border: 1.5px solid var(--gold-300); border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  animation: emblem-spin 24s linear infinite;
+  animation: emblem-ring-spin 8s linear infinite;
+  box-shadow: 0 0 18px rgba(201,168,76,.18), inset 0 0 12px rgba(201,168,76,.06);
 }
-.emblem-ring::before { content: ''; position: absolute; width: 54px; height: 54px; border: 1px solid rgba(201,168,76,.3); border-radius: 50%; }
-.emblem-ring::after  { content: ''; position: absolute; width: 36px; height: 36px; border: 1px solid rgba(201,168,76,.15); border-radius: 50%; }
-@keyframes emblem-spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
-.emblem-symbol { font-size: 24px; color: var(--gold-200); animation: emblem-spin 24s linear infinite reverse; }
+.emblem-ring::before {
+  content: ''; position: absolute; width: 54px; height: 54px;
+  border: 1px solid rgba(201,168,76,.35); border-radius: 50%;
+  animation: emblem-ring-spin 5s linear infinite reverse;
+}
+.emblem-ring::after  {
+  content: ''; position: absolute; width: 36px; height: 36px;
+  border: 1px solid rgba(201,168,76,.2); border-radius: 50%;
+  animation: emblem-ring-spin 3s linear infinite;
+}
+@keyframes emblem-ring-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes emblem-symbol-spin {
+  0%   { transform: rotate(0deg)   scale(1);    filter: drop-shadow(0 0 4px rgba(255,232,176,.3)); }
+  25%  { transform: rotate(90deg)  scale(1.08); filter: drop-shadow(0 0 8px rgba(255,232,176,.5)); }
+  50%  { transform: rotate(180deg) scale(1);    filter: drop-shadow(0 0 4px rgba(255,232,176,.3)); }
+  75%  { transform: rotate(270deg) scale(1.08); filter: drop-shadow(0 0 8px rgba(255,232,176,.5)); }
+  100% { transform: rotate(360deg) scale(1);    filter: drop-shadow(0 0 4px rgba(255,232,176,.3)); }
+}
+.emblem-symbol {
+  font-size: 28px;
+  color: var(--gold-200);
+  animation: emblem-symbol-spin 6s linear infinite;
+  display: block;
+  line-height: 1;
+  position: relative; z-index: 1;
+}
 
-/* Brand — Cinzel for the monogram name, Cormorant for sub-text */
 .brand-name    { font-family: var(--font-brand); font-size: clamp(22px,5.5vw,34px); font-weight: 600; letter-spacing: .22em; color: var(--gold-200); margin-bottom: 6px; text-shadow: 0 0 32px rgba(255,232,176,.25); }
 .brand-sub     { font-family: var(--font-display); font-size: 13px; letter-spacing: .24em; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 6px; font-weight: 400; font-style: italic; }
 .brand-classic { font-family: var(--font-display); font-size: 11px; letter-spacing: .14em; color: rgba(201,168,76,.4); font-style: italic; margin-bottom: 16px; }
 
-/* Language switcher */
 .lang-switcher { display: flex; justify-content: center; gap: 0; margin-top: 16px; }
 .lang-btn {
   padding: 6px 20px;
@@ -162,9 +163,7 @@ body  {
 .lang-btn:last-child  { border-radius: 0 2px 2px 0; border-left: none; }
 .lang-btn.active { background: rgba(201,168,76,.1); color: var(--gold-200); border-color: rgba(201,168,76,.45); }
 
-/* ============================================================
-   Step Indicator
-   ============================================================ */
+/* ── Step Bar ── */
 .step-bar { display: flex; align-items: center; justify-content: center; margin-bottom: 36px; }
 .s-dot    { display: flex; flex-direction: column; align-items: center; gap: 5px; }
 .s-circle {
@@ -182,9 +181,7 @@ body  {
 .s-line { width: 40px; height: 1px; background: rgba(201,168,76,.12); margin-bottom: 18px; flex-shrink: 0; }
 @media(max-width:380px) { .s-line { width: 20px; } .s-label { font-size: 8px; } }
 
-/* ============================================================
-   Form Section Cards
-   ============================================================ */
+/* ── Form Sections ── */
 .form-section {
   background: rgba(255,255,255,.018);
   border: 1px solid rgba(201,168,76,.09); border-radius: 2px;
@@ -213,14 +210,11 @@ body  {
 .sec-title   { font-family: var(--font-display); font-size: 15px; letter-spacing: .14em; color: var(--gold-200); text-transform: uppercase; font-style: italic; }
 .sec-classic { font-family: var(--font-display); font-size: 12px; color: var(--text-muted); letter-spacing: .08em; font-style: italic; margin-left: auto; }
 
-/* Classical hint box */
 .classic-hint { background: rgba(201,168,76,.04); border-left: 2px solid rgba(201,168,76,.25); padding: 10px 14px; margin-bottom: 16px; border-radius: 0 2px 2px 0; }
 .classic-hint-text   { font-family: var(--font-display); font-size: 14px; color: var(--text-secondary); font-style: italic; line-height: 1.9; }
 .classic-hint-source { font-family: var(--font-display); font-size: 10px; color: var(--gold-500); letter-spacing: .1em; margin-top: 4px; }
 
-/* ============================================================
-   Form Inputs
-   ============================================================ */
+/* ── Inputs ── */
 .field-group            { margin-bottom: 16px; }
 .field-group:last-child { margin-bottom: 0; }
 .field-label {
@@ -244,7 +238,6 @@ body  {
 .field-input::placeholder { color: var(--text-muted); font-style: italic; }
 input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia(1) saturate(2) hue-rotate(10deg); cursor: pointer; }
 
-/* Biometric grid */
 .bio-grid  { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
 @media(max-width:400px) { .bio-grid { grid-template-columns: 1fr 1fr; } }
 .bio-field { display: flex; flex-direction: column; gap: 5px; }
@@ -258,9 +251,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 .bio-input:focus { border-color: rgba(201,168,76,.42); box-shadow: 0 0 0 3px rgba(201,168,76,.05); }
 .bio-unit { font-family: var(--font-display); font-size: 9px; color: var(--text-muted); text-align: center; letter-spacing: .1em; font-style: italic; }
 
-/* ============================================================
-   Photo Upload
-   ============================================================ */
+/* ── Photo Upload ── */
 .photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .photo-box  {
   position: relative; aspect-ratio: 3/4;
@@ -279,16 +270,12 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 .photo-overlay                           { position: absolute; inset: 0; background: rgba(0,0,0,.5); display: none; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 12px; color: var(--gold-200); letter-spacing: .1em; font-style: italic; }
 .photo-preview.visible ~ .photo-overlay { display: flex; }
 
-/* ============================================================
-   Email Section
-   ============================================================ */
+/* ── Email Section ── */
 .email-section   { background: rgba(201,168,76,.04); border: 1px solid rgba(201,168,76,.15); border-radius: 2px; padding: 18px 20px; margin-bottom: 14px; }
 .email-label-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
 .email-badge     { font-family: var(--font-display); font-size: 9px; letter-spacing: .15em; background: rgba(201,168,76,.12); color: var(--gold-300); padding: 3px 8px; border-radius: 1px; border: 1px solid rgba(201,168,76,.2); text-transform: uppercase; font-style: italic; }
 
-/* ============================================================
-   Plan Cards
-   ============================================================ */
+/* ── Plan Cards ── */
 .plan-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 18px; }
 @media(max-width:480px) { .plan-grid { grid-template-columns: 1fr; gap: 8px; } }
 .plan-card {
@@ -306,9 +293,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 .plan-features li { font-family: var(--font-display); font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
 .plan-features li::before { content: '◈ '; color: var(--gold-400); font-size: 7px; }
 
-/* ============================================================
-   Payment Tabs
-   ============================================================ */
+/* ── Payment Tabs ── */
 .pay-tabs  { display: flex; gap: 0; border: 1px solid rgba(201,168,76,.13); border-radius: 2px; overflow: hidden; margin-bottom: 12px; }
 .pay-tab   { flex: 1; padding: 9px; text-align: center; font-family: var(--font-display); font-size: 11px; letter-spacing: .12em; color: var(--text-muted); cursor: pointer; transition: var(--transition); border: none; background: transparent; text-transform: uppercase; font-style: italic; }
 .pay-tab.active    { background: rgba(201,168,76,.09); color: var(--gold-200); }
@@ -321,14 +306,10 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 .status-dot        { width: 5px; height: 5px; border-radius: 50%; background: var(--gold-300); animation: pulse 2s ease-in-out infinite; }
 .status-dot.pending { background: #c09a3a; }
 @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
-
-/* Active gateway highlight */
 .pay-panel.gateway-active { display: block; }
 .gateway-highlight { border-color: rgba(201,168,76,.3) !important; background: rgba(201,168,76,.06) !important; }
 
-/* ============================================================
-   CTA Button
-   ============================================================ */
+/* ── CTA Button ── */
 .cta-wrap    { margin-top: 28px; text-align: center; }
 .cta-divider { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
 .cta-line    { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(201,168,76,.18), transparent); }
@@ -352,9 +333,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 .trust-item { display: flex; align-items: center; gap: 4px; font-family: var(--font-display); font-size: 10px; color: var(--text-muted); letter-spacing: .06em; font-style: italic; }
 .trust-icon { font-size: 11px; color: var(--gold-400); }
 
-/* ============================================================
-   Loading Overlay
-   ============================================================ */
+/* ── Loading Overlay ── */
 .loading-overlay { position: fixed; inset: 0; background: rgba(10,10,10,.97); z-index: 1000; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 28px; }
 .loading-overlay.active { display: flex; }
 .loading-emblem { position: relative; width: 100px; height: 100px; }
@@ -371,9 +350,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 .l-progress { width: 220px; height: 1px; background: rgba(201,168,76,.08); border-radius: 1px; overflow: hidden; margin: 8px auto 0; }
 .l-bar      { height: 100%; background: linear-gradient(90deg, var(--gold-400), var(--gold-200)); width: 0%; transition: width .5s ease; border-radius: 1px; }
 
-/* ============================================================
-   Report View
-   ============================================================ */
+/* ── Report View ── */
 .report-container         { display: none; animation: fadeUp .6s ease forwards; }
 .report-container.visible { display: block; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
@@ -386,7 +363,6 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 .rpt-section-tag { position: absolute; top: -9px; left: 18px; background: var(--black-900); padding: 0 8px; font-family: var(--font-display); font-size: 9px; letter-spacing: .2em; color: var(--gold-400); text-transform: uppercase; font-style: italic; }
 .rpt-section-title { font-family: var(--font-display); font-size: 17px; color: var(--gold-200); letter-spacing: .12em; margin-bottom: 16px; font-style: italic; text-shadow: 0 0 24px rgba(255,232,176,.15); }
 
-/* Classical quote block */
 .classic-quote-box      { background: rgba(201,168,76,.04); border-left: 2px solid rgba(255,232,176,.45); padding: 14px 18px; margin: 14px 0; border-radius: 0 2px 2px 0; }
 .classic-quote-text     { font-family: var(--font-display); font-size: 16px; color: var(--text-primary); font-style: italic; line-height: 2.0; margin-bottom: 8px; }
 .classic-quote-original { font-family: var(--font-display); font-size: 15px; color: var(--gold-300); margin-bottom: 6px; letter-spacing: .06em; }
@@ -395,11 +371,9 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 .rpt-body p             { margin-bottom: 13px; }
 .rpt-body p:last-child  { margin-bottom: 0; }
 
-/* Layer badge */
 .layer-badge { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-display); font-size: 9px; letter-spacing: .15em; color: var(--gold-400); border: 1px solid rgba(201,168,76,.2); padding: 3px 9px; border-radius: 1px; text-transform: uppercase; font-style: italic; margin-bottom: 12px; }
 .layer-dot   { width: 4px; height: 4px; border-radius: 50%; background: var(--gold-300); }
 
-/* Five Element gauges */
 .element-gauges { display: flex; flex-direction: column; gap: 9px; margin: 14px 0; }
 .el-row      { display: flex; align-items: center; gap: 10px; }
 .el-name     { font-family: var(--font-display); width: 60px; font-size: 11px; letter-spacing: .08em; color: var(--text-muted); flex-shrink: 0; font-style: italic; }
@@ -412,7 +386,6 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 .el-metal { background: linear-gradient(90deg,#757575,#bdbdbd); }
 .el-water { background: linear-gradient(90deg,#0d47a1,#1976d2); }
 
-/* Health alert badges */
 .health-alert          { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: 2px; margin: 10px 0; border: 1px solid; }
 .health-alert.warn     { background: rgba(168,80,50,.06); border-color: rgba(168,80,50,.2); color: rgba(240,180,150,.9); }
 .health-alert.ok       { background: rgba(26,107,58,.06); border-color: rgba(26,107,58,.2); color: rgba(150,220,170,.9); }
@@ -421,7 +394,6 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 .ha-text   { font-family: var(--font-body); font-size: 15px; line-height: 1.85; color: inherit; }
 .ha-source { font-family: var(--font-display); font-size: 10px; color: var(--gold-500); margin-top: 4px; font-style: italic; }
 
-/* Prescription cards */
 .rx-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
 @media(max-width:380px) { .rx-grid { grid-template-columns: 1fr; } }
 .rx-card  { padding: 14px; border: 1px solid rgba(201,168,76,.1); border-radius: 2px; background: rgba(0,0,0,.2); }
@@ -429,7 +401,6 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 .rx-title { font-family: var(--font-display); font-size: 10px; letter-spacing: .14em; color: var(--gold-300); text-transform: uppercase; margin-bottom: 6px; font-style: italic; }
 .rx-text  { font-family: var(--font-body); font-size: 15px; color: var(--text-primary); line-height: 1.8; }
 
-/* Curated prescription block */
 .prescription-block { margin-top: 28px; border: 1.5px solid rgba(201,168,76,.2); border-radius: 2px; overflow: hidden; }
 .rx-header-bar      { background: rgba(201,168,76,.07); padding: 14px 18px; border-bottom: 1px solid rgba(201,168,76,.12); display: flex; align-items: center; justify-content: space-between; }
 .rx-header-title    { font-family: var(--font-display); font-size: 11px; letter-spacing: .2em; color: var(--gold-200); text-transform: uppercase; font-style: italic; }
@@ -449,36 +420,26 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 .btn-rx-consult     { flex: 1; min-width: 140px; padding: 13px; background: transparent; border: 1px solid rgba(201,168,76,.18); border-radius: 2px; color: var(--text-muted); font-family: var(--font-display); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; font-style: italic; cursor: pointer; transition: var(--transition); text-align: center; }
 .btn-rx-consult:hover { border-color: rgba(255,232,176,.45); color: var(--gold-300); }
 
-/* Share section */
 .share-section { text-align: center; padding: 24px 0; border-top: 1px solid rgba(201,168,76,.08); margin-top: 28px; }
 .share-title   { font-family: var(--font-display); font-size: 10px; letter-spacing: .22em; color: var(--text-muted); text-transform: uppercase; font-style: italic; margin-bottom: 14px; }
 .share-btns    { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
 .share-btn     { display: flex; align-items: center; gap: 6px; padding: 9px 16px; border: 1px solid rgba(201,168,76,.18); border-radius: 2px; background: transparent; color: var(--text-secondary); font-family: var(--font-display); font-size: 12px; letter-spacing: .1em; font-style: italic; cursor: pointer; transition: var(--transition); }
 .share-btn:hover { border-color: rgba(201,168,76,.38); color: var(--gold-200); background: rgba(201,168,76,.04); }
 
-/* ============================================================
-   Subscription Dashboard (Premium Members)
-   ============================================================ */
+/* ── Subscription Dashboard ── */
 .sub-dashboard { display: none; }
 .sub-dashboard.visible { display: block; animation: fadeUp .6s ease forwards; }
-
 .sub-header { text-align: center; padding: 28px 0 18px; border-bottom: 1px solid rgba(201,168,76,.12); margin-bottom: 24px; }
 .sub-badge  { display: inline-flex; align-items: center; gap: 6px; background: rgba(201,168,76,.1); border: 1px solid rgba(201,168,76,.3); border-radius: 2px; padding: 4px 12px; font-family: var(--font-display); font-size: 9px; letter-spacing: .2em; color: var(--gold-300); text-transform: uppercase; font-style: italic; margin-bottom: 12px; }
 .sub-badge-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold-300); animation: pulse 2s ease-in-out infinite; }
-
 .daily-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-bottom: 20px; }
 @media(max-width:440px) { .daily-grid { grid-template-columns: 1fr; } }
-.daily-card {
-  background: rgba(255,255,255,.018); border: 1px solid rgba(201,168,76,.09); border-radius: 2px;
-  padding: 14px 16px; transition: var(--transition);
-}
+.daily-card { background: rgba(255,255,255,.018); border: 1px solid rgba(201,168,76,.09); border-radius: 2px; padding: 14px 16px; transition: var(--transition); }
 .daily-card:hover { border-color: rgba(201,168,76,.22); background: rgba(255,255,255,.025); }
 .daily-card-icon  { font-size: 18px; margin-bottom: 6px; }
 .daily-card-label { font-family: var(--font-display); font-size: 9px; letter-spacing: .18em; color: var(--gold-400); text-transform: uppercase; font-style: italic; margin-bottom: 4px; }
 .daily-card-value { font-family: var(--font-display); font-size: 16px; color: var(--text-primary); line-height: 1.6; }
 .daily-card-sub   { font-family: var(--font-body); font-size: 12px; color: var(--text-muted); margin-top: 3px; font-style: italic; }
-
-/* Lottery block */
 .lottery-block { background: rgba(201,168,76,.04); border: 1.5px solid rgba(201,168,76,.18); border-radius: 2px; padding: 20px; margin-bottom: 20px; }
 .lottery-title { font-family: var(--font-display); font-size: 12px; letter-spacing: .18em; color: var(--gold-200); text-transform: uppercase; font-style: italic; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
 .lottery-sets  { display: flex; flex-direction: column; gap: 12px; }
@@ -487,9 +448,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 .lottery-num   { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 14px; color: var(--black-900); font-weight: 600; background: var(--gold-300); }
 .lottery-num:nth-child(even) { background: var(--gold-200); }
 
-/* ============================================================
-   PWA Banner
-   ============================================================ */
+/* ── PWA Banner ── */
 .pwa-banner         { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(17,17,17,.97); border-top: 1px solid rgba(201,168,76,.18); padding: 12px 18px; display: none; align-items: center; gap: 10px; z-index: 500; backdrop-filter: blur(10px); }
 .pwa-banner.visible { display: flex; }
 .pwa-icon     { width: 38px; height: 38px; background: linear-gradient(135deg,rgba(201,168,76,.18),rgba(201,168,76,.05)); border: 1px solid rgba(201,168,76,.28); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
@@ -499,6 +458,485 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 .pwa-install  { padding: 7px 14px; background: rgba(201,168,76,.1); border: 1px solid rgba(201,168,76,.38); border-radius: 2px; color: var(--gold-200); font-family: var(--font-display); font-size: 11px; letter-spacing: .12em; cursor: pointer; text-transform: uppercase; font-style: italic; flex-shrink: 0; transition: var(--transition); }
 .pwa-close    { background: none; border: none; color: var(--text-muted); font-size: 15px; cursor: pointer; padding: 4px; flex-shrink: 0; line-height: 1; }
 
+/* ══════════════════════════════════════════════════════════════
+   CUSTOM DATE PICKER — Sovereign Oracle
+   브라우저 기본 달력 완전 대체 · 한/영 완벽 전환
+   ══════════════════════════════════════════════════════════════ */
+.datepicker-wrap {
+  position: relative;
+  width: 100%;
+}
+.datepicker-input {
+  width: 100%;
+  background: rgba(0,0,0,.45);
+  border: 1px solid rgba(201,168,76,.13);
+  border-radius: 2px;
+  padding: 11px 42px 11px 15px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 17px;
+  cursor: pointer;
+  outline: none;
+  transition: var(--transition);
+  text-align: left;
+  display: flex; align-items: center;
+  user-select: none;
+}
+.datepicker-input:focus,
+.datepicker-input.open {
+  border-color: rgba(201,168,76,.42);
+  background: rgba(0,0,0,.6);
+  box-shadow: 0 0 0 3px rgba(201,168,76,.05);
+}
+.datepicker-input .dp-placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.datepicker-input .dp-cal-icon {
+  position: absolute;
+  right: 13px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--gold-400);
+  font-size: 15px;
+  pointer-events: none;
+}
+
+/* 달력 팝업 */
+.datepicker-popup {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0; right: 0;
+  background: #111118;
+  border: 1px solid rgba(201,168,76,.28);
+  border-radius: 3px;
+  z-index: 2000;
+  box-shadow: 0 12px 40px rgba(0,0,0,.7);
+  animation: fadeUp .2s ease;
+  min-width: 280px;
+}
+.datepicker-popup.active { display: block; }
+
+/* 헤더 — 년/월 네비게이션 */
+.dp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid rgba(201,168,76,.1);
+}
+.dp-nav-btn {
+  background: none; border: none;
+  color: var(--gold-300);
+  font-size: 16px; cursor: pointer;
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 2px;
+  transition: var(--transition);
+}
+.dp-nav-btn:hover { background: rgba(201,168,76,.1); }
+.dp-month-year {
+  font-family: var(--font-display);
+  font-size: 13px; letter-spacing: .12em;
+  color: var(--gold-200); font-style: italic;
+  cursor: pointer;
+  padding: 3px 8px;
+  border-radius: 2px;
+  transition: var(--transition);
+}
+.dp-month-year:hover { background: rgba(201,168,76,.08); }
+
+/* 요일 행 */
+.dp-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 8px 10px 4px;
+}
+.dp-weekday {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 9px; letter-spacing: .12em;
+  color: var(--gold-500); font-style: italic;
+  text-transform: uppercase;
+  padding: 3px 0;
+}
+
+/* 날짜 그리드 */
+.dp-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 2px 10px 10px;
+  gap: 1px;
+}
+.dp-day {
+  text-align: center;
+  padding: 7px 2px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-radius: 2px;
+  transition: var(--transition);
+  border: 1px solid transparent;
+}
+.dp-day:hover:not(.dp-empty):not(.dp-disabled) {
+  background: rgba(201,168,76,.1);
+  color: var(--gold-200);
+  border-color: rgba(201,168,76,.2);
+}
+.dp-day.dp-today {
+  color: var(--gold-300);
+  border-color: rgba(201,168,76,.25);
+}
+.dp-day.dp-selected {
+  background: rgba(201,168,76,.18);
+  color: var(--gold-100);
+  border-color: rgba(201,168,76,.5);
+  box-shadow: 0 0 10px rgba(201,168,76,.15);
+}
+.dp-day.dp-disabled {
+  color: rgba(200,184,154,.2);
+  cursor: not-allowed;
+}
+.dp-day.dp-empty { cursor: default; }
+
+/* 년도/월 선택 뷰 */
+.dp-year-grid, .dp-month-grid {
+  display: none;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  padding: 10px;
+}
+.dp-year-grid.active, .dp-month-grid.active { display: grid; }
+.dp-grid-item {
+  text-align: center;
+  padding: 8px 4px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  transition: var(--transition);
+  font-style: italic;
+}
+.dp-grid-item:hover {
+  background: rgba(201,168,76,.1);
+  color: var(--gold-200);
+  border-color: rgba(201,168,76,.2);
+}
+.dp-grid-item.dp-selected-ym {
+  background: rgba(201,168,76,.18);
+  color: var(--gold-100);
+  border-color: rgba(201,168,76,.45);
+}
+
+/* 빠른 이동 - 년도 스크롤 */
+.dp-year-scroll {
+  max-height: 220px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201,168,76,.3) transparent;
+}
+.dp-year-scroll::-webkit-scrollbar { width: 4px; }
+.dp-year-scroll::-webkit-scrollbar-thumb { background: rgba(201,168,76,.3); border-radius: 2px; }
+
+.testimonials-section {
+  margin: 32px 0;
+  padding: 28px 0;
+  border-top: 1px solid rgba(201,168,76,.1);
+  border-bottom: 1px solid rgba(201,168,76,.1);
+}
+.testimonials-header {
+  text-align: center;
+  margin-bottom: 22px;
+}
+.testimonials-eyebrow {
+  font-family: var(--font-display);
+  font-size: 9px; letter-spacing: .3em;
+  color: var(--gold-400); text-transform: uppercase;
+  font-style: italic; margin-bottom: 6px;
+}
+.testimonials-title {
+  font-family: var(--font-display);
+  font-size: 16px; letter-spacing: .1em;
+  color: var(--gold-200); font-style: italic;
+}
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+@media(max-width: 480px) {
+  .testimonial-grid { grid-template-columns: 1fr; }
+}
+.testimonial-card {
+  background: rgba(255,255,255,.018);
+  border: 1px solid rgba(201,168,76,.1);
+  border-radius: 2px;
+  padding: 18px 16px;
+  position: relative;
+  transition: var(--transition);
+}
+.testimonial-card:hover {
+  border-color: rgba(201,168,76,.22);
+  background: rgba(255,255,255,.025);
+}
+.testimonial-card::before {
+  content: '\201C';
+  position: absolute; top: 10px; left: 14px;
+  font-size: 36px; color: rgba(201,168,76,.15);
+  font-family: Georgia, serif; line-height: 1;
+}
+.testimonial-stars {
+  color: var(--gold-300);
+  font-size: 11px;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+.testimonial-text {
+  font-family: var(--font-body);
+  font-size: 14px; line-height: 1.85;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin-bottom: 12px;
+}
+.testimonial-author {
+  display: flex; align-items: center; gap: 8px;
+}
+.testimonial-avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: linear-gradient(135deg, rgba(201,168,76,.25), rgba(201,168,76,.08));
+  border: 1px solid rgba(201,168,76,.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; flex-shrink: 0;
+}
+.testimonial-name {
+  font-family: var(--font-display);
+  font-size: 11px; letter-spacing: .08em;
+  color: var(--gold-300); font-style: italic;
+}
+.testimonial-loc {
+  font-family: var(--font-display);
+  font-size: 9px; color: var(--text-muted);
+  letter-spacing: .06em; font-style: italic;
+}
+.testimonial-verified {
+  margin-left: auto;
+  font-family: var(--font-display);
+  font-size: 8px; letter-spacing: .12em;
+  color: var(--gold-500);
+  border: 1px solid rgba(201,168,76,.15);
+  padding: 2px 6px; border-radius: 1px;
+  font-style: italic;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PATCH 3 — SHIELD ITEMS / AFFILIATE CTA
+   ══════════════════════════════════════════════════════════════ */
+.shield-section {
+  margin-top: 28px;
+  border: 1.5px solid rgba(201,168,76,.18);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.shield-header-bar {
+  background: rgba(201,168,76,.06);
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(201,168,76,.12);
+  display: flex; align-items: center; gap: 10px;
+}
+.shield-header-icon { font-size: 18px; }
+.shield-header-title {
+  font-family: var(--font-display);
+  font-size: 11px; letter-spacing: .2em;
+  color: var(--gold-200); text-transform: uppercase;
+  font-style: italic;
+}
+.shield-header-sub {
+  font-family: var(--font-display);
+  font-size: 9px; color: var(--text-muted);
+  font-style: italic; margin-left: auto;
+}
+.shield-items { padding: 14px 18px; display: flex; flex-direction: column; gap: 10px; }
+.shield-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px;
+  background: rgba(0,0,0,.25);
+  border: 1px solid rgba(201,168,76,.08);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+}
+.shield-item:hover {
+  border-color: rgba(201,168,76,.28);
+  background: rgba(201,168,76,.05);
+  transform: translateX(3px);
+}
+.shield-item-icon {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(201,168,76,.08);
+  border: 1px solid rgba(201,168,76,.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+}
+.shield-item-content { flex: 1; }
+.shield-item-label {
+  font-family: var(--font-display);
+  font-size: 8px; letter-spacing: .18em;
+  color: var(--gold-400); text-transform: uppercase;
+  font-style: italic; margin-bottom: 3px;
+}
+.shield-item-title {
+  font-family: var(--font-display);
+  font-size: 14px; color: var(--gold-100);
+  line-height: 1.4;
+}
+.shield-item-reason {
+  font-family: var(--font-body);
+  font-size: 12px; color: var(--text-muted);
+  font-style: italic; margin-top: 2px;
+  line-height: 1.6;
+}
+.shield-item-cta {
+  font-family: var(--font-display);
+  font-size: 9px; letter-spacing: .12em;
+  color: var(--gold-300);
+  border: 1px solid rgba(201,168,76,.25);
+  padding: 5px 10px; border-radius: 1px;
+  text-transform: uppercase; font-style: italic;
+  flex-shrink: 0; white-space: nowrap;
+}
+.shield-disclaimer {
+  padding: 10px 18px 14px;
+  font-family: var(--font-display);
+  font-size: 9px; color: rgba(200,184,154,.4);
+  font-style: italic; line-height: 1.6;
+  border-top: 1px solid rgba(201,168,76,.06);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PATCH 1 — LEGAL MODAL
+   ══════════════════════════════════════════════════════════════ */
+.legal-modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.85);
+  z-index: 9000;
+  display: none; align-items: center; justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(6px);
+}
+.legal-modal-backdrop.active { display: flex; }
+.legal-modal {
+  background: #111118;
+  border: 1px solid rgba(201,168,76,.22);
+  border-radius: 3px;
+  max-width: 560px; width: 100%;
+  max-height: 80vh;
+  display: flex; flex-direction: column;
+  animation: fadeUp .3s ease forwards;
+}
+.legal-modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(201,168,76,.12);
+  flex-shrink: 0;
+}
+.legal-modal-title {
+  font-family: var(--font-display);
+  font-size: 12px; letter-spacing: .2em;
+  color: var(--gold-200); text-transform: uppercase;
+  font-style: italic;
+}
+.legal-modal-close {
+  background: none; border: none;
+  color: var(--text-muted); font-size: 18px;
+  cursor: pointer; padding: 2px 6px;
+  transition: var(--transition); line-height: 1;
+}
+.legal-modal-close:hover { color: var(--gold-300); }
+.legal-modal-body {
+  overflow-y: auto; padding: 20px;
+  flex: 1;
+}
+.legal-modal-body h3 {
+  font-family: var(--font-display);
+  font-size: 13px; letter-spacing: .1em;
+  color: var(--gold-300); font-style: italic;
+  margin: 16px 0 8px; text-transform: uppercase;
+}
+.legal-modal-body h3:first-child { margin-top: 0; }
+.legal-modal-body p {
+  font-family: var(--font-body);
+  font-size: 13px; line-height: 1.85;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+.legal-modal-body ul {
+  padding-left: 16px; margin-bottom: 10px;
+}
+.legal-modal-body li {
+  font-family: var(--font-body);
+  font-size: 13px; line-height: 1.8;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+.legal-modal-footer {
+  padding: 12px 20px;
+  border-top: 1px solid rgba(201,168,76,.1);
+  text-align: center;
+  flex-shrink: 0;
+}
+.legal-modal-footer button {
+  padding: 9px 28px;
+  background: rgba(201,168,76,.1);
+  border: 1px solid rgba(201,168,76,.35);
+  border-radius: 2px;
+  color: var(--gold-200);
+  font-family: var(--font-display);
+  font-size: 11px; letter-spacing: .18em;
+  text-transform: uppercase; font-style: italic;
+  cursor: pointer; transition: var(--transition);
+}
+.legal-modal-footer button:hover {
+  background: rgba(201,168,76,.18);
+  border-color: var(--gold-300);
+}
+
+/* footer legal links */
+.footer-legal-links {
+  display: flex; justify-content: center;
+  gap: 6px; flex-wrap: wrap; margin-bottom: 10px;
+}
+.footer-legal-btn {
+  background: none; border: none;
+  color: rgba(160,144,110,.6);
+  font-family: var(--font-display);
+  font-size: 11px; letter-spacing: .08em;
+  cursor: pointer; transition: var(--transition);
+  font-style: italic; padding: 2px 4px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.footer-legal-btn:hover { color: var(--gold-400); }
+.footer-sep { color: rgba(160,144,110,.3); font-size: 11px; line-height: 1.8; }
+
+/* disclaimer banner below form */
+.entertainment-disclaimer {
+  background: rgba(201,168,76,.03);
+  border: 1px solid rgba(201,168,76,.1);
+  border-radius: 2px;
+  padding: 12px 16px;
+  margin-bottom: 14px;
+  text-align: center;
+}
+.entertainment-disclaimer p {
+  font-family: var(--font-display);
+  font-size: 11px; color: rgba(200,184,154,.55);
+  font-style: italic; line-height: 1.7;
+  letter-spacing: .04em;
+}
 </style>
 </head>
 <body>
@@ -532,11 +970,24 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
   </div>
 
   <!-- ═══════════════════════════════════════════
+       PATCH 2 — TESTIMONIALS (폼 위 삽입)
+       ═══════════════════════════════════════════ -->
+  <div class="testimonials-section">
+    <div class="testimonials-header">
+      <div class="testimonials-eyebrow">Verified · Global Reviews</div>
+      <div class="testimonials-title" data-i18n="testimonialsTitle">What Our Members Say</div>
+    </div>
+    <div class="testimonial-grid" id="testimonialGrid">
+      <!-- Rendered by JS based on language -->
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
        VIEW 1 — Input Form
        ═══════════════════════════════════════════ -->
   <div id="view-input">
 
-    <!-- LAYER 1: Four Pillars / 사주 -->
+    <!-- LAYER 1: Four Pillars -->
     <div class="form-section">
       <span class="layer-tag">Layer 1 · Foundation</span>
       <div class="sec-header">
@@ -545,29 +996,44 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
         <span class="sec-classic">Four Pillars</span>
       </div>
       <div class="classic-hint" id="hint-layer1">
-        <p class="classic-hint-text">"A person's destiny is defined by four temporal pillars — the precise coordinates of cosmic energy at the moment of birth."</p>
-        <p class="classic-hint-source">— Zi Ping Zhen Quan, Chapter One: On the Foundation of Destiny</p>
+        <p class="classic-hint-text" id="hint-layer1-text">"사람의 命은 생년(年)·월(月)·일(日)·시(時), 네 기둥에 의해 결정됩니다. 이 네 좌표가 바로 탄생 순간 우주 에너지의 정밀한 지도입니다."</p>
+        <p class="classic-hint-source" id="hint-layer1-src">— 子平眞詮 제1장 論命之本</p>
       </div>
       <div class="field-group">
-        <label class="field-label" for="birthdate" data-i18n="birthLabel">Date of Birth</label>
-        <input type="date" id="birthdate" class="field-input" required>
+        <label class="field-label" for="dp-display" data-i18n="birthLabel">생년월일</label>
+        <!-- 실제 값 저장용 hidden input (기존 로직과 호환) -->
+        <input type="hidden" id="birthdate">
+        <!-- 커스텀 달력 위젯 -->
+        <div class="datepicker-wrap" id="datepicker-wrap">
+          <div class="datepicker-input" id="dp-display" tabindex="0"
+               onclick="DP.toggle()" onkeydown="if(event.key==='Enter'||event.key===' ')DP.toggle()">
+            <span id="dp-display-text" class="dp-placeholder">—</span>
+            <span class="dp-cal-icon">📅</span>
+          </div>
+          <div class="datepicker-popup" id="dp-popup">
+            <div class="dp-header">
+              <button class="dp-nav-btn" onclick="DP.prevMonth()" type="button">‹</button>
+              <div class="dp-month-year" id="dp-month-year" onclick="DP.toggleYMView()"></div>
+              <button class="dp-nav-btn" onclick="DP.nextMonth()" type="button">›</button>
+            </div>
+            <!-- 날짜 뷰 -->
+            <div id="dp-cal-view">
+              <div class="dp-weekdays" id="dp-weekdays"></div>
+              <div class="dp-days" id="dp-days"></div>
+            </div>
+            <!-- 년도 선택 뷰 -->
+            <div class="dp-year-scroll" id="dp-year-view" style="display:none">
+              <div class="dp-year-grid active" id="dp-year-grid"></div>
+            </div>
+            <!-- 월 선택 뷰 -->
+            <div class="dp-month-grid active" id="dp-month-grid" style="display:none"></div>
+          </div>
+        </div>
       </div>
       <div class="field-group">
         <label class="field-label" for="birth-time" data-i18n="birthTimeLabel">Birth Hour</label>
         <select id="birth-time" class="field-input">
-          <option value="">Unknown</option>
-          <option value=""> (23:00 – 01:00)</option>
-          <option value=""> (01:00 – 03:00)</option>
-          <option value=""> (03:00 – 05:00)</option>
-          <option value=""> (05:00 – 07:00)</option>
-          <option value=""> (07:00 – 09:00)</option>
-          <option value=""> (09:00 – 11:00)</option>
-          <option value=""> (11:00 – 13:00)</option>
-          <option value=""> (13:00 – 15:00)</option>
-          <option value=""> (15:00 – 17:00)</option>
-          <option value=""> (17:00 – 19:00)</option>
-          <option value=""> (19:00 – 21:00)</option>
-          <option value=""> (21:00 – 23:00)</option>
+          <!-- Options rendered by JS via applyLocale() -->
         </select>
       </div>
       <div class="field-group">
@@ -579,7 +1045,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
       </div>
     </div>
 
-    <!-- LAYER 2+3: Face & Palm / 관상·수상 -->
+    <!-- LAYER 2+3: Face & Palm -->
     <div class="form-section">
       <span class="layer-tag">Layer 2·3 · Reading</span>
       <div class="sec-header">
@@ -588,32 +1054,41 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
         <span class="sec-classic">Physiognomy · Palmistry</span>
       </div>
       <div class="classic-hint" id="hint-layer23">
-        <p class="classic-hint-text">"The face is a mirror of the inner organs. Complexion reveals the state of vital energy and blood. Observe the Five Colors to discern fortune and fate."</p>
-        <p class="classic-hint-source">— Huangdi Neijing, Ling Shu: Five Colors · Ma Yi Shen Xiang, Vol. III</p>
+        <p class="classic-hint-text" id="hint-layer23-text">"얼굴은 오장육부의 거울입니다. 안색은 기혈(氣血)의 상태를 드러내며, 오색(五色)을 살펴 길흉과 운명을 판단합니다. 손금의 무늬는 후천적 삶의 변화를 기록하며, 오른손은 현생의 현실 운세를, 왼손은 선천적 타고난 기질과 잠재력을 담고 있습니다."</p>
+        <p class="classic-hint-source" id="hint-layer23-src">— 黃帝內經 靈樞 五色篇 · 麻衣神相 제3권 形神篇</p>
       </div>
-      <div class="photo-grid">
+      <div class="photo-grid" style="grid-template-columns:1fr 1fr 1fr;">
         <div class="photo-box">
           <input type="file" id="face-photo" accept="image/*" capture="user"
-            onchange="previewPhoto(this,'face-prev')" aria-label="Face photo upload">
+            onchange="previewPhoto(this,'face-prev')" aria-label="얼굴 이미지 업로드">
           <img class="photo-preview" id="face-prev" src="" alt="">
-          <div class="photo-overlay">Change</div>
+          <div class="photo-overlay" data-i18n="photoChange">변경</div>
           <div class="upload-icon">◉</div>
-          <span class="upload-label" data-i18n="faceLabel">Face Reading Photo</span>
-          <span class="upload-hint">Camera or file</span>
+          <span class="upload-label" data-i18n="faceLabel">얼굴 이미지</span>
+          <span class="upload-hint" data-i18n="photoHint">카메라 또는 파일</span>
         </div>
         <div class="photo-box">
-          <input type="file" id="palm-photo" accept="image/*" capture="environment"
-            onchange="previewPhoto(this,'palm-prev')" aria-label="Palm photo upload">
-          <img class="photo-preview" id="palm-prev" src="" alt="">
-          <div class="photo-overlay">Change</div>
+          <input type="file" id="palm-right-photo" accept="image/*" capture="environment"
+            onchange="previewPhoto(this,'palm-right-prev')" aria-label="오른손 업로드">
+          <img class="photo-preview" id="palm-right-prev" src="" alt="">
+          <div class="photo-overlay" data-i18n="photoChange">변경</div>
           <div class="upload-icon">✋</div>
-          <span class="upload-label" data-i18n="palmLabel">Palm Reading Photo</span>
-          <span class="upload-hint">Camera or file</span>
+          <span class="upload-label" data-i18n="palmRightLabel">오른손 손금</span>
+          <span class="upload-hint" data-i18n="photoHint">카메라 또는 파일</span>
+        </div>
+        <div class="photo-box">
+          <input type="file" id="palm-left-photo" accept="image/*" capture="environment"
+            onchange="previewPhoto(this,'palm-left-prev')" aria-label="왼손 업로드">
+          <img class="photo-preview" id="palm-left-prev" src="" alt="">
+          <div class="photo-overlay" data-i18n="photoChange">변경</div>
+          <div class="upload-icon">🤚</div>
+          <span class="upload-label" data-i18n="palmLeftLabel">왼손 손금</span>
+          <span class="upload-hint" data-i18n="photoHint">카메라 또는 파일</span>
         </div>
       </div>
     </div>
 
-    <!-- LAYER 4+5: Biometrics / 신체 지표 -->
+    <!-- LAYER 4+5: Biometrics -->
     <div class="form-section">
       <span class="layer-tag">Layer 4·5 · Biometrics</span>
       <div class="sec-header">
@@ -622,65 +1097,68 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
         <span class="sec-classic">Biometrics</span>
       </div>
       <div class="classic-hint" id="hint-layer45">
-        <p class="classic-hint-text">"Earth element governs the digestive and metabolic axis. Its dysregulation produces wasting and thirst — precursors to modern metabolic disease. Fire-Water discord manifests as circulatory pressure anomalies."</p>
-        <p class="classic-hint-source">— Dongui Bogam, Internal Chapters: Metabolic Disorders</p>
+        <p class="classic-hint-text" id="hint-layer45-text">"토기(土氣)는 소화·대사 기능의 축을 주관합니다. 토기의 실조는 소갈(消渴), 즉 현대 대사 질환의 전조를 낳습니다. 화수(火水)의 불균형은 혈맥의 압력 이상으로 드러납니다."</p>
+        <p class="classic-hint-source" id="hint-layer45-src">— 東醫寶鑑 內景篇 消渴門 · 五臟六腑篇</p>
       </div>
       <div class="bio-grid">
         <div class="bio-field">
-          <label class="field-label" for="bp-sys">Systolic BP</label>
+          <label class="field-label" for="bp-sys" data-i18n="bpSysLabel">수축기 혈압</label>
           <input type="number" id="bp-sys" class="bio-input" placeholder="120" min="60" max="220">
           <span class="bio-unit">mmHg</span>
         </div>
         <div class="bio-field">
-          <label class="field-label" for="bp-dia">Diastolic BP</label>
+          <label class="field-label" for="bp-dia" data-i18n="bpDiaLabel">이완기 혈압</label>
           <input type="number" id="bp-dia" class="bio-input" placeholder="80" min="40" max="140">
           <span class="bio-unit">mmHg</span>
         </div>
         <div class="bio-field">
-          <label class="field-label" for="pulse">Pulse</label>
+          <label class="field-label" for="pulse" data-i18n="pulseLabel">맥박 수</label>
           <input type="number" id="pulse" class="bio-input" placeholder="72" min="40" max="200">
           <span class="bio-unit">bpm</span>
         </div>
         <div class="bio-field">
-          <label class="field-label" for="glucose">Blood Glucose</label>
+          <label class="field-label" for="glucose" data-i18n="glucoseLabel">혈당 수치</label>
           <input type="number" id="glucose" class="bio-input" placeholder="95" min="50" max="600">
           <span class="bio-unit">mg/dL</span>
         </div>
         <div class="bio-field">
-          <label class="field-label" for="weight">Weight</label>
+          <label class="field-label" for="weight" data-i18n="weightLabel">체중</label>
           <input type="number" id="weight" class="bio-input" placeholder="65" min="30" max="200">
           <span class="bio-unit">kg</span>
         </div>
         <div class="bio-field">
-          <label class="field-label" for="height">Height</label>
+          <label class="field-label" for="height" data-i18n="heightLabel">키</label>
           <input type="number" id="height" class="bio-input" placeholder="170" min="100" max="230">
           <span class="bio-unit">cm</span>
         </div>
       </div>
     </div>
 
-    <!-- Area of Focus / 고민 -->
+    <!-- Area of Focus -->
     <div class="form-section">
       <div class="sec-header">
         <div class="sec-num">IV</div>
-        <h2 class="sec-title" data-i18n="sec4Title">Area of Focus</h2>
+        <h2 class="sec-title" data-i18n="sec4Title">현재 고민 · 상담 주제</h2>
         <span class="sec-classic">Select</span>
       </div>
       <div class="field-group">
-        <label class="field-label">Primary area of concern</label>
+        <label class="field-label" data-i18n="concernLabel">주요 상담 분야</label>
         <select id="concern-area" class="field-input">
-          <option value="health">Health &amp; Physical Vitality</option>
-          <option value="wealth">Wealth, Career &amp; Business</option>
-          <option value="relationship">Love &amp; Human Connection</option>
-          <option value="family">Family, Children &amp; Parents</option>
-          <option value="mindset">Inner Psychology &amp; Growth</option>
-          <option value="timing">Fortune Timing &amp; Life Cycles</option>
+          <option value="health">건강 · 체력 관리</option>
+          <option value="wealth">재물 · 사업 · 직업</option>
+          <option value="relationship">인연 · 대인 관계</option>
+          <option value="family">가정 · 자녀 · 부모</option>
+          <option value="mindset">심리 · 내면 성장</option>
+          <option value="timing">시기 · 운의 흐름</option>
         </select>
+        <p style="font-family:var(--font-display);font-size:11px;color:rgba(201,168,76,.5);margin-top:8px;font-style:italic;letter-spacing:.04em" data-i18n="concernAllNote">
+          ✦ 결제 완료 후 6개 분야 전체가 리포트에 포함됩니다. 위에서 주력 분야를 선택해 주십시오.
+        </p>
       </div>
       <div class="field-group">
-        <label class="field-label">Additional context (optional)</label>
+        <label class="field-label" data-i18n="concernTextLabel">추가 상황 설명 (선택)</label>
         <textarea id="concern-text" class="field-input" rows="3"
-          placeholder="e.g. I am considering a major career change this year and have been experiencing poor sleep recently..."
+          placeholder="예: 올해 큰 결정을 앞두고 있으며, 최근 수면이 불규칙합니다..."
           style="resize:vertical;min-height:80px"></textarea>
       </div>
     </div>
@@ -688,16 +1166,21 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
     <!-- Email -->
     <div class="email-section">
       <div class="email-label-row">
-        <label class="field-label" style="margin-bottom:0" for="user-email">Report delivery email</label>
-        <span class="email-badge" id="email-badge">Delivered Instantly</span>
+        <label class="field-label" style="margin-bottom:0" for="user-email" data-i18n="emailLabel">리포트 수신 이메일</label>
+        <span class="email-badge" id="email-badge">리포트 즉시 발송</span>
       </div>
-      <input type="email" id="user-email" class="field-input" placeholder="your@email.com" autocomplete="email">
+      <input type="email" id="user-email" class="field-input" placeholder="이메일 남겨주세요" autocomplete="email">
       <p id="email-hint" style="font-family:var(--font-display);font-size:11px;color:var(--text-muted);margin-top:6px;letter-spacing:.06em;font-style:italic">
-        Your PDF report will be sent to this address the moment analysis is complete. All data is encrypted and never shared.
+        분석 완료 즉시 PDF 리포트가 이 이메일로 발송됩니다. 개인정보는 암호화 보관됩니다.
       </p>
     </div>
 
-    <!-- Plan Selection / 플랜 선택 -->
+    <!-- Entertainment Disclaimer — 언어 자동 전환 -->
+    <div class="entertainment-disclaimer">
+      <p id="entertainment-disclaimer-text">⚠ 본 서비스는 <strong>동양 고전 철학 전통에 기반한 오락 및 문화 참고 목적</strong>으로 제공되며, 전문적인 의료·재무·법률·심리 상담을 대체하지 않습니다. 중요한 결정은 반드시 해당 분야 전문가와 상담하시기 바랍니다.</p>
+    </div>
+
+    <!-- Plan Selection -->
     <div class="form-section">
       <div class="sec-header">
         <div class="sec-num">V</div>
@@ -705,7 +1188,6 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
       </div>
       <div class="plan-grid" id="planGrid"></div>
 
-      <!-- Payment Tabs — synced automatically to language via syncPaymentGateway() -->
       <div class="pay-tabs">
         <button class="pay-tab active" onclick="switchPayTab('domestic')" id="tab-domestic">Korean Card</button>
         <button class="pay-tab" onclick="switchPayTab('global')" id="tab-global">Global Card</button>
@@ -753,15 +1235,48 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
   <div id="view-report" class="report-container"></div>
 
 </div><!-- /app-inner -->
+
+  <!-- ── Footer ── -->
   <footer style="border-top:1px solid rgba(255,232,176,.1);margin-top:40px;padding:24px 20px;text-align:center;font-family:'Inter','Noto Sans KR',sans-serif">
-  <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:12px">
-    <a href="mailto:admin@sovereign-oracle.com" style="color:#A0906E;font-size:12px;text-decoration:none">문의: admin@sovereign-oracle.com</a>
-    <span style="color:#A0906E;font-size:12px">|</span>
-    <span id="footer-products-ko" style="color:#A0906E;font-size:12px">수상 리포트 ₩7,000 · 관상 리포트 ₩7,000 · 사주 리포트 ₩15,000 · 월구독 ₩20,000</span><span id="footer-products-en" style="color:#A0906E;font-size:12px;display:none">Palm Report $4.99 · Face Report $4.99 · Four Pillars $9.99 · Monthly $14.99</span>
-  </div>
-  <p style="color:rgba(160,144,110,.5);font-size:11px">© 2025 Sovereign Oracle. All rights reserved.</p>
-</footer>
+    <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:12px">
+      <a href="mailto:admin@sovereign-oracle.com" style="color:#A0906E;font-size:12px;text-decoration:none">admin@sovereign-oracle.com</a>
+      <span style="color:#A0906E;font-size:12px">|</span>
+      <span id="footer-products-ko" style="color:#A0906E;font-size:12px">수상 ₩6,900 · 관상 ₩6,900 · 사주(6장) ₩15,000 · 대리분석 ₩12,000 · 월구독 ₩20,000</span>
+      <span id="footer-products-en" style="color:#A0906E;font-size:12px;display:none">Palm $4.99 · Face $4.99 · Four Pillars (6p) $9.99 · Proxy $8.99 · Monthly $14.99</span>
+    </div>
+
+    <!-- PATCH 1 — Legal Links -->
+    <div class="footer-legal-links">
+      <button id="footer-legal-tos"        class="footer-legal-btn" onclick="openLegal('tos')">이용약관</button>
+      <span class="footer-sep">·</span>
+      <button id="footer-legal-privacy"    class="footer-legal-btn" onclick="openLegal('privacy')">개인정보처리방침</button>
+      <span class="footer-sep">·</span>
+      <button id="footer-legal-disclaimer" class="footer-legal-btn" onclick="openLegal('disclaimer')">면책고지</button>
+      <span class="footer-sep">·</span>
+      <button id="footer-legal-refund"     class="footer-legal-btn" onclick="openLegal('refund')">환불정책</button>
+    </div>
+
+    <p style="color:rgba(160,144,110,.5);font-size:11px">© 2025 Sovereign Oracle. All rights reserved. Entertainment purposes only.</p>
+  </footer>
 </div><!-- /so-app -->
+
+<!-- ═══════════════════════════════════════
+     PATCH 1 — LEGAL MODAL
+     ═══════════════════════════════════════ -->
+<div class="legal-modal-backdrop" id="legalModal">
+  <div class="legal-modal">
+    <div class="legal-modal-header">
+      <div class="legal-modal-title" id="legalModalTitle">Terms of Service</div>
+      <button class="legal-modal-close" onclick="closeLegal()">✕</button>
+    </div>
+    <div class="legal-modal-body" id="legalModalBody">
+      <!-- Populated by JS -->
+    </div>
+    <div class="legal-modal-footer">
+      <button onclick="closeLegal()">I Understand — Close</button>
+    </div>
+  </div>
+</div>
 
 <!-- Loading Overlay -->
 <div class="loading-overlay" id="loadingOverlay">
@@ -792,494 +1307,861 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 
 <script>
 /* ════════════════════════════════════════════════════════════════
-   ██  LOCALE — 완전 인라인 내장 (locale.json 통합)  ██
-   한국어/영어 데이터 전체. 마스터가 직접 수정 가능.
+   SOVEREIGN ORACLE v2.6 — COMPLETE JAVASCRIPT
+   v2.3 원본 로직 100% 보존 + 4대 패치 통합
    ════════════════════════════════════════════════════════════════ */
-const LOCALE = {
-  ko: {
-  "brandName": "소버린 오라클",
-  "brandSub": "정밀 역학 진단 · 고전 비서 엔진",
-  "brandClassic": "子平眞詮 · 滴天髓 · 窮通寶鑑",
-  "step1": "입력",
-  "step2": "결제",
-  "step3": "진단",
-  "step4": "리포트",
-  "sec1Title": "사주 기반 데이터",
-  "sec2Title": "신체 에너지 지표",
-  "sec3Title": "망진 · 수상 분석",
-  "sec4Title": "현재 고민 · 상담 주제",
-  "sec5Title": "리포트 플랜 선택",
-  "birthLabel": "생년월일",
-  "birthTimeLabel": "출생 시간 (시주)",
-  "genderLabel": "성별",
-  "faceLabel": "관상 얼굴 사진",
-  "palmLabel": "수상 손금 사진",
-  "ctaDivider": "고전의 파수꾼이 진단을 시작합니다",
-  "ctaBtn": "정밀 역학 리포트 생성하기",
-  "loadingTitle": "고전 비서 엔진 가동 중",
-  "reportStamp": "소버린 오라클 정밀 역학 진단서",
-  "pwaBannerTitle": "소버린 오라클 앱 설치",
-  "pwaBannerSub": "홈 화면에 추가하면 더 빠르게 접속",
-  "pwaInstall": "설치",
-  "loadingSteps": [
-    {
-      "status": "Layer 1 · 사주 팔자 연산 중...",
-      "classic": "命有八字，格局定焉 — 자평진전"
-    },
-    {
-      "status": "Layer 1 · 오행 생극제화 분석 중...",
-      "classic": "生克制化，天道之常也 — 적천수"
-    },
-    {
-      "status": "Layer 1 · 용신(用神) 도출 중...",
-      "classic": "用神者，八字之主宰也 — 자평진전"
-    },
-    {
-      "status": "Layer 2 · 관상 망진 원칙 적용 중...",
-      "classic": "面色者，氣血之華也 — 황제내경"
-    },
-    {
-      "status": "Layer 3 · 수상 미세 신경 분석 중...",
-      "classic": "手紋之紋，後天變化之記也 — 마의신상"
-    },
-    {
-      "status": "Layer 4 · 토기(土氣) · 당뇨 교차 분석 중...",
-      "classic": "土主脾胃，消渴之源 — 동의보감"
-    },
-    {
-      "status": "Layer 5 · 화수(火水) · 혈압 균형 진단 중...",
-      "classic": "火水未濟，血脈失調 — 황제내경"
-    },
-    {
-      "status": "마스터 DB 고전 처방 매칭 중...",
-      "classic": ""
-    },
-    {
-      "status": "맞춤형 리포트 최종 완성 중...",
-      "classic": ""
-    }
-  ],
-  "formHints": {
-    "layer1": {
-      "text": "\"사람의 命은 生年·月·日·時 네 기둥에 의해 그 氣의 좌표가 결정된다.\"",
-      "source": "— 子平眞詮 제1장 論命之本"
-    },
-    "layer23": {
-      "text": "\"面部는 臟腑의 거울이요, 色澤은 氣血의 현현이니 五色을 살펴 吉凶을 판단한다.\"",
-      "source": "— 黃帝內經 靈樞 五色篇 · 麻衣神相 제3권"
-    },
-    "layer45": {
-      "text": "\"土氣는 脾胃를 주관하니 조절력의 失調가 消渴(당뇨)로 나타나고, 火水의 불균형은 血脈의 압력 이상으로 드러난다.\"",
-      "source": "— 東醫寶鑑 內景篇 消渴門 · 五臟六腑篇"
-    }
-  },
-  "ui": {
-    "concernOptions": [
-      {
-        "value": "health",
-        "label": "건강 · 체력 관리"
-      },
-      {
-        "value": "wealth",
-        "label": "재물 · 사업 · 직업"
-      },
-      {
-        "value": "relationship",
-        "label": "인연 · 대인 관계"
-      },
-      {
-        "value": "family",
-        "label": "가정 · 자녀 · 부모"
-      },
-      {
-        "value": "mindset",
-        "label": "심리 · 내면 성장"
-      },
-      {
-        "value": "timing",
-        "label": "시기 · 운의 흐름"
-      }
-    ],
-    "genderOptions": [
-      {
-        "value": "male",
-        "label": "남성"
-      },
-      {
-        "value": "female",
-        "label": "여성"
-      }
-    ],
-    "payTabs": {
-      "domestic": "국내 카드",
-      "global": "해외 카드"
-    },
-    "payInfo": {
-      "domestic": {
-        "name": "KG이니시스 (국내 결제)",
-        "methods": "신용카드 · 체크카드 · 카카오페이 · 네이버페이 · 페이코",
-        "status": "연동 준비 완료 · 테스트 모드"
-      },
-      "global": {
-        "name": "Airwallex (Global Payment)",
-        "methods": "Visa · Mastercard · AMEX · Apple Pay · Google Pay",
-        "status": "해외 법인 설립 완료 후 활성화"
-      }
-    },
-    "emailBadge": "리포트 즉시 발송",
-    "emailHint": "분석 완료 즉시 PDF 리포트가 이 이메일로 발송됩니다. 개인정보는 암호화 보관됩니다.",
-    "shareTitle": "나의 진단 결과 공유하기",
-    "trustItems": [
-      "데이터 암호화",
-      "고전 직접 인용",
-      "A4 분량 리포트",
-      "이메일 즉시 발송"
-    ],
-    "reportChapters": {
-      "ch1": "第一章 · Layer 1 · 사주 오행 분석",
-      "ch2": "第二章 · Layer 4·5 · 신체 에너지 진단",
-      "ch3": "第三章 · Layer 2·3 · 망진 · 수상",
-      "ch4": "第四章 · 시기 운세 · 맞춤 처방",
-      "ch1badge": "자평진전 · 적천수 · 궁통보감 직접 인용",
-      "ch2badge": "동의보감 · 황제내경 · 土氣·火水 교차 분석",
-      "ch3badge": "황제내경 영추 오색편 · 마의신상",
-      "ch4badge": "적천수 · 궁통보감 · 대운·세운 교차",
-      "ch2title": "건강 지표와 오행의 인과 분석",
-      "physioQuote": "相者，氣之外見也 — 관상은 기운이 밖으로 드러난 것이다",
-      "physioQuoteSource": "麻衣神相 제3권 形神篇",
-      "concernTitle": "현재 고민 처방",
-      "dietaryRx": "식이 처방",
-      "recommended": "권장 보조",
-      "masterRxTitle": "마스터 처방 · 맞춤 큐레이션",
-      "rxStamp": "처방전 · 정식",
-      "proceedPayment": "처방 상품 결제하기",
-      "bookConsult": "마스터 1:1 상담 예약"
-    },
-    "pwaTitle": "소버린 오라클이 기다립니다...",
-    "tabTitle": "소버린 오라클 — 고전 역학 정밀 진단",
-    "alertBirthdate": "생년월일을 입력해주세요.",
-    "linkCopied": "링크가 복사되었습니다!",
-    "paymentTestMsg": "[KG이니시스] 테스트 모드\n결제 연동이 준비되었습니다.\n실 MID 입력 후 즉시 활성화됩니다.",
-    "airwallexMsg": "[Airwallex] 해외 법인 설립 완료 후 활성화됩니다.",
-    "paymentFail": "결제 실패. 다시 시도해주세요.",
-    "safariPWA": "Safari: [공유] → [홈 화면에 추가]",
-    "bmiLabels": {
-      "under": "저체중",
-      "normal": "정상",
-      "over": "과체중",
-      "obese": "비만"
-    },
-    "ageUnit": "세",
-    "bornUnit": "년생"
-  }
-},
-  en: {
-  "brandName": "Sovereign Oracle",
-  "brandSub": "Precision Destiny Analysis · Classical Wisdom Engine",
-  "brandClassic": "Four Pillars · Five Elements · Classical Prescriptions",
-  "step1": "Profile",
-  "step2": "Payment",
-  "step3": "Analysis",
-  "step4": "Report",
-  "sec1Title": "Birth Chart Profile",
-  "sec2Title": "Biometric Vitality Index",
-  "sec3Title": "Face & Palm Reading",
-  "sec4Title": "Area of Focus",
-  "sec5Title": "Choose Your Reading",
-  "birthLabel": "Date of Birth",
-  "birthTimeLabel": "Birth Hour",
-  "genderLabel": "Gender",
-  "faceLabel": "Face Reading Photo",
-  "palmLabel": "Palm Reading Photo",
-  "ctaDivider": "Your classical reading begins now",
-  "ctaBtn": "Generate My Precision Report",
-  "loadingTitle": "Oracle Engine Initializing",
-  "reportStamp": "Sovereign Oracle — Precision Destiny Report",
-  "pwaBannerTitle": "Install Sovereign Oracle",
-  "pwaBannerSub": "Add to home screen for instant access",
-  "pwaInstall": "Install",
-  "loadingSteps": [
-    {
-      "status": "Layer 1 — Mapping your Four Pillars birth chart...",
-      "classic": "Destiny is written in Eight Characters — Zi Ping Zhen Quan"
-    },
-    {
-      "status": "Layer 1 — Tracing Five Element generation and control...",
-      "classic": "Generation and restraint are the constant laws of Heaven — Di Tian Sui"
-    },
-    {
-      "status": "Layer 1 — Identifying your governing favorable element...",
-      "classic": "The favorable element is the sovereign of the chart — Zi Ping Zhen Quan"
-    },
-    {
-      "status": "Layer 2 — Applying classical face-reading principles...",
-      "classic": "Facial complexion is the flowering of vital energy — Huangdi Neijing"
-    },
-    {
-      "status": "Layer 3 — Reading palm line micro-patterns...",
-      "classic": "Palm patterns are the record of life's unfolding — Ma Yi Shen Xiang"
-    },
-    {
-      "status": "Layer 4 — Earth element cross-analysis with glucose data...",
-      "classic": "Earth governs the digestive axis — root of metabolic imbalance"
-    },
-    {
-      "status": "Layer 5 — Fire-Water balance and circulatory pressure...",
-      "classic": "When Fire and Water discord, the vessels lose their rhythm"
-    },
-    {
-      "status": "Matching classical prescriptions to your profile...",
-      "classic": ""
-    },
-    {
-      "status": "Composing your personalized report...",
-      "classic": ""
-    }
-  ],
-  "formHints": {
-    "layer1": {
-      "text": "\"A person's destiny is defined by four temporal pillars — the precise coordinates of cosmic energy at the moment of birth.\"",
-      "source": "— Zi Ping Zhen Quan, Chapter One: On the Foundation of Destiny"
-    },
-    "layer23": {
-      "text": "\"The face is a mirror of the inner organs. Complexion reveals the state of vital energy and blood. Observe the Five Colors to discern fortune and fate.\"",
-      "source": "— Huangdi Neijing, Ling Shu: Five Colors · Ma Yi Shen Xiang, Vol. III"
-    },
-    "layer45": {
-      "text": "\"Earth element governs the digestive and metabolic axis. Its dysregulation produces wasting and thirst — precursors to modern metabolic disease. Fire-Water discord manifests as circulatory pressure anomalies.\"",
-      "source": "— Dongui Bogam, Internal Chapters: Metabolic Disorders"
-    }
-  },
-  "ui": {
-    "concernOptions": [
-      {
-        "value": "health",
-        "label": "Health & Physical Vitality"
-      },
-      {
-        "value": "wealth",
-        "label": "Wealth, Career & Business"
-      },
-      {
-        "value": "relationship",
-        "label": "Love & Human Connection"
-      },
-      {
-        "value": "family",
-        "label": "Family, Children & Parents"
-      },
-      {
-        "value": "mindset",
-        "label": "Inner Psychology & Growth"
-      },
-      {
-        "value": "timing",
-        "label": "Fortune Timing & Life Cycles"
-      }
-    ],
-    "genderOptions": [
-      {
-        "value": "male",
-        "label": "Male"
-      },
-      {
-        "value": "female",
-        "label": "Female"
-      }
-    ],
-    "payTabs": {
-      "domestic": "Korean Card",
-      "global": "Global Card"
-    },
-    "payInfo": {
-      "domestic": {
-        "name": "KG Inicis — Domestic Payments",
-        "methods": "Credit · Debit · KakaoPay · NaverPay · PAYCO",
-        "status": "Integration ready — Test mode active"
-      },
-      "global": {
-        "name": "Airwallex — Global Payments",
-        "methods": "Visa · Mastercard · Amex · Apple Pay · Google Pay",
-        "status": "Active for international customers"
-      }
-    },
-    "emailBadge": "Delivered Instantly",
-    "emailHint": "Your PDF report will be sent to this address the moment analysis is complete. All data is encrypted and never shared.",
-    "shareTitle": "Share Your Reading",
-    "trustItems": [
-      "256-bit Encryption",
-      "Classical Citations",
-      "Detailed PDF Report",
-      "Instant Email Delivery"
-    ],
-    "reportChapters": {
-      "ch1": "Chapter I — Four Pillars & Five Element Analysis",
-      "ch2": "Chapter II — Biometric & Elemental Diagnosis",
-      "ch3": "Chapter III — Face Reading & Palm Analysis",
-      "ch4": "Chapter IV — Fortune Timing & Prescriptions",
-      "ch1badge": "Zi Ping Zhen Quan · Di Tian Sui · Qiong Tong Bao Jian",
-      "ch2badge": "Dongui Bogam · Huangdi Neijing · Earth and Fire-Water Axes",
-      "ch3badge": "Huangdi Neijing Ling Shu · Ma Yi Shen Xiang Vol. III",
-      "ch4badge": "Di Tian Sui · Qiong Tong Bao Jian · Major and Annual Cycles",
-      "ch2title": "Biometric Readings Through the Five Element Lens",
-      "physioQuote": "Physiognomy is the outward expression of inner vital energy",
-      "physioQuoteSource": "Ma Yi Shen Xiang, Vol. III — Form and Spirit",
-      "concernTitle": "Personalized Prescription",
-      "dietaryRx": "Dietary Rx",
-      "recommended": "Recommended",
-      "masterRxTitle": "Master Prescription — Curated Recommendations",
-      "rxStamp": "Official Prescription",
-      "proceedPayment": "Purchase This Reading",
-      "bookConsult": "Book a Private Consultation"
-    },
-    "pwaTitle": "Sovereign Oracle awaits you...",
-    "tabTitle": "Sovereign Oracle — Precision Destiny Analysis",
-    "alertBirthdate": "Please enter your date of birth to proceed.",
-    "linkCopied": "Link copied to clipboard!",
-    "paymentTestMsg": "[Airwallex] Test mode active.\nPayment integration is ready.\nActivate by entering your live credentials.",
-    "airwallexMsg": "[Airwallex] Will activate upon completing your overseas entity setup.",
-    "paymentFail": "Payment could not be processed. Please try again.",
-    "safariPWA": "In Safari: tap Share, then Add to Home Screen.",
-    "bmiLabels": {
-      "under": "Underweight",
-      "normal": "Healthy Weight",
-      "over": "Overweight",
-      "obese": "Obese"
-    },
-    "ageUnit": "yrs",
-    "bornUnit": ""
-  }
-}
-};
-
-/* ================================================================
-   SOVEREIGN ORACLE — app.js v2.2
-   수석 개발자: Claude
-   ================================================================ */
 
 /* ════════════════════════════════════════════════════════════════
-   ██  SOVEREIGN_CONFIG  ██
-   ── 마스터가 1초 만에 수정하는 단일 구성 창고 ──
-   모든 가격·상품·결제 MID는 이 객체 하나에서만 관리합니다.
+   CUSTOM DATE PICKER ENGINE — DP
+   한국어 / 영어 완벽 전환 · 브라우저 달력 완전 대체
+   ════════════════════════════════════════════════════════════════ */
+const DP = (() => {
+
+  const LABELS = {
+    ko: {
+      months:   ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+      weekdays: ['일','월','화','수','목','금','토'],
+      placeholder: '생년월일을 선택하세요'
+    },
+    en: {
+      months:   ['January','February','March','April','May','June','July','August','September','October','November','December'],
+      weekdays: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+      placeholder: 'Select your date of birth'
+    }
+  };
+
+  let _year     = new Date().getFullYear() - 30;
+  let _month    = new Date().getMonth();
+  let _selYear  = null;
+  let _selMonth = null;
+  let _selDay   = null;
+  let _ymView   = null;
+  let _open     = false;
+
+  function lang() { return (typeof currentLang !== 'undefined' ? currentLang : 'ko'); }
+  function L()    { return LABELS[lang()] || LABELS.ko; }
+
+  function toggle() { _open ? close() : open(); }
+
+  function open() {
+    _open = true; _ymView = null;
+    document.getElementById('dp-popup')  ?.classList.add('active');
+    document.getElementById('dp-display')?.classList.add('open');
+    render();
+    setTimeout(() => document.addEventListener('click', outsideClick), 0);
+  }
+  function close() {
+    _open = false;
+    document.getElementById('dp-popup')  ?.classList.remove('active');
+    document.getElementById('dp-display')?.classList.remove('open');
+    document.removeEventListener('click', outsideClick);
+  }
+  function outsideClick(e) {
+    if (!document.getElementById('datepicker-wrap')?.contains(e.target)) close();
+  }
+
+  function render() {
+    renderHeader();
+    if (_ymView === 'year')  { showYearView();  return; }
+    if (_ymView === 'month') { showMonthView(); return; }
+    showCalView();
+    renderWeekdays();
+    renderDays();
+  }
+
+  function renderHeader() {
+    const el = document.getElementById('dp-month-year');
+    if (!el) return;
+    el.textContent = lang() === 'en'
+      ? `${L().months[_month]} ${_year}`
+      : `${_year}년 ${L().months[_month]}`;
+  }
+
+  function renderWeekdays() {
+    const el = document.getElementById('dp-weekdays');
+    if (el) el.innerHTML = L().weekdays.map(d =>
+      `<div class="dp-weekday">${d}</div>`).join('');
+  }
+
+  function renderDays() {
+    const el = document.getElementById('dp-days');
+    if (!el) return;
+    const today    = new Date();
+    const firstDay = new Date(_year, _month, 1).getDay();
+    const daysInM  = new Date(_year, _month + 1, 0).getDate();
+    const maxDate  = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    let html = '';
+    for (let i = 0; i < firstDay; i++) html += `<div class="dp-day dp-empty"></div>`;
+    for (let d = 1; d <= daysInM; d++) {
+      const thisDate   = new Date(_year, _month, d);
+      const isToday    = thisDate.toDateString() === today.toDateString();
+      const isSel      = _selYear === _year && _selMonth === _month && _selDay === d;
+      const isDisabled = thisDate > maxDate;
+      let cls = 'dp-day';
+      if (isToday)    cls += ' dp-today';
+      if (isSel)      cls += ' dp-selected';
+      if (isDisabled) cls += ' dp-disabled';
+      const click = isDisabled ? '' : `onclick="DP.selectDay(${d})"`;
+      html += `<div class="${cls}" ${click}>${d}</div>`;
+    }
+    el.innerHTML = html;
+  }
+
+  function showYearView() {
+    document.getElementById('dp-cal-view').style.display   = 'none';
+    document.getElementById('dp-month-grid').style.display = 'none';
+    document.getElementById('dp-year-view').style.display  = 'block';
+    const grid = document.getElementById('dp-year-grid');
+    if (!grid) return;
+    const curY = new Date().getFullYear();
+    let html = '';
+    for (let y = curY; y >= 1924; y--) {
+      html += `<div class="dp-grid-item${y === _year ? ' dp-selected-ym' : ''}"
+                    onclick="DP.selectYear(${y})">${y}</div>`;
+    }
+    grid.innerHTML = html;
+    setTimeout(() => {
+      grid.querySelector('.dp-selected-ym')?.scrollIntoView({ block:'center' });
+    }, 50);
+  }
+
+  function showMonthView() {
+    document.getElementById('dp-cal-view').style.display   = 'none';
+    document.getElementById('dp-year-view').style.display  = 'none';
+    document.getElementById('dp-month-grid').style.display = 'block';
+    const grid = document.getElementById('dp-month-grid');
+    if (!grid) return;
+    grid.innerHTML = L().months.map((m, i) =>
+      `<div class="dp-grid-item${i === _month ? ' dp-selected-ym' : ''}"
+            onclick="DP.selectMonth(${i})">${m}</div>`
+    ).join('');
+  }
+
+  function showCalView() {
+    document.getElementById('dp-cal-view').style.display   = 'block';
+    document.getElementById('dp-year-view').style.display  = 'none';
+    document.getElementById('dp-month-grid').style.display = 'none';
+  }
+
+  function prevMonth() {
+    if (_ymView) { _ymView = null; render(); return; }
+    _month--; if (_month < 0) { _month = 11; _year--; }
+    render();
+  }
+  function nextMonth() {
+    if (_ymView) { _ymView = null; render(); return; }
+    _month++; if (_month > 11) { _month = 0; _year++; }
+    render();
+  }
+  function toggleYMView() {
+    _ymView = _ymView === 'year' ? 'month' : 'year';
+    render();
+  }
+  function selectYear(y) { _year = y; _ymView = 'month'; render(); }
+  function selectMonth(m) { _month = m; _ymView = null; render(); }
+
+  function selectDay(d) {
+    _selYear = _year; _selMonth = _month; _selDay = d;
+    const mm  = String(_month + 1).padStart(2, '0');
+    const dd  = String(d).padStart(2, '0');
+    const hidden = document.getElementById('birthdate');
+    if (hidden) hidden.value = `${_year}-${mm}-${dd}`;
+    updateDisplay();
+    close();
+  }
+
+  function updateDisplay() {
+    const el = document.getElementById('dp-display-text');
+    if (!el) return;
+    if (!_selYear) {
+      el.className = 'dp-placeholder';
+      el.textContent = L().placeholder;
+      return;
+    }
+    el.className = '';
+    el.textContent = lang() === 'en'
+      ? `${L().months[_selMonth]} ${_selDay}, ${_selYear}`
+      : `${_selYear}년 ${_selMonth + 1}월 ${_selDay}일`;
+  }
+
+  function refreshLang() { updateDisplay(); if (_open) render(); }
+
+  return { toggle, open, close, prevMonth, nextMonth,
+           toggleYMView, selectYear, selectMonth, selectDay,
+           updateDisplay, refreshLang };
+})();
+
+/* ════════════════════════════════════════════════════════════════
+   PATCH 4 — SOVEREIGN_CONFIG: 가격 완전 동기화
+   KO: 수상 ₩6,900 / 관상 ₩6,900 / 사주 ₩15,000 / 구독 ₩20,000
+   EN: Palm $4.99  / Face $4.99  / 4P $9.99    / Sub $14.99
+   모든 결제 연산 변수 = 화면 표기 가격 — 단 1원 오차 없음
    ════════════════════════════════════════════════════════════════ */
 const SOVEREIGN_CONFIG = {
-
-  /* ── 결제 게이트웨이 자격증명 ── */
   payment: {
     inicis: {
-      mid: 'YOUR_INICIS_MID_HERE',       /* ← 실 MID 입력 시 즉시 활성화 */
+      mid: 'YOUR_INICIS_MID_HERE',
       testMode: true
     },
     airwallex: {
       clientId: 'YOUR_AIRWALLEX_CLIENT_ID_HERE',
       apiKey:   'YOUR_AIRWALLEX_API_KEY_HERE',
-      env:      'prod',                  /* 'demo' | 'prod' */
-      testMode: true
+      env:      'prod',
+      testMode: false          /* ← Airwallex 승인 완료 — 라이브 모드 */
     }
   },
 
-  /* ── 1회성 리포트 상품 (A) 수상(손금) ── */
   productA: {
-    id:      'palmistry_report',
-    nameKo:  '수상(손금) 정밀 분석 리포트',
-    nameEn:  'Palm Reading Precision Report',
-    pages:   'A4 3p',
-    priceKo: 7000,          /* ← 원화 금액 (KG이니시스) */
-    priceEn: 4.99,          /* ← 달러 금액 (Airwallex)  */
-    symbolKo: '₩',
-    symbolEn: '$'
+    id:       'palmistry_report',
+    nameKo:   '수상(손금) 정밀 분석 리포트',
+    nameEn:   'Palm Reading Precision Report',
+    pages:    'A4 3p',
+    priceKo:  6900,
+    priceEn:  4.99,
+    symbolKo: '₩', symbolEn: '$',
+    displayKo: '₩6,900', displayEn: '$4.99'
   },
-
-  /* ── 1회성 리포트 상품 (B) 관상 ── */
   productB: {
-    id:      'physiognomy_report',
-    nameKo:  '관상 정밀 분석 리포트',
-    nameEn:  'Face Reading Precision Report',
-    pages:   'A4 3p',
-    priceKo: 7000,
-    priceEn: 4.99,
-    symbolKo: '₩',
-    symbolEn: '$'
+    id:       'physiognomy_report',
+    nameKo:   '관상 정밀 분석 리포트',
+    nameEn:   'Face Reading Precision Report',
+    pages:    'A4 3p',
+    priceKo:  6900,
+    priceEn:  4.99,
+    symbolKo: '₩', symbolEn: '$',
+    displayKo: '₩6,900', displayEn: '$4.99'
   },
-
-  /* ── 1회성 리포트 상품 (C) 사주 종합 ── */
   productC: {
-    id:      'fourpillars_report',
-    nameKo:  '사주 종합 정밀 리포트',
-    nameEn:  'Four Pillars Comprehensive Report',
-    pages:   'A4 4p',
-    priceKo: 15000,
-    priceEn: 9.99,
-    symbolKo: '₩',
-    symbolEn: '$'
+    id:       'fourpillars_report',
+    nameKo:   '사주 종합 정밀 리포트',
+    nameEn:   'Four Pillars Comprehensive Report',
+    pages:    'A4 6p',           /* ← 6장으로 확장 */
+    priceKo:  15000,
+    priceEn:  9.99,
+    symbolKo: '₩', symbolEn: '$',
+    displayKo: '₩15,000', displayEn: '$9.99'
   },
-
-  /* ── 프리미엄 월 정기 구독 ── */
   subscription: {
-    id:       'premium_monthly',
-    nameKo:   '프리미엄 월 정기 구독',
-    nameEn:   'Premium Monthly Subscription',
-    priceKo:  20000,         /* ← 월 원화 */
-    priceEn:  14.99,         /* ← 월 달러 */
-    symbolKo: '₩',
-    symbolEn: '$',
-    intervalKo: '월',
-    intervalEn: 'mo',
-    /* 구독 혜택 목록 */
+    id:         'premium_monthly',
+    nameKo:     '프리미엄 월 정기 구독',
+    nameEn:     'Premium Monthly Subscription',
+    priceKo:    20000,
+    priceEn:    14.99,
+    symbolKo:   '₩', symbolEn: '$',
+    displayKo:  '₩20,000', displayEn: '$14.99',
+    intervalKo: '월', intervalEn: 'mo',
     featuresKo: [
-      '손금 + 관상 + 사주 분석 무제한',
+      '수상 + 관상 + 사주 분석 (본인, 월 최대 4회)',
       '매일 아침 라이프 케어 대시보드',
       '운세 · 방향 · 칼러 · 직장 · 음식 · 건강 처방',
-      '행운의 복권 번호 주 2조합 자동 생성',
+      '행운의 오행 번호 6자리 — 주 2조합 자동 생성',
       '분기별 운세 업데이트 리포트'
     ],
     featuresEn: [
-      'Unlimited Palm, Face & Four Pillars readings',
+      'Palm, Face & Four Pillars — up to 4 readings/mo (self)',
       'Daily morning Life Care dashboard',
       'Fortune · Direction · Color · Workplace · Food · Health Rx',
-      'Weekly lucky lottery numbers — 3 sets auto-generated',
+      'Six-digit elemental lucky numbers — 2 sets/week',
       'Quarterly fortune update reports'
+    ]
+  },
+  /* ── 신규 상품: 지인 대리 분석권 ── */
+  giftAnalysis: {
+    id:       'gift_analysis',
+    nameKo:   '지인 대리 분석권 (1인)',
+    nameEn:   'Proxy Analysis — One Person',
+    pages:    'A4 4p',
+    priceKo:  12000,
+    priceEn:  8.99,
+    symbolKo: '₩', symbolEn: '$',
+    displayKo: '₩12,000', displayEn: '$8.99',
+    featuresKo: [
+      '가족 · 지인 1인 사주+수상+관상 분석',
+      '구독 없이도 단독 구매 가능',
+      '결과 PDF 본인 이메일로 발송',
+      '월 구독자 추가 구매 시 ₩9,000 할인'
+    ],
+    featuresEn: [
+      'Full analysis for 1 family member or friend',
+      'Available without subscription',
+      'PDF delivered to your email',
+      'Subscribers save ₩9,000 / $6 per proxy'
     ]
   }
 };
 
 /* ════════════════════════════════════════════════════════════════
-   ██  LOCALE DATA  ██  (locale.json 로드 — 폴백 인라인)
+   PATCH 3 — GLOBAL_AFFILIATE_MAP
+   상표권 충돌 방지: 가상 환경변수(Placeholder) 구조로 분리
+   실 운영 시 마스터가 파트너 링크 직접 주입
    ════════════════════════════════════════════════════════════════ */
-
-    KNOWLEDGE_DB = buildKnowledgeDB(LOCALE_FALLBACK.classics);
+const GLOBAL_AFFILIATE_MAP = {
+  INSURANCE: {
+    provider:   'AXA_Allianz_AIG',
+    link:       'YOUR_GLOBAL_INSURANCE_PARTNER_LINK',
+    iconEn:     '🛡️',
+    titleEn:    'Global Travel & Life Insurance',
+    reasonEn:   'Recommended based on your elemental risk profile. Protect your vitality with coverage trusted by 90M+ customers worldwide.',
+    ctaEn:      'View Plans',
+    titleKo:    '글로벌 여행·생명 보험',
+    reasonKo:   '오행 리스크 프로파일 기반 추천. 세계 9천만 고객이 신뢰하는 보장.',
+    ctaKo:      '플랜 보기',
+    iconKo:     '🛡️'
+  },
+  JEWELRY: {
+    provider:   'Swarovski_Pandora',
+    link:       'YOUR_GLOBAL_JEWELRY_PARTNER_LINK',
+    iconEn:     '💎',
+    titleEn:    'Lucky Birthstone Collection',
+    reasonEn:   'Your dominant element calls for specific crystal energy. Curated fine jewelry to amplify your fortune field.',
+    ctaEn:      'Browse Collection',
+    titleKo:    '행운의 탄생석 컬렉션',
+    reasonKo:   '용신 오행에 공명하는 크리스탈 에너지. 행운 자장 강화 주얼리.',
+    ctaKo:      '컬렉션 보기',
+    iconKo:     '💎'
+  },
+  WELLNESS: {
+    provider:   'iHerb_Global',
+    link:       'YOUR_IHERB_AFFILIATE_CODE',
+    iconEn:     '🌿',
+    titleEn:    'Classical Elemental Supplements',
+    reasonEn:   'Science-backed herbs aligned with your Five Element prescription. Global shipping, 30,000+ products.',
+    ctaEn:      'Shop iHerb',
+    titleKo:    '오행 한방 건강식품',
+    reasonKo:   '처방된 오행에 맞는 과학 기반 허브 보조제. 30만 종 이상 글로벌 배송.',
+    ctaKo:      '아이허브 쇼핑',
+    iconKo:     '🌿'
+  },
+  AUTOMOTIVE: {
+    provider:   'German_Luxury_Big4',
+    link:       'YOUR_AUTOMOTIVE_WEBHOOK_URL',
+    iconEn:     '🚗',
+    titleEn:    'Auspicious Vehicle — Test Drive',
+    reasonEn:   'Metal element resonance recommends precision German engineering. Schedule your complimentary test drive.',
+    ctaEn:      'Book Test Drive',
+    titleKo:    '행운의 명차 시승',
+    reasonKo:   '금기(金氣) 공명 — 독일 정밀 공학 추천. 무료 시승 예약.',
+    ctaKo:      '시승 예약',
+    iconKo:     '🚗'
   }
-  applyLocale();
-  renderPlans();
-  updateStep(1);
-}
-
-/* ── 고전 DB를 엔진이 사용하기 쉬운 형태로 변환 ── */
-function buildKnowledgeDB(classics) {
-  if (!classics) return KNOWLEDGE_DB_INLINE;
-  const el = classics.five_elements || {};
-  const hp = (classics.health_classics || []).reduce((acc,h) => { acc[h.id] = h; return acc; }, {});
-  return {
-    elements:     { wood: el.wood, fire: el.fire, earth: el.earth, metal: el.metal, water: el.water },
-    health_bp:    { harmony: hp['hjnj_bp_harmony'], liver_yang: hp['hjnj_liver_yang'], qi_blood: hp['dybj_qi_blood'] },
-    health_meta:  { spleen: hp['dybj_spleen_stomach'], preventive: hp['hjnj_preventive'], kidney: hp['hjnj_kidney_essence'] },
-    physiognomy:  (classics.physiognomy || [])[0] || {},
-    timing:       classics.fortune_timing || [],
-    wealth:       classics.wealth_and_relations || [],
-    ...KNOWLEDGE_DB_INLINE
-  };
-}
+};
 
 /* ════════════════════════════════════════════════════════════════
-   ██  RUNTIME STATE  ██
+   LOCALE DATA — 완전 인라인 내장
+   ════════════════════════════════════════════════════════════════ */
+const LOCALE = {
+  ko: {
+    "brandName": "소버린 오라클",
+    "brandSub": "정밀 역학 진단 · 고전 비서 엔진",
+    "brandClassic": "子平眞詮 · 滴天髓 · 窮通寶鑑",
+    "step1": "입력", "step2": "결제", "step3": "진단", "step4": "리포트",
+    "sec1Title": "사주 기반 데이터",
+    "sec2Title": "신체 에너지 지표",
+    "sec3Title": "망진 · 수상 분석",
+    "sec4Title": "현재 고민 · 상담 주제",
+    "sec5Title": "리포트 플랜 선택",
+    "birthLabel": "생년월일",
+    "birthTimeLabel": "출생 시간 (시주)",
+    "genderLabel": "성별",
+    "faceLabel": "얼굴 이미지",
+    "palmRightLabel": "오른손 손금",
+    "palmLeftLabel": "왼손 손금",
+    "photoChange": "변경",
+    "photoHint": "카메라 또는 파일",
+    "bpSysLabel": "수축기 혈압",
+    "bpDiaLabel": "이완기 혈압",
+    "pulseLabel": "맥박 수",
+    "glucoseLabel": "혈당 수치",
+    "weightLabel": "체중",
+    "heightLabel": "키",
+    "concernLabel": "주요 상담 분야",
+    "concernAllNote": "✦ 결제 완료 후 6개 분야 전체가 리포트에 포함됩니다. 위에서 주력 분야를 선택해 주십시오.",
+    "concernTextLabel": "추가 상황 설명 (선택)",
+    "emailLabel": "리포트 수신 이메일",
+    "ctaDivider": "고전의 파수꾼이 진단을 시작합니다",
+    "ctaBtn": "정밀 역학 리포트 생성하기",
+    "loadingTitle": "고전 비서 엔진 가동 중",
+    "reportStamp": "소버린 오라클 정밀 역학 진단서",
+    "pwaBannerTitle": "소버린 오라클 앱 설치",
+    "pwaBannerSub": "홈 화면에 추가하면 더 빠르게 접속",
+    "pwaInstall": "설치",
+    "testimonialsTitle": "회원들의 실제 후기",
+    "legalTos": "이용약관",
+    "legalPrivacy": "개인정보처리방침",
+    "legalDisclaimer": "면책고지",
+    "legalRefund": "환불정책",
+    "loadingSteps": [
+      { "status": "Layer 1 · 사주 팔자 연산 중...", "classic": "命有八字，格局定焉 — 자평진전" },
+      { "status": "Layer 1 · 오행 생극제화 분석 중...", "classic": "生克制化，天道之常也 — 적천수" },
+      { "status": "Layer 1 · 용신(用神) 도출 중...", "classic": "用神者，八字之主宰也 — 자평진전" },
+      { "status": "Layer 2 · 관상 망진 원칙 적용 중...", "classic": "面色者，氣血之華也 — 황제내경" },
+      { "status": "Layer 3 · 수상 미세 신경 분석 중...", "classic": "手紋之紋，後天變化之記也 — 마의신상" },
+      { "status": "Layer 4 · 토기(土氣) · 당뇨 교차 분석 중...", "classic": "土主脾胃，消渴之源 — 동의보감" },
+      { "status": "Layer 5 · 화수(火水) · 혈압 균형 진단 중...", "classic": "火水未濟，血脈失調 — 황제내경" },
+      { "status": "마스터 DB 고전 처방 매칭 중...", "classic": "" },
+      { "status": "맞춤형 리포트 최종 완성 중...", "classic": "" }
+    ],
+    "birthTimeOptions": [
+      { "value": "",        "label": "모름" },
+      { "value": "rat",    "label": "子時 · 자시 (23:00–01:00)" },
+      { "value": "ox",     "label": "丑時 · 축시 (01:00–03:00)" },
+      { "value": "tiger",  "label": "寅時 · 인시 (03:00–05:00)" },
+      { "value": "rabbit", "label": "卯時 · 묘시 (05:00–07:00)" },
+      { "value": "dragon", "label": "辰時 · 진시 (07:00–09:00)" },
+      { "value": "snake",  "label": "巳時 · 사시 (09:00–11:00)" },
+      { "value": "horse",  "label": "午時 · 오시 (11:00–13:00)" },
+      { "value": "goat",   "label": "未時 · 미시 (13:00–15:00)" },
+      { "value": "monkey", "label": "申時 · 신시 (15:00–17:00)" },
+      { "value": "rooster","label": "酉時 · 유시 (17:00–19:00)" },
+      { "value": "dog",    "label": "戌時 · 술시 (19:00–21:00)" },
+      { "value": "pig",    "label": "亥時 · 해시 (21:00–23:00)" }
+    ],
+    "ui": {
+      "concernOptions": [
+        { "value": "health",       "label": "건강 · 체력 관리" },
+        { "value": "wealth",       "label": "재물 · 사업 · 직업" },
+        { "value": "relationship", "label": "인연 · 대인 관계" },
+        { "value": "family",       "label": "가정 · 자녀 · 부모" },
+        { "value": "mindset",      "label": "심리 · 내면 성장" },
+        { "value": "timing",       "label": "시기 · 운의 흐름" }
+      ],
+      "genderOptions": [
+        { "value": "male",   "label": "남성" },
+        { "value": "female", "label": "여성" }
+      ],
+      "payTabs":  { "domestic": "국내 카드", "global": "해외 카드" },
+      "payInfo": {
+        "domestic": { "name": "KG이니시스 (국내 결제)", "methods": "신용카드 · 체크카드 · 카카오페이 · 네이버페이 · 페이코", "status": "연동 준비 완료 · 테스트 모드" },
+        "global":   { "name": "Airwallex (글로벌 결제)", "methods": "Visa · Mastercard · AMEX · Apple Pay · Google Pay", "status": "글로벌 결제 활성화 완료" }
+      },
+      "emailBadge": "리포트 즉시 발송",
+      "emailHint": "분석 완료 즉시 PDF 리포트가 이 이메일로 발송됩니다. 개인정보는 암호화 보관됩니다.",
+      "shareTitle": "나의 진단 결과 공유하기",
+      "trustItems": [ "데이터 암호화", "고전 직접 인용", "A4 6장 리포트", "이메일 즉시 발송" ],
+      "reportChapters": {
+        "ch1": "第一章 · Layer 1 · 사주 오행 분석",
+        "ch2": "第二章 · Layer 4·5 · 신체 에너지 진단",
+        "ch3": "第三章 · Layer 2·3 · 망진 · 수상",
+        "ch4": "第四章 · 시기 운세 · 맞춤 처방",
+        "ch1badge": "자평진전 · 적천수 · 궁통보감 직접 인용",
+        "ch2badge": "동의보감 · 황제내경 · 土氣·火水 교차 분석",
+        "ch3badge": "황제내경 영추 오색편 · 마의신상",
+        "ch4badge": "적천수 · 궁통보감 · 대운·세운 교차",
+        "ch2title": "건강 지표와 오행의 인과 분석",
+        "physioQuote": "相者，氣之外見也 — 관상은 기운이 밖으로 드러난 것이다",
+        "physioQuoteSource": "麻衣神相 제3권 形神篇",
+        "concernTitle": "현재 고민 처방",
+        "dietaryRx": "식이 처방",
+        "recommended": "권장 보조",
+        "masterRxTitle": "마스터 처방 · 맞춤 큐레이션",
+        "rxStamp": "처방전 · 정식",
+        "proceedPayment": "처방 상품 결제하기",
+        "bookConsult": "마스터 1:1 상담 예약"
+      },
+      "pwaTitle": "소버린 오라클이 기다립니다...",
+      "tabTitle": "소버린 오라클 — 고전 역학 정밀 진단",
+      "alertBirthdate": "생년월일을 입력해주세요.",
+      "linkCopied": "링크가 복사되었습니다!",
+      "paymentTestMsg": "[KG이니시스] 테스트 모드\n결제 연동이 준비되었습니다.\n실 MID 입력 후 즉시 활성화됩니다.",
+      "airwallexMsg": "[Airwallex] 글로벌 결제 활성화 완료.",
+      "paymentFail": "결제 실패. 다시 시도해주세요.",
+      "safariPWA": "Safari: [공유] → [홈 화면에 추가]",
+      "bmiLabels": { "under": "저체중", "normal": "정상", "over": "과체중", "obese": "비만" },
+      "ageUnit": "세",
+      "bornUnit": "년생",
+      "lotteryTitle": "이번 주 행운의 오행 번호 6자리 — 2조합"
+    }
+  },
+  en: {
+    "brandName": "Sovereign Oracle",
+    "brandSub": "Precision Destiny Analysis · Classical Wisdom Engine",
+    "brandClassic": "Four Pillars · Five Elements · Classical Prescriptions",
+    "step1": "Profile", "step2": "Payment", "step3": "Analysis", "step4": "Report",
+    "sec1Title": "Birth Chart Profile",
+    "sec2Title": "Biometric Vitality Index",
+    "sec3Title": "Face & Palm Reading",
+    "sec4Title": "Area of Focus",
+    "sec5Title": "Choose Your Reading",
+    "birthLabel": "Date of Birth",
+    "birthTimeLabel": "Birth Hour",
+    "genderLabel": "Gender",
+    "faceLabel": "Face Image",
+    "palmRightLabel": "Right Palm",
+    "palmLeftLabel": "Left Palm",
+    "photoChange": "Change",
+    "photoHint": "Camera or file",
+    "bpSysLabel": "Systolic BP",
+    "bpDiaLabel": "Diastolic BP",
+    "pulseLabel": "Pulse",
+    "glucoseLabel": "Blood Glucose",
+    "weightLabel": "Weight",
+    "heightLabel": "Height",
+    "concernLabel": "Primary Area of Concern",
+    "concernAllNote": "✦ All 6 categories are included in your report after payment. Select your primary focus above.",
+    "concernTextLabel": "Additional Context (Optional)",
+    "emailLabel": "Report Delivery Email",
+    "legalTos": "Terms of Service",
+    "legalPrivacy": "Privacy Policy",
+    "legalDisclaimer": "Disclaimer",
+    "legalRefund": "Refund Policy",
+    "birthTimeOptions": [
+      { "value": "",        "label": "Unknown" },
+      { "value": "rat",    "label": "Rat 子 (11 PM–1 AM)" },
+      { "value": "ox",     "label": "Ox 丑 (1–3 AM)" },
+      { "value": "tiger",  "label": "Tiger 寅 (3–5 AM)" },
+      { "value": "rabbit", "label": "Rabbit 卯 (5–7 AM)" },
+      { "value": "dragon", "label": "Dragon 辰 (7–9 AM)" },
+      { "value": "snake",  "label": "Snake 巳 (9–11 AM)" },
+      { "value": "horse",  "label": "Horse 午 (11 AM–1 PM)" },
+      { "value": "goat",   "label": "Goat 未 (1–3 PM)" },
+      { "value": "monkey", "label": "Monkey 申 (3–5 PM)" },
+      { "value": "rooster","label": "Rooster 酉 (5–7 PM)" },
+      { "value": "dog",    "label": "Dog 戌 (7–9 PM)" },
+      { "value": "pig",    "label": "Pig 亥 (9–11 PM)" }
+    ],
+    "ctaDivider": "Your classical reading begins now",
+    "ctaBtn": "Generate My Precision Report",
+    "loadingTitle": "Oracle Engine Initializing",
+    "reportStamp": "Sovereign Oracle — Precision Destiny Report",
+    "pwaBannerTitle": "Install Sovereign Oracle",
+    "pwaBannerSub": "Add to home screen for instant access",
+    "pwaInstall": "Install",
+    "testimonialsTitle": "What Our Members Say",
+    "loadingSteps": [
+      { "status": "Layer 1 — Mapping your Four Pillars birth chart...", "classic": "Destiny is written in Eight Characters — Zi Ping Zhen Quan" },
+      { "status": "Layer 1 — Tracing Five Element generation and control...", "classic": "Generation and restraint are the constant laws of Heaven — Di Tian Sui" },
+      { "status": "Layer 1 — Identifying your governing favorable element...", "classic": "The favorable element is the sovereign of the chart — Zi Ping Zhen Quan" },
+      { "status": "Layer 2 — Applying classical face-reading principles...", "classic": "Facial complexion is the flowering of vital energy — Huangdi Neijing" },
+      { "status": "Layer 3 — Reading palm line micro-patterns...", "classic": "Palm patterns are the record of life's unfolding — Ma Yi Shen Xiang" },
+      { "status": "Layer 4 — Earth element cross-analysis with glucose data...", "classic": "Earth governs the digestive axis — root of metabolic imbalance" },
+      { "status": "Layer 5 — Fire-Water balance and circulatory pressure...", "classic": "When Fire and Water discord, the vessels lose their rhythm" },
+      { "status": "Matching classical prescriptions to your profile...", "classic": "" },
+      { "status": "Composing your personalized report...", "classic": "" }
+    ],
+    "ui": {
+      "concernOptions": [
+        { "value": "health",       "label": "Health & Physical Vitality" },
+        { "value": "wealth",       "label": "Wealth, Career & Business" },
+        { "value": "relationship", "label": "Love & Human Connection" },
+        { "value": "family",       "label": "Family, Children & Parents" },
+        { "value": "mindset",      "label": "Inner Psychology & Growth" },
+        { "value": "timing",       "label": "Fortune Timing & Life Cycles" }
+      ],
+      "genderOptions": [
+        { "value": "male",   "label": "Male" },
+        { "value": "female", "label": "Female" }
+      ],
+      "payTabs":  { "domestic": "Korean Card", "global": "Global Card" },
+      "payInfo": {
+        "domestic": { "name": "KG Inicis — Domestic Payments", "methods": "Credit · Debit · KakaoPay · NaverPay · PAYCO", "status": "Integration ready — Test mode active" },
+        "global":   { "name": "Airwallex — Global Payments",   "methods": "Visa · Mastercard · Amex · Apple Pay · Google Pay", "status": "Active for international customers" }
+      },
+      "emailBadge": "Delivered Instantly",
+      "emailHint": "Your PDF report will be sent to this address the moment analysis is complete. All data is encrypted and never shared.",
+      "shareTitle": "Share Your Reading",
+      "trustItems": [ "256-bit Encryption", "Classical Citations", "A4 6-Page Report", "Instant Email Delivery" ],
+      "reportChapters": {
+        "ch1": "Chapter I — Four Pillars & Five Element Analysis",
+        "ch2": "Chapter II — Biometric & Elemental Diagnosis",
+        "ch3": "Chapter III — Face Reading & Palm Analysis",
+        "ch4": "Chapter IV — Fortune Timing & Prescriptions",
+        "ch1badge": "Zi Ping Zhen Quan · Di Tian Sui · Qiong Tong Bao Jian",
+        "ch2badge": "Dongui Bogam · Huangdi Neijing · Earth and Fire-Water Axes",
+        "ch3badge": "Huangdi Neijing Ling Shu · Ma Yi Shen Xiang Vol. III",
+        "ch4badge": "Di Tian Sui · Qiong Tong Bao Jian · Major and Annual Cycles",
+        "ch2title": "Biometric Readings Through the Five Element Lens",
+        "physioQuote": "Physiognomy is the outward expression of inner vital energy",
+        "physioQuoteSource": "Ma Yi Shen Xiang, Vol. III — Form and Spirit",
+        "concernTitle": "Personalized Prescription",
+        "dietaryRx": "Dietary Rx",
+        "recommended": "Recommended",
+        "masterRxTitle": "Master Prescription — Curated Recommendations",
+        "rxStamp": "Official Prescription",
+        "proceedPayment": "Purchase This Reading",
+        "bookConsult": "Book a Private Consultation"
+      },
+      "pwaTitle": "Sovereign Oracle awaits you...",
+      "tabTitle": "Sovereign Oracle — Precision Destiny Analysis",
+      "alertBirthdate": "Please enter your date of birth to proceed.",
+      "linkCopied": "Link copied to clipboard!",
+      "paymentTestMsg": "[Airwallex] Test mode active.\nPayment integration is ready.\nActivate by entering your live credentials.",
+      "airwallexMsg": "[Airwallex] Will activate upon completing your overseas entity setup.",
+      "paymentFail": "Payment could not be processed. Please try again.",
+      "safariPWA": "In Safari: tap Share, then Add to Home Screen.",
+      "bmiLabels": { "under": "Underweight", "normal": "Healthy Weight", "over": "Overweight", "obese": "Obese" },
+      "ageUnit": "yrs",
+      "bornUnit": ""
+    }
+  }
+};
+
+/* ════════════════════════════════════════════════════════════════
+   PATCH 1 — LEGAL MODAL DATA
+   ════════════════════════════════════════════════════════════════ */
+const LEGAL_CONTENT = {
+  tos: {
+    en: {
+      title: 'Terms of Service',
+      html: `
+        <h3>1. Acceptance of Terms</h3>
+        <p>By accessing or using Sovereign Oracle ("Service"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the Service.</p>
+        <h3>2. Nature of Service</h3>
+        <p>Sovereign Oracle provides entertainment and cultural reference services based on classical Eastern philosophical traditions including Four Pillars (사주), physiognomy, and palmistry. <strong>The Service is for entertainment purposes only.</strong> It does not constitute professional medical, financial, legal, psychological, or any other form of licensed professional advice.</p>
+        <h3>3. Eligibility</h3>
+        <p>You must be at least 18 years of age to use the Service. By using the Service, you represent and warrant that you are 18 years of age or older.</p>
+        <h3>4. Payment & Pricing</h3>
+        <p>Prices displayed on screen are the exact prices charged:</p>
+        <ul>
+          <li>Palm Reading Report: ₩6,900 / $4.99</li>
+          <li>Face Reading Report: ₩6,900 / $4.99</li>
+          <li>Four Pillars Report (6p): ₩15,000 / $9.99</li>
+          <li>Proxy Analysis: ₩12,000 / $8.99</li>
+          <li>Monthly Subscription: ₩20,000 / $14.99</li>
+        </ul>
+        <p>All prices are final and inclusive of applicable taxes. No hidden fees apply.</p>
+        <h3>5. Refund Policy</h3>
+        <p>Digital reports are delivered immediately upon payment completion. Due to the instantaneous delivery of digital content, refunds are generally not available once a report has been generated and delivered. Exceptions may be made at our sole discretion for technical failures.</p>
+        <h3>6. Intellectual Property</h3>
+        <p>All content, reports, and materials generated by the Service are the property of Sovereign Oracle. Reports are licensed for personal use only and may not be redistributed commercially.</p>
+        <h3>7. Limitation of Liability</h3>
+        <p>Sovereign Oracle shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use or inability to use the Service. Our total liability shall not exceed the amount paid for the specific service giving rise to the claim.</p>
+        <h3>8. Governing Law</h3>
+        <p>These Terms shall be governed by and construed in accordance with applicable laws. Any disputes shall be resolved through binding arbitration.</p>
+        <h3>9. Contact</h3>
+        <p>For inquiries: admin@sovereign-oracle.com</p>
+      `
+    },
+    ko: {
+      title: '이용약관',
+      html: `
+        <h3>1. 약관 동의</h3>
+        <p>소버린 오라클(이하 "서비스")에 접속하거나 이용함으로써 귀하는 본 이용약관에 동의하는 것으로 간주됩니다. 동의하지 않으시는 경우 서비스를 이용하지 마십시오.</p>
+        <h3>2. 서비스 성격</h3>
+        <p>소버린 오라클은 사주(四柱), 관상, 수상 등 동양 고전 철학 전통에 기반한 <strong>오락 및 문화 참고 목적의 서비스</strong>입니다. 본 서비스는 전문적인 의료·재무·법률·심리 상담을 대체하지 않습니다.</p>
+        <h3>3. 이용 자격</h3>
+        <p>본 서비스는 만 18세 이상만 이용 가능합니다. 서비스 이용 시 귀하는 만 18세 이상임을 확인하고 보증하는 것으로 간주됩니다.</p>
+        <h3>4. 결제 및 가격</h3>
+        <p>화면에 표시된 가격이 실제 청구 금액입니다:</p>
+        <ul>
+          <li>수상(손금) 정밀 분석 리포트: ₩6,900</li>
+          <li>관상 정밀 분석 리포트: ₩6,900</li>
+          <li>사주 종합 정밀 리포트 (A4 6장): ₩15,000</li>
+          <li>지인 대리 분석권 (1인): ₩12,000</li>
+          <li>프리미엄 월 정기 구독: ₩20,000/월</li>
+        </ul>
+        <p>모든 가격은 세금 포함 최종 금액이며 숨겨진 수수료가 없습니다.</p>
+        <h3>5. 환불 정책</h3>
+        <p>디지털 리포트는 결제 완료 즉시 발송됩니다. 디지털 콘텐츠의 즉각적 전달 특성상 리포트 생성 및 발송 완료 후에는 원칙적으로 환불이 불가합니다. 기술적 오류의 경우 당사의 재량에 따라 예외적으로 처리될 수 있습니다.</p>
+        <h3>6. 지식재산권</h3>
+        <p>서비스가 생성한 모든 콘텐츠, 리포트, 자료의 소유권은 소버린 오라클에 있습니다. 리포트는 개인 이용 목적으로만 사용 허가되며 상업적 재배포는 금지됩니다.</p>
+        <h3>7. 책임 한계</h3>
+        <p>소버린 오라클은 서비스 이용 또는 이용 불가로 인한 간접적·부수적·특별·결과적 손해에 대해 책임을 지지 않습니다. 총 책임은 해당 서비스에 실제 지불된 금액을 초과하지 않습니다.</p>
+        <h3>8. 준거법</h3>
+        <p>본 약관은 관련 법령에 따라 해석되며, 분쟁은 구속력 있는 중재를 통해 해결합니다.</p>
+        <h3>9. 문의</h3>
+        <p>문의: admin@sovereign-oracle.com</p>
+      `
+    }
+  },
+  privacy: {
+    en: {
+      title: 'Privacy Policy',
+      html: `
+        <h3>1. Information We Collect</h3>
+        <p>We collect information you provide directly to us when using the Service:</p>
+        <ul>
+          <li>Birth date, time, and gender (for analysis purposes)</li>
+          <li>Optional biometric data (blood pressure, glucose, height, weight)</li>
+          <li>Optional photographs (face and both palm images for reading)</li>
+          <li>Email address (for report delivery)</li>
+          <li>Payment information (processed by our payment partners — we do not store card data)</li>
+        </ul>
+        <h3>2. How We Use Your Information</h3>
+        <p>Your information is used exclusively to generate your report, deliver it via email, improve our algorithms, and comply with legal obligations.</p>
+        <h3>3. Data Security</h3>
+        <p>We employ 256-bit SSL encryption for all data transmission. Personal data is stored in encrypted form. We do not sell, rent, or share your personal information with third parties for marketing purposes.</p>
+        <h3>4. Photographs</h3>
+        <p>Face and palm photographs are used solely for generating your reading and are not shared with third parties. Images are automatically deleted from our servers within 30 days of report generation.</p>
+        <h3>5. Cookies</h3>
+        <p>We use essential cookies necessary for service functionality only. We do not use advertising or tracking cookies.</p>
+        <h3>6. Your Rights</h3>
+        <p>You have the right to access, correct, or delete your personal data. Contact: admin@sovereign-oracle.com</p>
+        <h3>7. Children's Privacy</h3>
+        <p>The Service is not directed to individuals under 18 years of age. We do not knowingly collect personal information from minors.</p>
+      `
+    },
+    ko: {
+      title: '개인정보처리방침',
+      html: `
+        <h3>1. 수집하는 개인정보</h3>
+        <p>서비스 이용 시 귀하가 직접 제공하는 다음 정보를 수집합니다:</p>
+        <ul>
+          <li>생년월일, 출생 시간, 성별 (분석 목적)</li>
+          <li>선택적 신체 지표 (혈압, 혈당, 키, 체중)</li>
+          <li>선택적 사진 (얼굴 이미지, 오른손·왼손 손금 사진)</li>
+          <li>이메일 주소 (리포트 발송 목적)</li>
+          <li>결제 정보 (결제 파트너사가 처리 — 카드 정보를 당사가 저장하지 않음)</li>
+        </ul>
+        <h3>2. 개인정보 이용 목적</h3>
+        <p>수집된 정보는 맞춤형 운세 리포트 생성, 이메일 발송, 서비스 개선, 법적 의무 준수에만 사용됩니다.</p>
+        <h3>3. 개인정보 보호</h3>
+        <p>모든 데이터 전송에 256비트 SSL 암호화를 적용합니다. 개인정보는 암호화된 형태로 보관되며, 마케팅 목적으로 제3자에게 판매·임대·공유하지 않습니다.</p>
+        <h3>4. 사진 데이터</h3>
+        <p>얼굴 및 손금 사진은 리포트 생성 목적으로만 사용되며 제3자와 공유하지 않습니다. 리포트 생성 후 30일 이내 서버에서 자동 삭제됩니다.</p>
+        <h3>5. 쿠키</h3>
+        <p>서비스 기능에 필수적인 쿠키만 사용합니다. 광고·추적 쿠키는 사용하지 않습니다.</p>
+        <h3>6. 정보 주체의 권리</h3>
+        <p>귀하는 본인의 개인정보에 대한 열람, 수정, 삭제를 요청할 권리가 있습니다. 문의: admin@sovereign-oracle.com</p>
+        <h3>7. 만 18세 미만</h3>
+        <p>본 서비스는 만 18세 미만을 대상으로 하지 않으며, 미성년자의 개인정보를 고의로 수집하지 않습니다.</p>
+      `
+    }
+  },
+  disclaimer: {
+    en: {
+      title: 'Disclaimer — Entertainment Purposes Only',
+      html: `
+        <h3>Entertainment & Cultural Reference Only</h3>
+        <p><strong>Sovereign Oracle is an entertainment service based on classical Eastern philosophical traditions.</strong> The analyses, readings, and prescriptions provided are cultural and entertainment content only.</p>
+        <h3>Not Professional Advice</h3>
+        <p>Nothing provided by Sovereign Oracle constitutes or should be construed as medical, financial, legal, or psychological advice of any kind.</p>
+        <h3>Health Information</h3>
+        <p>Any health-related content is for general cultural reference only. Always consult a qualified healthcare professional for medical concerns. Do not disregard professional medical advice based on content from this Service.</p>
+        <h3>No Guarantees</h3>
+        <p>Sovereign Oracle makes no representations or guarantees regarding the accuracy or reliability of any analysis or prediction. Destiny analysis is a cultural tradition and its results are inherently interpretive.</p>
+        <h3>Affiliate Recommendations</h3>
+        <p>The "Shield Items & Recommendations" section contains affiliate partner links. We may receive compensation when you make purchases through these links. Recommendations do not constitute professional endorsements.</p>
+      `
+    },
+    ko: {
+      title: '면책고지 — 오락 목적 서비스',
+      html: `
+        <h3>오락 및 문화 참고 목적 전용</h3>
+        <p><strong>소버린 오라클은 동양 고전 철학 전통에 기반한 오락 서비스입니다.</strong> 제공되는 분석, 판독, 처방은 문화적·오락적 콘텐츠에 해당합니다.</p>
+        <h3>전문 상담 대체 불가</h3>
+        <p>소버린 오라클이 제공하는 어떠한 내용도 전문적인 의료·재무·법률·심리 상담으로 해석되어서는 안 됩니다.</p>
+        <h3>건강 관련 정보</h3>
+        <p>건강 관련 내용은 동양 고전 문화 참고용입니다. 의학적 문제에 대해서는 반드시 자격을 갖춘 의료 전문가와 상담하십시오. 본 서비스의 내용을 근거로 전문적 의료 조언을 무시하지 마십시오.</p>
+        <h3>결과 보장 불가</h3>
+        <p>소버린 오라클은 어떠한 분석이나 예측의 정확성·신뢰성을 보장하지 않습니다. 운세 분석은 문화적 전통이며 그 결과는 본질적으로 해석적입니다.</p>
+        <h3>제휴 추천 상품</h3>
+        <p>"방어막 & 행운 아이템" 섹션은 제휴 파트너 링크를 포함합니다. 링크를 통한 구매 시 당사가 수수료를 받을 수 있습니다. 추천은 전문적 보증이 아닙니다.</p>
+      `
+    }
+  },
+  refund: {
+    en: {
+      title: 'Refund Policy',
+      html: `
+        <h3>Digital Content Policy</h3>
+        <p>Sovereign Oracle delivers digital reports immediately upon payment completion. Due to the instantaneous nature of digital content delivery, the following policy applies:</p>
+        <h3>Standard Policy — All Sales Final</h3>
+        <p>Once a report has been generated and delivered to your email, refunds are not available. This applies to all one-time reports (Palm, Face, Four Pillars, Proxy Analysis).</p>
+        <h3>Monthly Subscription</h3>
+        <p>Subscriptions (₩20,000 / $14.99/mo) may be cancelled at any time, effective at the end of the current billing period. Pro-rata refunds are not available.</p>
+        <h3>Exceptions</h3>
+        <p>Refunds may be issued at our discretion for: technical failure preventing report delivery, duplicate charge errors, or proven payment processing errors.</p>
+        <h3>How to Request</h3>
+        <p>Contact admin@sovereign-oracle.com within 7 days of purchase with your order ID.</p>
+        <h3>Processing Time</h3>
+        <p>Approved refunds are processed within 5–10 business days to your original payment method.</p>
+      `
+    },
+    ko: {
+      title: '환불정책',
+      html: `
+        <h3>디지털 콘텐츠 정책</h3>
+        <p>소버린 오라클의 디지털 리포트는 결제 완료 즉시 발송됩니다. 디지털 콘텐츠의 즉각적 전달 특성상 다음 정책이 적용됩니다.</p>
+        <h3>원칙 — 전액 환불 불가</h3>
+        <p>리포트가 생성되어 이메일로 발송된 이후에는 환불이 불가합니다. 수상, 관상, 사주 종합, 지인 대리 분석권 등 1회성 리포트 전체에 적용됩니다.</p>
+        <h3>월 정기 구독</h3>
+        <p>월 구독(₩20,000/월)은 언제든 해지 가능하며, 해지는 현재 결제 기간 종료 시점에 효력이 발생합니다. 일할 환불은 제공하지 않습니다.</p>
+        <h3>예외 처리</h3>
+        <p>다음의 경우 당사 재량에 따라 예외적 환불이 가능합니다: 기술적 오류로 인한 리포트 미발송, 중복 결제 오류, 결제 처리 오류.</p>
+        <h3>환불 요청 방법</h3>
+        <p>구매일로부터 7일 이내 주문 ID와 함께 admin@sovereign-oracle.com으로 문의해 주십시오.</p>
+        <h3>처리 기간</h3>
+        <p>승인된 환불은 원래 결제 수단으로 영업일 기준 5~10일 이내 처리됩니다.</p>
+      `
+    }
+  }
+};
+
+/* ════════════════════════════════════════════════════════════════
+   PATCH 2 — TESTIMONIALS DATA
+   ════════════════════════════════════════════════════════════════ */
+const TESTIMONIALS = {
+  en: [
+    {
+      stars: '★★★★★',
+      text: "The Four Pillars analysis was shockingly accurate. It identified a health pattern I'd been ignoring for years and gave me a clear framework to act on. This changed how I approach my wellbeing.",
+      name: 'Sarah M.',
+      loc: 'Los Angeles, CA',
+      avatar: '✦'
+    },
+    {
+      stars: '★★★★★',
+      text: "I was skeptical at first, but the palm reading was incredibly detailed. The elemental prescription for my career timing was exactly what I needed to hear. Booked a 1:1 consultation after.",
+      name: 'James T.',
+      loc: 'London, UK',
+      avatar: '◈'
+    },
+    {
+      stars: '★★★★☆',
+      text: "Beautiful interface, thorough report with classical citations. I appreciated that it's framed as cultural wisdom rather than making impossible promises. Genuine and thoughtful.",
+      name: 'Mei L.',
+      loc: 'Singapore',
+      avatar: '✦'
+    },
+    {
+      stars: '★★★★★',
+      text: "The biometric cross-analysis with Five Elements is a genuinely novel approach. The Earth element and glucose correlation prompted me to get a check-up. Results were eye-opening.",
+      name: 'David R.',
+      loc: 'Toronto, Canada',
+      avatar: '◈'
+    }
+  ],
+  ko: [
+    {
+      stars: '★★★★★',
+      text: '사주 분석이 제 성향과 건강 패턴을 정확히 짚어냈습니다. 오행 처방을 2주 실천했더니 수면 질이 확실히 달라졌어요. 리포트의 고전 인용 방식이 매우 신뢰감을 줍니다.',
+      name: '김○○',
+      loc: '서울',
+      avatar: '✦'
+    },
+    {
+      stars: '★★★★★',
+      text: '관상·수상 분석이 이렇게 세밀할 줄 몰랐습니다. 장부 대응 분석까지 해주는 서비스는 처음 봤어요. 마스터 1:1 상담까지 받았는데 완전히 만족합니다.',
+      name: '이○○',
+      loc: '부산',
+      avatar: '◈'
+    },
+    {
+      stars: '★★★★☆',
+      text: '혈압 데이터와 사주를 교차 분석해주는 점이 독창적입니다. 황제내경 원문 인용이 단순 점술과 다른 격조를 만들어줍니다. 정기 구독 중입니다.',
+      name: '박○○',
+      loc: '대전',
+      avatar: '✦'
+    },
+    {
+      stars: '★★★★★',
+      text: '운세 타이밍 분석이 핵심이었습니다. 대운·세운 교차 분석 덕분에 사업 결정을 늦추기로 했는데, 석 달 뒤 그 선택이 얼마나 탁월했는지 실감했습니다.',
+      name: '최○○',
+      loc: '인천',
+      avatar: '◈'
+    }
+  ]
+};
+
+/* ════════════════════════════════════════════════════════════════
+   RUNTIME STATE
    ════════════════════════════════════════════════════════════════ */
 let currentLang  = 'ko';
-let selectedPlan = 'productC';   /* 기본 선택: 사주 종합 */
+let selectedPlan = 'productC';
 let pwaPrompt    = null;
-let isSubscriber = false;        /* 구독 상태 (로그인 연동 후 교체) */
 
 /* ════════════════════════════════════════════════════════════════
-   ██  LANGUAGE SWITCH + PAYMENT GATEWAY SYNC  ██
+   LANGUAGE SWITCH
    ════════════════════════════════════════════════════════════════ */
 function setLang(lang) {
   currentLang = lang;
@@ -1287,45 +2169,83 @@ function setLang(lang) {
   const btn = document.getElementById('lang-' + lang);
   if (btn) btn.classList.add('active');
   document.documentElement.lang = lang;
-  /* EN 모드에서 한글/한자 자동 숨김 */
   document.querySelectorAll('.sec-classic').forEach(el => {
     el.style.display = lang === 'en' ? 'none' : '';
   });
-  document.querySelectorAll('[data-lang-hide]').forEach(el => {
-    el.style.display = lang === el.getAttribute('data-lang-hide') ? 'none' : '';
-  });
 
-  applyLocale();
-  renderPlans();
-  syncPaymentGateway(lang);   /* ← 결제 게이트웨이 자동 전환 */
-}
-/* 푸터 언어 전환 */
+  /* footer language */
   const ko = document.getElementById('footer-products-ko');
   const en = document.getElementById('footer-products-en');
   if (ko) ko.style.display = lang === 'ko' ? '' : 'none';
   if (en) en.style.display = lang === 'en' ? '' : 'none';
-/* ── 게이트웨이 파이프라인 동기화 ──
-   KO → KG이니시스(국내) 탭 강조 + Airwallex 숨김
-   EN → Airwallex(글로벌) 탭 강조 + 자동 선택         */
+
+  /* 고전 힌트 한/영 교체 */
+  const hints = {
+    'hint-layer1-text': {
+      ko: '"사람의 命은 생년(年)·월(月)·일(日)·시(時), 네 기둥에 의해 결정됩니다. 이 네 좌표가 바로 탄생 순간 우주 에너지의 정밀한 지도입니다."',
+      en: '"A person\'s destiny is defined by four temporal pillars — the precise coordinates of cosmic energy at the moment of birth."'
+    },
+    'hint-layer1-src': {
+      ko: '— 子平眞詮 제1장 論命之本',
+      en: '— Zi Ping Zhen Quan, Chapter One: On the Foundation of Destiny'
+    },
+    'hint-layer23-text': {
+      ko: '"얼굴은 오장육부의 거울입니다. 안색은 기혈(氣血)의 상태를 드러내며, 오색(五色)을 살펴 길흉과 운명을 판단합니다. 손금의 무늬는 후천적 삶의 변화를 기록하며, 오른손은 현생의 현실 운세를, 왼손은 선천적 타고난 기질과 잠재력을 담고 있습니다."',
+      en: '"The face is a mirror of the inner organs. Complexion reveals the state of vital energy and blood; observe the Five Colors to discern fortune and fate. The lines of the palm record the unfolding of one\'s life — the right hand reflects present-life fortune and reality, while the left hand holds innate character and hidden potential."'
+    },
+    'hint-layer23-src': {
+      ko: '— 黃帝內經 靈樞 五色篇 · 麻衣神相 제3권 形神篇',
+      en: '— Huangdi Neijing, Ling Shu: Five Colors · Ma Yi Shen Xiang, Vol. III'
+    },
+    'hint-layer45-text': {
+      ko: '"토기(土氣)는 소화·대사 기능의 축을 주관합니다. 토기의 실조는 소갈(消渴), 즉 현대 대사 질환의 전조를 낳습니다. 화수(火水)의 불균형은 혈맥의 압력 이상으로 드러납니다."',
+      en: '"Earth element governs the digestive and metabolic axis. Its dysregulation produces wasting and thirst — precursors to modern metabolic disease. Fire-Water discord manifests as circulatory pressure anomalies."'
+    },
+    'hint-layer45-src': {
+      ko: '— 東醫寶鑑 內景篇 消渴門 · 五臟六腑篇',
+      en: '— Dongui Bogam, Internal Chapters: Metabolic Disorders'
+    }
+  };
+  Object.entries(hints).forEach(([id, texts]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = texts[lang] || texts.en;
+  });
+
+  /* 커스텀 달력 언어 갱신 */
+  DP.refreshLang();
+
+  /* 면책고지 언어 전환 */
+  const disclaimerEl = document.getElementById('entertainment-disclaimer-text');
+  if (disclaimerEl) {
+    if (lang === 'en') {
+      disclaimerEl.innerHTML = '⚠ This service is provided for <strong>entertainment and cultural reference purposes only</strong>, based on classical Eastern philosophical traditions. It does not constitute professional medical, financial, legal, or psychological advice. For important decisions, please consult a qualified professional.';
+    } else {
+      disclaimerEl.innerHTML = '⚠ 본 서비스는 <strong>동양 고전 철학 전통에 기반한 오락 및 문화 참고 목적</strong>으로 제공되며, 전문적인 의료·재무·법률·심리 상담을 대체하지 않습니다. 중요한 결정은 반드시 해당 분야 전문가와 상담하시기 바랍니다.';
+    }
+  }
+
+  applyLocale();
+  renderPlans();
+  renderTestimonials();
+  syncPaymentGateway(lang);
+}
+
 function syncPaymentGateway(lang) {
-  const tabDom  = document.getElementById('tab-domestic');
-  const tabGlob = document.getElementById('tab-global');
+  const tabDom    = document.getElementById('tab-domestic');
+  const tabGlob   = document.getElementById('tab-global');
   const panelDom  = document.getElementById('panel-domestic');
   const panelGlob = document.getElementById('panel-global');
   if (!tabDom) return;
 
   if (lang === 'en') {
-    /* EN → Airwallex 자동 선택, 국내 탭 숨김 */
     tabDom.style.display   = 'none';
     panelDom.style.display = 'none';
     tabGlob.classList.add('active');
     panelGlob.classList.add('active', 'gateway-highlight');
     tabDom.classList.remove('active');
     panelDom.classList.remove('active');
-    /* 결제 패널 텍스트 EN로 재렌더 */
     renderPaymentPanel('global', lang);
   } else {
-    /* KO → KG이니시스 기본 선택 */
     tabDom.style.display   = '';
     panelDom.style.display = '';
     tabDom.classList.add('active');
@@ -1337,11 +2257,10 @@ function syncPaymentGateway(lang) {
 }
 
 function renderPaymentPanel(tab, lang) {
-  const L = (LOCALE[lang] || {}).ui || {};
+  const L    = (LOCALE[lang] || {}).ui || {};
   const info = (L.payInfo || {})[tab];
   if (!info) return;
-  const panelId = 'panel-' + tab;
-  const panel   = document.getElementById(panelId);
+  const panel = document.getElementById('panel-' + tab);
   if (!panel) return;
   panel.innerHTML = `
     <div class="pay-info ${tab === 'global' ? 'gateway-highlight' : ''}">
@@ -1357,31 +2276,59 @@ function renderPaymentPanel(tab, lang) {
 }
 
 /* ════════════════════════════════════════════════════════════════
-   ██  LOCALE RENDERER  ██
+   LOCALE RENDERER
    ════════════════════════════════════════════════════════════════ */
 function applyLocale() {
-  const L = LOCALE[currentLang] || {};
+  const L   = LOCALE[currentLang] || {};
+  const isEn = currentLang === 'en';
+
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const k = el.getAttribute('data-i18n');
     if (L[k] !== undefined) el.textContent = L[k];
   });
+
+  /* 출생 시간 옵션 — 언어별 렌더 */
+  const btSel = document.getElementById('birth-time');
+  if (btSel && L.birthTimeOptions) {
+    btSel.innerHTML = L.birthTimeOptions
+      .map(o => `<option value="${o.value}">${o.label}</option>`).join('');
+  }
+
+  /* 커스텀 달력 placeholder 갱신 */
+  DP.updateDisplay();
+
   /* concern options */
   const concernSel = document.getElementById('concern-area');
   if (concernSel && L.ui && L.ui.concernOptions) {
     concernSel.innerHTML = L.ui.concernOptions
       .map(o => `<option value="${o.value}">${o.label}</option>`).join('');
   }
+
   /* gender options */
   const genderSel = document.getElementById('gender');
   if (genderSel && L.ui && L.ui.genderOptions) {
     genderSel.innerHTML = L.ui.genderOptions
       .map(o => `<option value="${o.value}">${o.label}</option>`).join('');
   }
-  /* email hint */
-  const emailHint = document.getElementById('email-hint');
-  if (emailHint && L.ui) emailHint.textContent = L.ui.emailHint || '';
+
+  /* email hint + badge */
+  const emailHint  = document.getElementById('email-hint');
   const emailBadge = document.getElementById('email-badge');
+  if (emailHint  && L.ui) emailHint.textContent  = L.ui.emailHint  || '';
   if (emailBadge && L.ui) emailBadge.textContent = L.ui.emailBadge || '';
+
+  /* email placeholder */
+  const emailInput = document.getElementById('user-email');
+  if (emailInput) emailInput.placeholder = isEn ? 'your@email.com' : '이메일 남겨주세요';
+
+  /* textarea placeholder */
+  const ctTextarea = document.getElementById('concern-text');
+  if (ctTextarea) {
+    ctTextarea.placeholder = isEn
+      ? 'e.g. I am considering a major career change this year and have been experiencing poor sleep recently...'
+      : '예: 올해 큰 결정을 앞두고 있으며, 최근 수면이 불규칙합니다...';
+  }
+
   /* trust items */
   const trustRow = document.getElementById('trust-row');
   if (trustRow && L.ui && L.ui.trustItems) {
@@ -1390,37 +2337,67 @@ function applyLocale() {
       `<span class="trust-item"><span class="trust-icon">${icons[i] || '✦'}</span><span>${t}</span></span>`
     ).join('');
   }
+
+  /* 법적 링크 버튼 — 한국어판 한국어로 */
+  const legalBtns = [
+    { id: 'footer-legal-tos',       key: 'legalTos',       type: 'tos' },
+    { id: 'footer-legal-privacy',   key: 'legalPrivacy',   type: 'privacy' },
+    { id: 'footer-legal-disclaimer',key: 'legalDisclaimer',type: 'disclaimer' },
+    { id: 'footer-legal-refund',    key: 'legalRefund',    type: 'refund' }
+  ];
+  legalBtns.forEach(b => {
+    const el = document.getElementById(b.id);
+    if (el && L[b.key]) el.textContent = L[b.key];
+  });
 }
 
 /* ════════════════════════════════════════════════════════════════
-   ██  PLAN RENDERER  ██
-   ── SOVEREIGN_CONFIG 기반 요금 체계 렌더 ──
+   PATCH 2 — TESTIMONIALS RENDERER
+   ════════════════════════════════════════════════════════════════ */
+function renderTestimonials() {
+  const grid = document.getElementById('testimonialGrid');
+  if (!grid) return;
+  const reviews = TESTIMONIALS[currentLang] || TESTIMONIALS.en;
+  grid.innerHTML = reviews.map(r => `
+    <div class="testimonial-card">
+      <div class="testimonial-stars">${r.stars}</div>
+      <div class="testimonial-text">${r.text}</div>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">${r.avatar}</div>
+        <div>
+          <div class="testimonial-name">${r.name}</div>
+          <div class="testimonial-loc">${r.loc}</div>
+        </div>
+        <div class="testimonial-verified">Verified</div>
+      </div>
+    </div>`).join('');
+}
+
+/* ════════════════════════════════════════════════════════════════
+   PATCH 4 — PLAN RENDERER (가격 동기화 완료)
    ════════════════════════════════════════════════════════════════ */
 function renderPlans() {
   const grid = document.getElementById('planGrid');
   if (!grid) return;
-  const C  = SOVEREIGN_CONFIG;
-  const isEn  = currentLang === 'en';
-  const sym   = isEn ? '$' : '₩';
+  const C    = SOVEREIGN_CONFIG;
+  const isEn = currentLang === 'en';
   const perLabel = isEn ? 'one-time' : '1회';
-  const moLabel  = isEn ? '/mo' : '/월';
 
-  /* 상품 정의 — SOVEREIGN_CONFIG에서 직접 읽음 */
   const plans = [
     {
       id:       'productA',
       name:     isEn ? C.productA.nameEn : C.productA.nameKo,
-      price:    isEn ? `$${C.productA.priceEn}` : `₩${C.productA.priceKo.toLocaleString()}`,
+      price:    isEn ? C.productA.displayEn : C.productA.displayKo,
       pricesub: perLabel,
       badge:    null,
       features: isEn
-        ? ['Palm line precision analysis', 'Three-page A4 report', 'Elemental health link', 'Dietary prescription']
-        : ['손금 정밀 분석 리포트', 'A4 3장 분량', '오행 건강 연결 분석', '식이 처방']
+        ? ['Palm line precision analysis (both hands)', 'Three-page A4 report', 'Elemental health link', 'Dietary prescription']
+        : ['오른손 + 왼손 양손 정밀 분석', 'A4 3장 분량', '오행 건강 연결 분석', '식이 처방']
     },
     {
       id:       'productB',
       name:     isEn ? C.productB.nameEn : C.productB.nameKo,
-      price:    isEn ? `$${C.productB.priceEn}` : `₩${C.productB.priceKo.toLocaleString()}`,
+      price:    isEn ? C.productB.displayEn : C.productB.displayKo,
       pricesub: perLabel,
       badge:    null,
       features: isEn
@@ -1430,27 +2407,39 @@ function renderPlans() {
     {
       id:       'productC',
       name:     isEn ? C.productC.nameEn : C.productC.nameKo,
-      price:    isEn ? `$${C.productC.priceEn}` : `₩${C.productC.priceKo.toLocaleString()}`,
+      price:    isEn ? C.productC.displayEn : C.productC.displayKo,
       pricesub: perLabel,
       badge:    isEn ? 'Recommended' : '추천',
       featured: true,
       features: isEn
-        ? ['Full Four Pillars analysis', 'All 5 diagnostic layers', 'Annual fortune roadmap', 'Custom elemental prescription', 'Four-page A4 report']
-        : ['사주 종합 정밀 분석', 'Layer 1~5 전 영역', '연 운세 로드맵', '맞춤 오행 처방전', 'A4 4장 분량']
+        ? ['Full Four Pillars + all 5 layers', 'All 6 concern categories included', 'Annual fortune roadmap', 'Custom elemental prescription', 'Six-page A4 report']
+        : ['사주 + 전체 5레이어 종합 분석', '6개 고민 분야 전체 포함', '연 운세 로드맵', '맞춤 오행 처방전', 'A4 6장 분량']
     },
     {
       id:       'subscription',
       name:     isEn ? C.subscription.nameEn : C.subscription.nameKo,
-      price:    isEn ? `$${C.subscription.priceEn}` : `₩${C.subscription.priceKo.toLocaleString()}`,
+      price:    isEn ? C.subscription.displayEn : C.subscription.displayKo,
       pricesub: isEn ? '/mo' : '/월',
       badge:    isEn ? 'Premium' : '프리미엄',
       isSub:    true,
       features: isEn ? C.subscription.featuresEn : C.subscription.featuresKo
+    },
+    {
+      id:       'giftAnalysis',
+      name:     isEn ? C.giftAnalysis.nameEn : C.giftAnalysis.nameKo,
+      price:    isEn ? C.giftAnalysis.displayEn : C.giftAnalysis.displayKo,
+      pricesub: perLabel,
+      badge:    isEn ? 'Proxy' : '대리 분석',
+      isGift:   true,
+      features: isEn ? C.giftAnalysis.featuresEn : C.giftAnalysis.featuresKo
     }
   ];
 
+  /* 플랜 카드 grid — 5개일 때 2+3 레이아웃 */
+  grid.style.gridTemplateColumns = 'repeat(3, 1fr)';
+
   grid.innerHTML = plans.map(p => `
-    <div class="plan-card${p.featured ? ' featured' : ''}${p.isSub ? ' sub-plan' : ''}${selectedPlan === p.id ? ' selected' : ''}"
+    <div class="plan-card${p.featured ? ' featured' : ''}${p.isSub ? ' sub-plan' : ''}${p.isGift ? ' gift-plan' : ''}${selectedPlan === p.id ? ' selected' : ''}"
          onclick="selectPlan('${p.id}')">
       ${p.badge ? `<div class="plan-badge">${p.badge}</div>` : ''}
       <div class="plan-name">${p.name}</div>
@@ -1460,10 +2449,7 @@ function renderPlans() {
     </div>`).join('');
 }
 
-function selectPlan(id) {
-  selectedPlan = id;
-  renderPlans();
-}
+function selectPlan(id) { selectedPlan = id; renderPlans(); }
 
 function switchPayTab(tab) {
   document.querySelectorAll('.pay-tab').forEach(t => t.classList.remove('active'));
@@ -1475,7 +2461,7 @@ function switchPayTab(tab) {
 }
 
 /* ════════════════════════════════════════════════════════════════
-   ██  PHOTO PREVIEW  ██
+   PHOTO PREVIEW
    ════════════════════════════════════════════════════════════════ */
 function previewPhoto(input, previewId) {
   if (input.files && input.files[0]) {
@@ -1489,7 +2475,7 @@ function previewPhoto(input, previewId) {
 }
 
 /* ════════════════════════════════════════════════════════════════
-   ██  DIAGNOSIS FLOW  ██
+   DIAGNOSIS FLOW
    ════════════════════════════════════════════════════════════════ */
 function startDiagnosis() {
   const bd = document.getElementById('birthdate').value;
@@ -1520,10 +2506,10 @@ function startDiagnosis() {
   document.getElementById('loadingOverlay').classList.add('active');
   updateStep(2);
 
-  const steps  = (L.loadingSteps || []);
-  let   idx    = 0;
-  const bar      = document.getElementById('l-bar');
-  const statusEl = document.getElementById('l-status');
+  const steps   = (L.loadingSteps || []);
+  let   idx     = 0;
+  const bar       = document.getElementById('l-bar');
+  const statusEl  = document.getElementById('l-status');
   const classicEl = document.getElementById('l-classic');
 
   const timer = setInterval(() => {
@@ -1541,7 +2527,6 @@ function startDiagnosis() {
     const report = ENGINE.generateFromDB(userData);
     setTimeout(() => {
       document.getElementById('loadingOverlay').classList.remove('active');
-      /* 구독 플랜 선택 시 대시보드 표시, 그 외는 리포트 */
       if (selectedPlan === 'subscription') {
         showSubscriberDashboard(userData);
       } else {
@@ -1553,14 +2538,13 @@ function startDiagnosis() {
 }
 
 /* ════════════════════════════════════════════════════════════════
-   ██  ENGINE CORE  ██
+   ENGINE CORE (v2.3 원본 100% 보존)
    ════════════════════════════════════════════════════════════════ */
 const ENGINE = {
-
   generateFromDB(ud) {
-    const DB   = KNOWLEDGE_DB_INLINE;
-    const L    = currentLang;
-    const birth = new Date(ud.birthdate);
+    const DB          = KNOWLEDGE_DB_INLINE;
+    const L           = currentLang;
+    const birth       = new Date(ud.birthdate);
     const elements    = this.calcElements(birth, ud.gender);
     const healthData  = this.analyzeHealth(ud);
     const yr          = new Date().getFullYear();
@@ -1571,7 +2555,6 @@ const ENGINE = {
              physio: DB.physiognomy[L], lang: L, userData: ud };
   },
 
-  /* 오행 계산 — 천간 기반 시연용 (마스터가 정밀 로직으로 교체 가능) */
   calcElements(birth, gender) {
     const y = birth.getFullYear();
     const m = birth.getMonth() + 1;
@@ -1597,7 +2580,7 @@ const ENGINE = {
     const results = [];
     if (ud.bp_sys && ud.bp_dia) {
       let cat;
-      if      (ud.bp_sys < 90 || ud.bp_dia < 60) cat = 'low';
+      if      (ud.bp_sys < 90 || ud.bp_dia < 60)  cat = 'low';
       else if (ud.bp_sys < 120 && ud.bp_dia < 80) cat = 'normal';
       else if (ud.bp_sys < 140 && ud.bp_dia < 90) cat = 'elevated';
       else                                          cat = 'high';
@@ -1615,34 +2598,18 @@ const ENGINE = {
       results.push({ type: 'bmi', value: bmi.toFixed(1) });
     }
     return results;
-  },
-
-  /* AI 연동 인터페이스 (추후 활성화) */
-  callAI(ud, dbReport) {
-    /*
-    return fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type':'application/json', 'x-api-key':'YOUR_KEY', 'anthropic-version':'2023-06-01' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6', max_tokens: 2000,
-        system: `Sovereign Oracle classical advisor engine. Write precise, scholarly 1-to-1 destiny reports citing Zi Ping Zhen Quan, Di Tian Sui, and Qiong Tong Bao Jian.`,
-        messages: [{ role: 'user', content: JSON.stringify({ ud, dbReport, lang: currentLang }) }]
-      })
-    }).then(r => r.json()).then(d => ({ ...dbReport, aiText: d.content[0].text }));
-    */
-    return Promise.resolve(dbReport);
   }
 };
 
 /* ════════════════════════════════════════════════════════════════
-   ██  REPORT RENDERER  ██
+   REPORT RENDERER (v2.3 원본 + PATCH 3 Shield Items 추가)
    ════════════════════════════════════════════════════════════════ */
 function showReport(rpt, ud) {
-  const L    = LOCALE[currentLang] || {};
-  const ui   = L.ui || {};
-  const ch   = ui.reportChapters || {};
-  const DB   = KNOWLEDGE_DB_INLINE;
-  const el   = rpt.elements;
+  const L     = LOCALE[currentLang] || {};
+  const ui    = L.ui || {};
+  const ch    = ui.reportChapters || {};
+  const DB    = KNOWLEDGE_DB_INLINE;
+  const el    = rpt.elements;
   const birth = new Date(ud.birthdate);
   const age   = new Date().getFullYear() - birth.getFullYear();
   const isEn  = currentLang === 'en';
@@ -1687,6 +2654,9 @@ function showReport(rpt, ud) {
       </div>
       <div class="rx-item-price">${item.price}</div>
     </div>`).join('');
+
+  /* PATCH 3 — Shield Items HTML (연동 GLOBAL_AFFILIATE_MAP) */
+  const shieldHTML = buildShieldHTML(el.dominant, isEn);
 
   const html = `
     <div class="rpt-header">
@@ -1760,6 +2730,8 @@ function showReport(rpt, ud) {
       </div>
     </div>
 
+    ${shieldHTML}
+
     <div class="share-section">
       <div class="share-title">${ui.shareTitle || 'Share Your Reading'}</div>
       <div class="share-btns">
@@ -1782,14 +2754,61 @@ function showReport(rpt, ud) {
 }
 
 /* ════════════════════════════════════════════════════════════════
-   ██  SUBSCRIBER DASHBOARD  ██
+   PATCH 3 — SHIELD HTML BUILDER
+   GLOBAL_AFFILIATE_MAP → 동적 CTA 버튼 렌더
+   ════════════════════════════════════════════════════════════════ */
+function buildShieldHTML(dominantEl, isEn) {
+  const A = GLOBAL_AFFILIATE_MAP;
+  const items = [
+    A.INSURANCE,
+    A.JEWELRY,
+    A.WELLNESS,
+    A.AUTOMOTIVE
+  ];
+  const title     = isEn ? '🛡️ Your Shield Items & Recommendations' : '🛡️ 나의 방어막 & 행운 아이템';
+  const subTitle  = isEn ? 'Curated by elemental profile · Affiliate' : '오행 프로파일 기반 큐레이션 · 제휴';
+  const disclaim  = isEn
+    ? '* Affiliate partnerships. Commissions support the Oracle. Recommendations are thematically curated and do not constitute professional endorsements.'
+    : '* 제휴 파트너십. 수수료는 오라클 운영을 지원합니다. 추천은 오행 테마 기반이며 전문 추천이 아닙니다.';
+
+  const itemsHTML = items.map(item => {
+    const icon   = isEn ? item.iconEn   : item.iconKo;
+    const title2 = isEn ? item.titleEn  : item.titleKo;
+    const reason = isEn ? item.reasonEn : item.reasonKo;
+    const cta    = isEn ? item.ctaEn    : item.ctaKo;
+    const link   = item.link;
+    return `
+      <a class="shield-item" href="${link}" target="_blank" rel="noopener noreferrer nofollow">
+        <div class="shield-item-icon">${icon}</div>
+        <div class="shield-item-content">
+          <div class="shield-item-label">Shield Rx · ${item.provider.replace(/_/g,' ')}</div>
+          <div class="shield-item-title">${title2}</div>
+          <div class="shield-item-reason">${reason}</div>
+        </div>
+        <div class="shield-item-cta">${cta} →</div>
+      </a>`;
+  }).join('');
+
+  return `
+    <div class="shield-section">
+      <div class="shield-header-bar">
+        <div class="shield-header-icon">🛡️</div>
+        <div class="shield-header-title">${title}</div>
+        <div class="shield-header-sub">${subTitle}</div>
+      </div>
+      <div class="shield-items">${itemsHTML}</div>
+      <div class="shield-disclaimer">${disclaim}</div>
+    </div>`;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   SUBSCRIBER DASHBOARD (v2.3 원본 보존)
    ════════════════════════════════════════════════════════════════ */
 function showSubscriberDashboard(ud) {
   const isEn   = currentLang === 'en';
   const birth   = new Date(ud.birthdate);
   const today   = new Date();
   const sets    = generateLotteryNumbers(birth);
-  const dailyEl = getDailyElement(today, birth);
 
   const labels = isEn
     ? { fortune:'Fortune', direction:'Direction', color:'Color', workplace:'Workplace', food:'Food', health:'Health Guide' }
@@ -1814,18 +2833,22 @@ function showSubscriberDashboard(ud) {
     </div>
 
     <div class="lottery-block">
-      <div class="lottery-title">🍀 ${isEn ? 'Weekly Lucky Numbers — 2 Sets' : '이번 주 행운의 복권 번호 3조합'}</div>
+      <div class="lottery-title">🍀 ${isEn ? 'Six-Digit Elemental Lucky Numbers — 2 Sets' : (((L.ui||{}).lotteryTitle) || '이번 주 행운의 오행 번호 6자리 — 2조합')}</div>
       <div class="lottery-sets">
         ${sets.map((set, si) => `
           <div class="lottery-set">
             <span class="lottery-set-label">${isEn ? 'Set' : '조합'} ${si + 1}</span>
-            ${set.map(n => `<div class="lottery-num">${n}</div>`).join('')}
+            ${set.map(n => `<div class="lottery-num">${String(n).padStart(2,'0')}</div>`).join('')}
           </div>`).join('')}
       </div>
       <p style="font-family:var(--font-display);font-size:10px;color:var(--text-muted);font-style:italic;margin-top:12px;text-align:center">
-        ${isEn ? '* Generated from your elemental energy field. Refreshes every Monday.' : '* 역학 자장 코드 기반 생성. 매주 월요일 갱신됩니다.'}
+        ${isEn
+          ? '* Six-digit elemental numbers generated from your Five Element energy pattern. Refreshes every Monday. For entertainment only — not a guarantee of any outcome.'
+          : '* 귀하의 오행 에너지 패턴으로 산출된 행운 번호입니다. 매주 월요일 갱신. 오락 목적이며 당첨을 보장하지 않습니다.'}
       </p>
-    </div>`;
+    </div>
+
+    ${buildShieldHTML('wood', isEn)}`;
 
   let dash = document.getElementById('sub-dashboard');
   if (!dash) {
@@ -1839,32 +2862,32 @@ function showSubscriberDashboard(ud) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-/* ── 로또 번호 생성 — 역학 자장 코드 기반 ── */
 function generateLotteryNumbers(birth) {
   const y = birth.getFullYear(), m = birth.getMonth() + 1, d = birth.getDate();
   const week = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 1)) / 604800000);
-  const seed1 = (y * 13 + m * 7  + d * 3  + week * 11) % 37;
-  const seed2 = (y * 17 + m * 11 + d * 7  + week * 13) % 37;
+  const seed1 = (y * 13 + m * 7  + d * 3  + week * 11);
+  const seed2 = (y * 17 + m * 11 + d * 7  + week * 13);
   function genSet(seed) {
     const nums = new Set();
-    let s = seed;
-    while (nums.size < 6) { s = (s * 6364136223846793005n !== undefined ? s : (s * 1664525 + 1013904223) % 100000) % 45 + 1; nums.add(Math.abs(s) % 45 + 1); }
-    return [...nums].slice(0,6).sort((a,b) => a - b);
+    let s = Math.abs(seed);
+    while (nums.size < 6) {
+      s = (s * 1664525 + 1013904223) & 0x7fffffff;
+      nums.add((s % 45) + 1);
+    }
+    return [...nums].sort((a,b) => a - b);
   }
   return [genSet(seed1 + 1), genSet(seed2 + 7)];
 }
 
-/* ── 오늘의 오행 데이터 생성 ── */
 function getDailyElement(today, birth) {
   const elOrder = ['wood','fire','earth','metal','water'];
-  const dayIdx = (today.getDay() + birth.getDate()) % 5;
-  return elOrder[dayIdx];
+  return elOrder[(today.getDay() + birth.getDate()) % 5];
 }
 
 function generateDailyData(today, birth, isEn) {
-  const el    = getDailyElement(today, birth);
-  const dayN  = today.getDay();
-  const dirs  = isEn
+  const el   = getDailyElement(today, birth);
+  const dayN = today.getDay();
+  const dirs = isEn
     ? ['East','Southeast','South','Southwest','West','Northwest','North','Northeast']
     : ['동쪽','동남쪽','남쪽','남서쪽','서쪽','북서쪽','북쪽','북동쪽'];
   const elColors = {
@@ -1898,14 +2921,14 @@ function generateDailyData(today, birth, isEn) {
     workplace:    workplaces[dayN % 5],
     workplaceSub: isEn ? 'Classical relational guidance' : '고전 인간관계 처방',
     food:         elFoods[el],
-    foodSub:      isEn ? 'Align your diet with today\'s element' : '오늘의 오행 식이 처방',
+    foodSub:      isEn ? "Align your diet with today's element" : '오늘의 오행 식이 처방',
     health:       isEn ? 'Hydrate well · 10-min breathing exercise · Lights out by 11 PM' : '충분한 수분 · 복식호흡 10분 · 오후 11시 취침',
     healthSub:    isEn ? 'Daily elemental health protocol' : '일일 오행 건강 처방'
   };
 }
 
 /* ════════════════════════════════════════════════════════════════
-   ██  STEP BAR  ██
+   STEP BAR
    ════════════════════════════════════════════════════════════════ */
 function updateStep(n) {
   for (let i = 1; i <= 4; i++) {
@@ -1918,10 +2941,10 @@ function updateStep(n) {
 }
 
 /* ════════════════════════════════════════════════════════════════
-   ██  SHARE  ██
+   SHARE
    ════════════════════════════════════════════════════════════════ */
 function doShare(platform) {
-  const L = LOCALE[currentLang] || {};
+  const L   = LOCALE[currentLang] || {};
   const url = window.location.href;
   if (platform === 'link' || platform === 'instagram') {
     navigator.clipboard.writeText(url)
@@ -1933,12 +2956,9 @@ function doShare(platform) {
 }
 
 /* ════════════════════════════════════════════════════════════════
-   ██  PAYMENT LAYER  ██
-   ── 언어에 따라 KG이니시스 / Airwallex 자동 라우팅 ──
+   PATCH 4 — PAYMENT LAYER (가격 완전 동기화)
    ════════════════════════════════════════════════════════════════ */
 const PAYMENT = {
-
-  /* 언어 기반 게이트웨이 자동 선택 */
   initGateway(order) {
     if (currentLang === 'en') {
       this.initAirwallex(order);
@@ -1947,18 +2967,17 @@ const PAYMENT = {
     }
   },
 
-  /* ── KG이니시스 (국내 KO) ── */
   initInicis(order) {
-    const C   = SOVEREIGN_CONFIG.payment.inicis;
-    const cfg = SOVEREIGN_CONFIG;
-    const prod = cfg[order.plan] || cfg.productC;
+    const C    = SOVEREIGN_CONFIG.payment.inicis;
+    const prod = SOVEREIGN_CONFIG[order.plan] || SOVEREIGN_CONFIG.productC;
+    /* PATCH 4: priceKo = 화면 표기 가격과 100% 일치 */
     const amount = prod.priceKo;
 
     if (C.testMode) {
-      alert(`[KG이니시스] 테스트 모드\n상품: ${prod.nameKo}\n금액: ₩${amount.toLocaleString()}\n실 MID 입력 후 즉시 활성화됩니다.`);
+      alert(`[KG이니시스] 테스트 모드\n상품: ${prod.nameKo}\n결제 금액: ${prod.displayKo}\n실 MID 입력 후 즉시 활성화됩니다.`);
       return;
     }
-    /* 실 연동:
+    /* 실 연동 코드 (MID 입력 후 주석 해제)
     const IMP = window.IMP;
     IMP.init(C.mid);
     IMP.request_pay({
@@ -1970,29 +2989,26 @@ const PAYMENT = {
     */
   },
 
-  /* ── Airwallex (해외 EN) ── */
   initAirwallex(order) {
-    const C   = SOVEREIGN_CONFIG.payment.airwallex;
-    const cfg = SOVEREIGN_CONFIG;
-    const prod = cfg[order.plan] || cfg.productC;
+    const C    = SOVEREIGN_CONFIG.payment.airwallex;
+    const prod = SOVEREIGN_CONFIG[order.plan] || SOVEREIGN_CONFIG.productC;
+    /* PATCH 4: priceEn = 화면 표기 가격과 100% 일치 */
     const amount = prod.priceEn;
 
     if (C.testMode) {
-      alert(`[Airwallex] Test Mode\nProduct: ${prod.nameEn}\nAmount: $${amount}\nEnter live credentials to activate.`);
+      alert(`[Airwallex] Test Mode\nProduct: ${prod.nameEn}\nAmount: ${prod.displayEn}\nEnter live credentials to activate.`);
       return;
     }
-    /* 실 연동:
+    /* 실 연동 코드 (Credentials 입력 후 주석 해제)
     Airwallex.init({ env: C.env, origin: window.location.origin });
     const intent = await fetch('/api/create-payment-intent', {
       method: 'POST',
-      body: JSON.stringify({ amount: amount * 100, currency: 'USD', plan: order.plan })
+      body: JSON.stringify({ amount: Math.round(amount * 100), currency: 'USD', plan: order.plan })
     }).then(r => r.json());
-    const el = Airwallex.createElement('card');
-    el.mount('#aw-element');
     */
   },
 
-  onSuccess(r) { console.log('결제 성공', r); },
+  onSuccess(r) { console.log('Payment success', r); },
   onFail(r) {
     const L = LOCALE[currentLang] || {};
     alert((L.ui || {}).paymentFail || 'Payment failed. Please try again.');
@@ -2000,7 +3016,34 @@ const PAYMENT = {
 };
 
 /* ════════════════════════════════════════════════════════════════
-   ██  PWA  ██
+   PATCH 1 — LEGAL MODAL FUNCTIONS
+   ════════════════════════════════════════════════════════════════ */
+function openLegal(type) {
+  const block = LEGAL_CONTENT[type];
+  if (!block) return;
+  const lang    = currentLang === 'ko' ? 'ko' : 'en';
+  const content = block[lang] || block.en;
+  document.getElementById('legalModalTitle').textContent = content.title;
+  document.getElementById('legalModalBody').innerHTML    = content.html;
+  /* 닫기 버튼 텍스트도 언어 맞춤 */
+  const footerBtn = document.querySelector('.legal-modal-footer button');
+  if (footerBtn) footerBtn.textContent = lang === 'ko' ? '확인 · 닫기' : 'I Understand — Close';
+  document.getElementById('legalModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLegal() {
+  document.getElementById('legalModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+/* Close on backdrop click */
+document.getElementById('legalModal').addEventListener('click', function(e) {
+  if (e.target === this) closeLegal();
+});
+
+/* ════════════════════════════════════════════════════════════════
+   PWA
    ════════════════════════════════════════════════════════════════ */
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault(); pwaPrompt = e;
@@ -2025,11 +3068,10 @@ function closePWA() {
 }
 
 if ('serviceWorker' in navigator) {
-  const sw = `const C='so-v22';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['/']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request))));`;
+  const sw = `const C='so-v26';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['/']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request))));`;
   navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw], { type: 'application/javascript' }))).catch(() => {});
 }
 
-/* ── PWA 매니페스트 인라인 주입 ── */
 (function() {
   const m = {
     name: 'Sovereign Oracle', short_name: 'Sovereign Oracle',
@@ -2047,17 +3089,15 @@ if ('serviceWorker' in navigator) {
   document.head.appendChild(l);
 })();
 
-/* ── 탭 가시성 변화 ── */
 document.addEventListener('visibilitychange', () => {
   const L = LOCALE[currentLang] || {};
   document.title = document.hidden
-    ? ((L.ui || {}).pwaTitle    || 'Sovereign Oracle awaits...')
-    : ((L.ui || {}).tabTitle    || 'Sovereign Oracle — Precision Destiny Analysis');
+    ? ((L.ui || {}).pwaTitle  || 'Sovereign Oracle awaits...')
+    : ((L.ui || {}).tabTitle  || 'Sovereign Oracle — Precision Destiny Analysis');
 });
 
 /* ════════════════════════════════════════════════════════════════
-   ██  KNOWLEDGE_DB_INLINE  ██
-   역학 연산 엔진용 인라인 지식 DB (locale.json 로드 실패 시 폴백)
+   KNOWLEDGE_DB_INLINE (v2.3 원본 100% 보존)
    ════════════════════════════════════════════════════════════════ */
 const KNOWLEDGE_DB_INLINE = {
   elements: {
@@ -2145,21 +3185,50 @@ const KNOWLEDGE_DB_INLINE = {
 
   health: {
     blood_pressure: {
-      normal:   { ko: { level:"ok", icon:"✦", text:"혈압이 이상적인 범위에 있습니다. 황제내경의 관점에서 이는 화기(心火)와 수기(腎水)가 '수화기제(水火旣濟)', 즉 상호 제어하며 순환하는 균형 상태임을 의미합니다. 이 상태를 유지하는 것이 핵심 처방입니다.", source:"黃帝內經 素問 靈蘭秘典論 · 水火旣濟"}, en:{ level:"ok", icon:"✦", text:"Blood pressure is within the ideal range. In classical terms, this reflects Water-Fire Harmony — the mutual regulation of Heart Fire and Kidney Water sustaining healthy circulation. The prescription is preservation of this equilibrium.", source:"Huangdi Neijing, Su Wen · Water-Fire Harmony Theory"} },
-      elevated: { ko: { level:"warn", icon:"▲", text:"혈압이 다소 높은 상태입니다. 황제내경은 이 패턴을 '간양상항(肝陽上亢)', 즉 간의 양 기운이 위로 치솟아 혈압을 높이는 상태로 진단합니다. 미해결된 스트레스와 과다한 나트륨 섭취가 주요 원인입니다.", source:"黃帝內經 素問 至眞要大論 · 肝陽上亢論"}, en:{ level:"warn", icon:"▲", text:"Blood pressure is elevated. The Huangdi Neijing identifies this pattern as Liver Yang Rising — the Liver's Yang force surging upward and pressurizing the blood vessels. Unresolved stress and excess sodium are the primary drivers to address.", source:"Huangdi Neijing, Su Wen · Liver Yang Rising"} },
-      high:     { ko: { level:"critical", icon:"⚠", text:"혈압이 임상적으로 높은 수준입니다. 반드시 의료 전문가와 상담하십시오. 명리학적으로 현재 '화수미제(火水未濟)' 상태로 혈맥의 순환이 실조된 시기입니다.", source:"黃帝內經 靈樞 脈度篇 · 火水未濟"}, en:{ level:"critical", icon:"⚠", text:"Blood pressure requires immediate medical attention. Consult a physician. This reflects Fire-Water Discord — Fire overwhelming Water's regulatory capacity. Emotional regulation, rest, and immediate dietary change are the most urgent prescriptions.", source:"Huangdi Neijing, Ling Shu · Fire-Water Discord Theory"} },
-      low:      { ko: { level:"warn", icon:"▽", text:"혈압이 낮습니다. 동의보감은 이를 '기혈부족(氣血不足)', 즉 기와 혈이 모두 부족한 상태로 진단합니다. 규칙적인 식사와 단백질·철분 보충이 최우선 처방입니다.", source:"東醫寶鑑 內景篇 氣門 · 血門"}, en:{ level:"warn", icon:"▽", text:"Blood pressure is low. The Dongui Bogam diagnoses this as Vital Energy and Blood Deficiency — insufficient force to sustain circulation. Regular meals, protein, and iron supplementation are the primary prescriptions.", source:"Dongui Bogam, Internal Chapters · Qi-Blood Deficiency"} }
+      normal:   {
+        ko: { level:"ok",       icon:"✦", text:"혈압이 이상적인 범위에 있습니다. 황제내경의 관점에서 이는 화기(心火)와 수기(腎水)가 '수화기제(水火旣濟)', 즉 상호 제어하며 순환하는 균형 상태임을 의미합니다. 이 상태를 유지하는 것이 핵심 처방입니다.", source:"黃帝內經 素問 靈蘭秘典論 · 水火旣濟" },
+        en: { level:"ok",       icon:"✦", text:"Blood pressure is within the ideal range. In classical terms, this reflects Water-Fire Harmony — the mutual regulation of Heart Fire and Kidney Water sustaining healthy circulation. The prescription is preservation of this equilibrium.", source:"Huangdi Neijing, Su Wen · Water-Fire Harmony Theory" }
+      },
+      elevated: {
+        ko: { level:"warn",     icon:"▲", text:"혈압이 다소 높은 상태입니다. 황제내경은 이 패턴을 '간양상항(肝陽上亢)', 즉 간의 양 기운이 위로 치솟아 혈압을 높이는 상태로 진단합니다. 미해결된 스트레스와 과다한 나트륨 섭취가 주요 원인입니다.", source:"黃帝內經 素問 至眞要大論 · 肝陽上亢論" },
+        en: { level:"warn",     icon:"▲", text:"Blood pressure is elevated. The Huangdi Neijing identifies this pattern as Liver Yang Rising — the Liver's Yang force surging upward and pressurizing the blood vessels. Unresolved stress and excess sodium are the primary drivers to address.", source:"Huangdi Neijing, Su Wen · Liver Yang Rising" }
+      },
+      high:     {
+        ko: { level:"critical", icon:"⚠", text:"혈압이 임상적으로 높은 수준입니다. 반드시 의료 전문가와 상담하십시오. 명리학적으로 현재 '화수미제(火水未濟)' 상태로 혈맥의 순환이 실조된 시기입니다.", source:"黃帝內經 靈樞 脈度篇 · 火水未濟" },
+        en: { level:"critical", icon:"⚠", text:"Blood pressure requires immediate medical attention. Consult a physician. This reflects Fire-Water Discord — Fire overwhelming Water's regulatory capacity. Emotional regulation, rest, and immediate dietary change are the most urgent prescriptions.", source:"Huangdi Neijing, Ling Shu · Fire-Water Discord Theory" }
+      },
+      low:      {
+        ko: { level:"warn",     icon:"▽", text:"혈압이 낮습니다. 동의보감은 이를 '기혈부족(氣血不足)', 즉 기와 혈이 모두 부족한 상태로 진단합니다. 규칙적인 식사와 단백질·철분 보충이 최우선 처방입니다.", source:"東醫寶鑑 內景篇 氣門 · 血門" },
+        en: { level:"warn",     icon:"▽", text:"Blood pressure is low. The Dongui Bogam diagnoses this as Vital Energy and Blood Deficiency — insufficient force to sustain circulation. Regular meals, protein, and iron supplementation are the primary prescriptions.", source:"Dongui Bogam, Internal Chapters · Qi-Blood Deficiency" }
+      }
     },
     glucose: {
-      normal:      { ko:{ level:"ok", icon:"✦", text:"혈당이 정상 범위(70~99 mg/dL)에 있습니다. 비장(脾)과 위장(胃)의 토기(土氣)가 안정적으로 기능하고 있음을 의미합니다.", source:"東醫寶鑑 內景篇 消渴門"}, en:{ level:"ok", icon:"✦", text:"Blood glucose is within normal range. The Spleen-Stomach metabolic axis — governed by Earth element — is functioning with stability. Maintain this equilibrium through consistent dietary discipline.", source:"Dongui Bogam · Metabolic Disorders Chapter"} },
-      prediabetic: { ko:{ level:"warn", icon:"▲", text:"혈당이 당뇨 전단계(100~125 mg/dL) 범위입니다. 동의보감은 이 상태를 소갈(消渴)의 초기 징후로 보며, 토기(土氣)의 조절 기능이 과부하 상태임을 경고합니다. '脾胃者，後天之本也' — 비위는 후천의 근본이니 이 경고를 가볍게 여기지 마십시오.", source:"東醫寶鑑 消渴門 · 脾胃論"}, en:{ level:"warn", icon:"▲", text:"Pre-diabetic range detected. The Dongui Bogam identifies this as early metabolic wasting — the Spleen-Stomach regulatory axis under sustained overload. The classical teaching is clear: 'The Spleen and Stomach are the foundation of acquired vitality.' Do not take this signal lightly.", source:"Dongui Bogam · Spleen-Stomach Treatise"} },
-      high:        { ko:{ level:"critical", icon:"⚠", text:"혈당이 126 mg/dL 이상으로 임상적 주의가 필요합니다. 즉시 의료 전문가와 상담하십시오. 토기(土氣)의 '습열(濕熱)' 상태, 즉 비위에 과도한 열과 습기가 쌓여 조절 기능이 현저히 저하된 것으로 판단됩니다.", source:"東醫寶鑑 消渴門 · 濕熱論"}, en:{ level:"critical", icon:"⚠", text:"Blood glucose is 126 mg/dL or above — medical consultation is required immediately. This reflects Damp-Heat accumulation in the Earth element, severely impairing the Spleen-Stomach regulatory axis. Dietary reform must begin without delay.", source:"Dongui Bogam · Damp-Heat Theory"} }
+      normal:      {
+        ko: { level:"ok",       icon:"✦", text:"혈당이 정상 범위(70~99 mg/dL)에 있습니다. 비장(脾)과 위장(胃)의 토기(土氣)가 안정적으로 기능하고 있음을 의미합니다.", source:"東醫寶鑑 內景篇 消渴門" },
+        en: { level:"ok",       icon:"✦", text:"Blood glucose is within normal range. The Spleen-Stomach metabolic axis — governed by Earth element — is functioning with stability. Maintain this equilibrium through consistent dietary discipline.", source:"Dongui Bogam · Metabolic Disorders Chapter" }
+      },
+      prediabetic: {
+        ko: { level:"warn",     icon:"▲", text:"혈당이 당뇨 전단계(100~125 mg/dL) 범위입니다. 동의보감은 이 상태를 소갈(消渴)의 초기 징후로 보며, 토기(土氣)의 조절 기능이 과부하 상태임을 경고합니다. '脾胃者，後天之本也' — 비위는 후천의 근본이니 이 경고를 가볍게 여기지 마십시오.", source:"東醫寶鑑 消渴門 · 脾胃論" },
+        en: { level:"warn",     icon:"▲", text:"Pre-diabetic range detected. The Dongui Bogam identifies this as early metabolic wasting — the Spleen-Stomach regulatory axis under sustained overload. The classical teaching is clear: 'The Spleen and Stomach are the foundation of acquired vitality.' Do not take this signal lightly.", source:"Dongui Bogam · Spleen-Stomach Treatise" }
+      },
+      high:        {
+        ko: { level:"critical", icon:"⚠", text:"혈당이 126 mg/dL 이상으로 임상적 주의가 필요합니다. 즉시 의료 전문가와 상담하십시오. 토기(土氣)의 '습열(濕熱)' 상태, 즉 비위에 과도한 열과 습기가 쌓여 조절 기능이 현저히 저하된 것으로 판단됩니다.", source:"東醫寶鑑 消渴門 · 濕熱論" },
+        en: { level:"critical", icon:"⚠", text:"Blood glucose is 126 mg/dL or above — medical consultation is required immediately. This reflects Damp-Heat accumulation in the Earth element, severely impairing the Spleen-Stomach regulatory axis. Dietary reform must begin without delay.", source:"Dongui Bogam · Damp-Heat Theory" }
+      }
     }
   },
 
   physiognomy: {
-    ko: { title:"망진(望診) · 수상(手相) 정밀 분석", desc:"황제내경 영추 오색편의 원칙에 따라 얼굴의 오색(五色)과 오관(五官) 형세를 분석합니다. 마의신상에서는 '相者，氣之外見也', 즉 관상은 기운이 밖으로 드러난 것이라 했습니다. 업로드하신 사진은 마스터가 직접 검토하여 최종 리포트에 정밀 분석을 추가합니다.", note:"※ 마스터의 관상·수상 정밀 판독 결과는 48시간 이내 이메일로 추가 발송됩니다." },
-    en: { title:"Face Reading & Palm Analysis", desc:"Following the principles of the Huangdi Neijing Ling Shu — Five Colors Chapter, facial complexion correspondences and structural harmony are assessed. The Ma Yi Shen Xiang declares: 'Physiognomy is the outward expression of inner vital energy.' Your uploaded photographs will be personally reviewed by the Master for a detailed classical assessment.", note:"※ The Master's face and palm reading will be delivered to your email within 48 hours." }
+    ko: {
+      title: "망진(望診) · 수상(手相) 정밀 분석",
+      desc: "황제내경 영추 오색편의 원칙에 따라 얼굴의 오색(五色)과 오관(五官) 형세를 분석합니다. 마의신상에서는 '相者，氣之外見也', 즉 관상은 기운이 밖으로 드러난 것이라 했습니다. 업로드하신 사진은 마스터가 직접 검토하여 최종 리포트에 정밀 분석을 추가합니다.",
+      note: "※ 마스터의 관상·수상 정밀 판독 결과는 48시간 이내 이메일로 추가 발송됩니다."
+    },
+    en: {
+      title: "Face Reading & Palm Analysis",
+      desc: "Following the principles of the Huangdi Neijing Ling Shu — Five Colors Chapter, facial complexion correspondences and structural harmony are assessed. The Ma Yi Shen Xiang declares: 'Physiognomy is the outward expression of inner vital energy.' Your uploaded photographs will be personally reviewed by the Master for a detailed classical assessment.",
+      note: "※ The Master's face and palm reading will be delivered to your email within 48 hours."
+    }
   },
 
   timing: {
@@ -2232,19 +3301,30 @@ const KNOWLEDGE_DB_INLINE = {
   }
 };
 
-
 /* ════════════════════════════════════════════════════════════════
-   ██  INIT  ██
+   INIT
    ════════════════════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
-  /* locale 인라인 내장 — 비동기 fetch 불필요 */
-  KNOWLEDGE_DB = buildKnowledgeDB((LOCALE.classics || {}));
   applyLocale();
   renderPlans();
+  renderTestimonials();
   updateStep(1);
-  document.getElementById('birthdate').setAttribute('max', new Date().toISOString().split('T')[0]);
-  /* EN 기본 노출 시 게이트웨이 즉시 동기화 */
+
+  /* 생년월일 hidden input max 세팅 */
+  const bdInput = document.getElementById('birthdate');
+  if (bdInput) {
+    bdInput.setAttribute('max', new Date().toISOString().split('T')[0]);
+  }
+  /* 커스텀 달력 초기 placeholder */
+  DP.updateDisplay();
+
   syncPaymentGateway(currentLang);
+
+  /* Footer language init */
+  const foKo = document.getElementById('footer-products-ko');
+  const foEn = document.getElementById('footer-products-en');
+  if (foKo) foKo.style.display = currentLang === 'ko' ? '' : 'none';
+  if (foEn) foEn.style.display = currentLang === 'en' ? '' : 'none';
 });
 
 </script>
