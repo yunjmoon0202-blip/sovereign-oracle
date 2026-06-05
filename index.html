@@ -293,40 +293,33 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 .plan-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px; margin-bottom: 18px;
+  gap: 10px;
+  margin-bottom: 18px;
 }
 @media(max-width:600px) {
   .plan-grid {
     grid-template-columns: 1fr;
     gap: 8px;
   }
-  .plan-grid .plan-card:last-child {
-    grid-column: auto;
-  }
 }
 .plan-card {
-  border: 1.5px solid rgba(201,168,76,.13); border-radius: 2px;
-  padding: 16px 14px; cursor: pointer; transition: var(--transition);
-  text-align: center; position: relative; background: rgba(0,0,0,.2);
+  border: 1.5px solid rgba(201,168,76,.13);
+  border-radius: 2px;
+  padding: 16px 14px;
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+  position: relative;
+  background: rgba(0,0,0,.2);
+  display: block;
 }
 @media(max-width:600px) {
   .plan-card {
     display: flex;
     align-items: center;
+    gap: 16px;
     text-align: left;
-    gap: 14px;
     padding: 14px 16px;
-  }
-  .plan-card .plan-badge {
-    top: -8px; left: 14px;
-  }
-  .plan-card-left {
-    flex-shrink: 0;
-    min-width: 90px;
-  }
-  .plan-features {
-    flex: 1;
-    margin-top: 0 !important;
   }
 }
 .plan-card:hover    { border-color: rgba(201,168,76,.32); background: rgba(201,168,76,.04); }
@@ -338,6 +331,13 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 .plan-features { list-style: none; margin-top: 8px; display: flex; flex-direction: column; gap: 4px; }
 .plan-features li { font-family: var(--font-display); font-size: 11px; color: var(--text-secondary); line-height: 1.5; word-break: keep-all; text-align: left; }
 .plan-features li::before { content: '◈ '; color: var(--gold-400); font-size: 7px; }
+@media(max-width:600px) {
+  .plan-name  { font-size: 11px; text-align: center; }
+  .plan-price { text-align: center; }
+  .plan-pricesub { text-align: center; display: block; }
+  .plan-features { margin-top: 10px; }
+  .plan-features li { font-size: 12px; }
+}
 
 /* ── Payment Tabs ── */
 .pay-tabs  { display: flex; gap: 0; border: 1px solid rgba(201,168,76,.13); border-radius: 2px; overflow: hidden; margin-bottom: 12px; }
@@ -2488,11 +2488,9 @@ function renderPlans() {
     <div class="plan-card${p.featured ? ' featured' : ''}${p.isSub ? ' sub-plan' : ''}${p.isGift ? ' gift-plan' : ''}${selectedPlan === p.id ? ' selected' : ''}"
          onclick="selectPlan('${p.id}')">
       ${p.badge ? `<div class="plan-badge">${p.badge}</div>` : ''}
-      <div class="plan-card-left" style="text-align:center;min-width:90px;">
-        <div class="plan-name">${p.name}</div>
-        <div class="plan-price">${p.price}</div>
-        <div class="plan-pricesub">${p.pricesub}</div>
-      </div>
+      <div class="plan-name">${p.name}</div>
+      <div class="plan-price">${p.price}</div>
+      <div class="plan-pricesub">${p.pricesub}</div>
       <ul class="plan-features">${p.features.map(f => `<li>${f}</li>`).join('')}</ul>
     </div>`).join('');
 }
