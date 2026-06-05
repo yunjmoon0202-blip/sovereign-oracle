@@ -240,31 +240,37 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 
 .bio-grid  { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
 @media(max-width:400px) { .bio-grid { grid-template-columns: 1fr 1fr; } }
-.bio-field { display: flex; flex-direction: column; gap: 5px; }
+.bio-field { display: flex; flex-direction: column; gap: 5px; align-items: stretch; }
 .bio-input {
   background: rgba(0,0,0,.45); border: 1px solid rgba(201,168,76,.13); border-radius: 2px;
-  padding: 10px 8px; color: var(--text-primary);
+  padding: 12px 8px; color: var(--text-primary);
   font-family: var(--font-body); font-size: 17px;
   text-align: center; outline: none;
   transition: var(--transition); width: 100%;
+  height: 52px;
+  -moz-appearance: textfield;
 }
+.bio-input::-webkit-outer-spin-button,
+.bio-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 .bio-input:focus { border-color: rgba(201,168,76,.42); box-shadow: 0 0 0 3px rgba(201,168,76,.05); }
 .bio-unit { font-family: var(--font-display); font-size: 9px; color: var(--text-muted); text-align: center; letter-spacing: .1em; font-style: italic; }
 
 /* ── Photo Upload ── */
-.photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.photo-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+@media(max-width:480px) { .photo-grid { gap: 6px; } }
 .photo-box  {
-  position: relative; aspect-ratio: 3/4;
+  position: relative; aspect-ratio: 1/1;
   border: 1.5px dashed rgba(201,168,76,.18); border-radius: 2px;
   overflow: hidden; cursor: pointer; transition: var(--transition);
   background: rgba(0,0,0,.3);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  padding: 6px 4px;
 }
 .photo-box:hover                         { border-color: rgba(201,168,76,.4); background: rgba(201,168,76,.03); }
 .photo-box input[type="file"]            { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
-.upload-icon                             { font-size: 26px; color: var(--gold-400); }
-.upload-label                            { font-family: var(--font-display); font-size: 12px; letter-spacing: .1em; color: var(--text-muted); text-align: center; text-transform: uppercase; line-height: 1.5; font-style: italic; }
-.upload-hint                             { font-family: var(--font-display); font-size: 9px; color: var(--text-muted); opacity: .6; text-align: center; }
+.upload-icon                             { font-size: 20px; color: var(--gold-400); }
+.upload-label                            { font-family: var(--font-display); font-size: 10px; letter-spacing: .04em; color: var(--text-muted); text-align: center; text-transform: uppercase; line-height: 1.4; font-style: italic; word-break: keep-all; padding: 0 2px; }
+.upload-hint                             { font-family: var(--font-display); font-size: 8px; color: var(--text-muted); opacity: .6; text-align: center; }
 .photo-preview                           { position: absolute; inset: 0; object-fit: cover; display: none; }
 .photo-preview.visible                   { display: block; }
 .photo-overlay                           { position: absolute; inset: 0; background: rgba(0,0,0,.5); display: none; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 12px; color: var(--gold-200); letter-spacing: .1em; font-style: italic; }
@@ -276,8 +282,20 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 .email-badge     { font-family: var(--font-display); font-size: 9px; letter-spacing: .15em; background: rgba(201,168,76,.12); color: var(--gold-300); padding: 3px 8px; border-radius: 1px; border: 1px solid rgba(201,168,76,.2); text-transform: uppercase; font-style: italic; }
 
 /* ── Plan Cards ── */
-.plan-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 18px; }
-@media(max-width:480px) { .plan-grid { grid-template-columns: 1fr; gap: 8px; } }
+.plan-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 10px; margin-bottom: 18px;
+}
+@media(max-width:600px) {
+  .plan-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+}
+@media(max-width:360px) {
+  .plan-grid { grid-template-columns: 1fr; }
+}
 .plan-card {
   border: 1.5px solid rgba(201,168,76,.13); border-radius: 2px;
   padding: 16px 10px; cursor: pointer; transition: var(--transition);
@@ -286,11 +304,11 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 .plan-card:hover    { border-color: rgba(201,168,76,.32); background: rgba(201,168,76,.04); }
 .plan-card.selected { border-color: var(--gold-300); background: rgba(201,168,76,.07); box-shadow: 0 0 18px rgba(201,168,76,.1); }
 .plan-badge   { position: absolute; top: -9px; left: 50%; transform: translateX(-50%); background: var(--gold-300); color: var(--black-900); font-family: var(--font-display); font-size: 8px; letter-spacing: .14em; padding: 2px 10px; border-radius: 1px; text-transform: uppercase; white-space: nowrap; font-style: italic; }
-.plan-name    { font-family: var(--font-display); font-size: 11px; letter-spacing: .16em; color: var(--gold-200); text-transform: uppercase; margin-bottom: 8px; font-style: italic; }
-.plan-price   { font-family: var(--font-display); font-size: 26px; color: var(--gold-100); font-weight: 400; margin-bottom: 3px; text-shadow: 0 0 20px rgba(255,232,176,.2); }
+.plan-name    { font-family: var(--font-display); font-size: 10px; letter-spacing: .1em; color: var(--gold-200); text-transform: uppercase; margin-bottom: 6px; font-style: italic; word-break: keep-all; line-height: 1.4; }
+.plan-price   { font-family: var(--font-display); font-size: clamp(18px,4vw,26px); color: var(--gold-100); font-weight: 400; margin-bottom: 3px; text-shadow: 0 0 20px rgba(255,232,176,.2); }
 .plan-pricesub { font-family: var(--font-display); font-size: 9px; color: var(--text-muted); letter-spacing: .1em; font-style: italic; }
-.plan-features { list-style: none; margin-top: 10px; display: flex; flex-direction: column; gap: 4px; }
-.plan-features li { font-family: var(--font-display); font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+.plan-features { list-style: none; margin-top: 8px; display: flex; flex-direction: column; gap: 3px; }
+.plan-features li { font-family: var(--font-display); font-size: 10px; color: var(--text-secondary); line-height: 1.5; word-break: keep-all; }
 .plan-features li::before { content: '◈ '; color: var(--gold-400); font-size: 7px; }
 
 /* ── Payment Tabs ── */
