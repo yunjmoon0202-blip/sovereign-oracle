@@ -220,10 +220,18 @@ body  {
 .field-label {
   display: block;
   font-family: var(--font-display);
-  font-size: 13px; letter-spacing: .08em;
+  font-size: 11px; letter-spacing: .04em;
   color: var(--text-muted); text-transform: uppercase; font-style: italic;
   margin-bottom: 7px;
+  word-break: keep-all;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+@media(max-width:480px) {
+  .field-label { font-size: 10px; letter-spacing: .02em; }
+}
+
 .field-input {
   width: 100%;
   background: rgba(0,0,0,.45);
@@ -284,17 +292,23 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 /* ── Plan Cards ── */
 .plan-grid {
   display: grid;
-  grid-template-columns: repeat(3,1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px; margin-bottom: 18px;
 }
+/* 모바일: 2열 기본 */
 @media(max-width:600px) {
   .plan-grid {
     grid-template-columns: 1fr 1fr;
     gap: 8px;
   }
+  /* 5번째 카드(지인분석) 혼자 전체폭 */
+  .plan-grid .plan-card:last-child {
+    grid-column: 1 / -1;
+  }
 }
 @media(max-width:360px) {
   .plan-grid { grid-template-columns: 1fr; }
+  .plan-grid .plan-card:last-child { grid-column: auto; }
 }
 .plan-card {
   border: 1.5px solid rgba(201,168,76,.13); border-radius: 2px;
@@ -1120,22 +1134,22 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
       </div>
       <div class="bio-grid">
         <div class="bio-field">
-          <label class="field-label" for="bp-sys" data-i18n="bpSysLabel">수축기 혈압</label>
+          <label class="field-label" for="bp-sys" data-i18n="bpSysLabel">수축기혈압</label>
           <input type="number" id="bp-sys" class="bio-input" placeholder="120" min="60" max="220">
           <span class="bio-unit">mmHg</span>
         </div>
         <div class="bio-field">
-          <label class="field-label" for="bp-dia" data-i18n="bpDiaLabel">이완기 혈압</label>
+          <label class="field-label" for="bp-dia" data-i18n="bpDiaLabel">이완기혈압</label>
           <input type="number" id="bp-dia" class="bio-input" placeholder="80" min="40" max="140">
           <span class="bio-unit">mmHg</span>
         </div>
         <div class="bio-field">
-          <label class="field-label" for="pulse" data-i18n="pulseLabel">맥박 수</label>
+          <label class="field-label" for="pulse" data-i18n="pulseLabel">맥박수</label>
           <input type="number" id="pulse" class="bio-input" placeholder="72" min="40" max="200">
           <span class="bio-unit">bpm</span>
         </div>
         <div class="bio-field">
-          <label class="field-label" for="glucose" data-i18n="glucoseLabel">혈당 수치</label>
+          <label class="field-label" for="glucose" data-i18n="glucoseLabel">혈당수치</label>
           <input type="number" id="glucose" class="bio-input" placeholder="95" min="50" max="600">
           <span class="bio-unit">mg/dL</span>
         </div>
@@ -1686,10 +1700,10 @@ const LOCALE = {
     "palmLeftLabel": "왼손 손금",
     "photoChange": "변경",
     "photoHint": "카메라 또는 파일",
-    "bpSysLabel": "수축기 혈압",
-    "bpDiaLabel": "이완기 혈압",
-    "pulseLabel": "맥박 수",
-    "glucoseLabel": "혈당 수치",
+    "bpSysLabel": "수축기혈압",
+    "bpDiaLabel": "이완기혈압",
+    "pulseLabel": "맥박수",
+    "glucoseLabel": "혈당수치",
     "weightLabel": "체중",
     "heightLabel": "키",
     "concernLabel": "주요 상담 분야",
