@@ -3502,21 +3502,18 @@ Write each chapter thoroughly to achieve a genuine 6 A4-page equivalent length.
 `;
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    /* Cloudflare Worker를 통해 Claude API 호출 */
+    const response = await fetch('https://sovereign-oracle-api.yunjmoon0202.workers.dev', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 4000,
-        messages: [{ role: 'user', content: prompt }]
-      })
+      body: JSON.stringify({ prompt: prompt })
     });
 
     const data = await response.json();
-    if (data.content && data.content[0]) {
-      return data.content[0].text;
+    if (data.report) {
+      return data.report;
     }
-    throw new Error('API response error');
+    throw new Error(data.error || 'API response error');
   } catch (err) {
     console.error('AI API Error:', err);
     return null;
