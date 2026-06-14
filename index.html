@@ -3413,7 +3413,10 @@ async function generateAIReport(userData) {
   }
   if (userData.pulse) healthInfo.push(isKo ? `맥박: ${userData.pulse}회/분` : `Pulse: ${userData.pulse}bpm`);
 
-  const prompt = isKo ? `
+  const currentYear = new Date().getFullYear();
+const nextYear = currentYear + 1;
+const afterYear = currentYear + 2;
+const prompt = isKo ? `
 당신은 대한민국 최고의 사주명리학 마스터입니다.
 자평진전(子平眞詮), 적천수(滴天髓), 궁통보감(窮通寶鑑), 황제내경(黃帝內經), 마의신상(麻衣神相), 동의보감(東醫寶鑑) 원전에 정통하며, 40년 이상의 실전 경험을 보유한 역술 대가입니다.
 
@@ -3434,10 +3437,10 @@ ${userData.concernText ? `- 구체적 고민: ${userData.concernText}` : ''}
 2. 사주구조 10% / 과거요약 10% / 현재진단 30% / 미래예측 50%
 3. 과거(제2장)는 절대 길게 쓰지 말 것 — 핵심 키워드만
 4. 현재(제2장 50대~현재)와 미래(제3~5장)에 전체 분량의 80%를 집중할 것
-5. 제3장(2026 하반기)과 제4장(2027년)이 리포트의 핵심 —이 두 해는 월별로 모든 분야(재물/사업/인간관계/연애/건강) 빠짐없이 상세히 작성
+5. 제3장(${currentYear} 하반기)과 제4장(${nextYear}년)이 리포트의 핵심 —이 두 해는 월별로 모든 분야(재물/사업/인간관계/연애/건강) 빠짐없이 상세히 작성
 6. 건강/돈/사업/인간관계/연애/부부/가족 모든 분야 균등하게
 7. 각 장마다 고전 원문(한자) + 뜻풀이 + 한자성어 반드시 인용
-8. 2026년과 2027년 분량이 전체 리포트의 40% 이상 차지해야 함
+8. ${currentYear}년과 ${nextYear}년 분량이 전체 리포트의 40% 이상 차지해야 함
 9. 작성일: ${new Date().toLocaleDateString('ko-KR', {year:'numeric',month:'long',day:'numeric'})}
 
 【리포트 구조 — 반드시 이 순서대로】
