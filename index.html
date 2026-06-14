@@ -2667,6 +2667,7 @@ const ENGINE = {
    REPORT RENDERER (v2.3 원본 + PATCH 3 Shield Items 추가)
    ════════════════════════════════════════════════════════════════ */
 function showReport(rpt, ud) {
+  const currentPlan = selectedPlan;
   const L     = LOCALE[currentLang] || {};
   const ui    = L.ui || {};
   const ch    = ui.reportChapters || {};
