@@ -3630,7 +3630,23 @@ ${userData.concernText ? `- 구체적 고민: ${userData.concernText}` : ''}
 
 각 장을 충실하게 A4 8장 분량으로 작성하십시오.
 
-` : `
+` : (isPalmReading ? `
+You are a master of Korean traditional palmistry.
+Please write a detailed Palm Reading report (A4 4 pages) based on:
+- Name: ${userData.name || 'Client'}
+- Date of Birth: ${userData.birthdate} / Age: ${age} / ${gender}
+
+Write analysis for: Life Line, Head Line, Heart Line, Fate Line, Sun Line.
+Include fortune predictions for ${currentYear}~${afterYear}.
+` : isFaceReading ? `
+You are a master of Korean traditional face reading (physiognomy).
+Please write a detailed Face Reading report (A4 4 pages) based on:
+- Name: ${userData.name || 'Client'}  
+- Date of Birth: ${userData.birthdate} / Age: ${age} / ${gender}
+
+Analyze: Forehead, Eyebrows, Eyes, Nose, Mouth, Chin, Ears.
+Include fortune predictions for ${currentYear}~${afterYear}.
+` :
 You are a master of Korean traditional Four Pillars (Saju), palmistry, and face reading (physiognomy).
 You are deeply versed in classical texts including Japyeongjinjeon, Jeokcheonsu, Huangdi Neijing, and Maui Sinsang.
 
