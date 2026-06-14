@@ -2725,7 +2725,7 @@ function showReport(rpt, ud) {
       <div style="font-family:var(--font-display);font-size:11px;letter-spacing:.2em;color:var(--gold-300);text-transform:uppercase;font-style:italic;margin-bottom:10px;">
         ${isEn ? '⚠ Preview Report — Full personalized report delivered to your email after payment' : '⚠ 미리보기 리포트 — 결제 완료 후 정밀 분석 리포트가 이메일로 발송됩니다'}
       </div>
-      <button onclick="PAYMENT.initGateway({plan:'${selectedPlan}'})" style="display:inline-flex;align-items:center;gap:10px;padding:14px 32px;background:linear-gradient(135deg,rgba(201,168,76,.25),rgba(201,168,76,.12));border:2px solid rgba(201,168,76,.6);border-radius:2px;color:var(--gold-100);font-family:var(--font-display);font-size:14px;letter-spacing:.18em;text-transform:uppercase;font-style:italic;cursor:pointer;width:100%;justify-content:center;">
+      <button onclick="PAYMENT.initGateway({${currentPlan}}'})" style="display:inline-flex;align-items:center;gap:10px;padding:14px 32px;background:linear-gradient(135deg,rgba(201,168,76,.25),rgba(201,168,76,.12));border:2px solid rgba(201,168,76,.6);border-radius:2px;color:var(--gold-100);font-family:var(--font-display);font-size:14px;letter-spacing:.18em;text-transform:uppercase;font-style:italic;cursor:pointer;width:100%;justify-content:center;">
         💳 ${isEn ? 'Pay Now & Receive Full Report · ' + (SOVEREIGN_CONFIG[selectedPlan] || SOVEREIGN_CONFIG.productC).displayEn : '지금 결제하고 정밀 리포트 받기 · ' + (SOVEREIGN_CONFIG[selectedPlan] || SOVEREIGN_CONFIG.productC).displayKo}
       </button>
     </div>
@@ -2792,7 +2792,7 @@ function showReport(rpt, ud) {
       </div>
       <div class="rx-items">${curItems}</div>
       <div class="rx-cta-row">
-        <button class="btn-rx-pay" onclick="PAYMENT.initGateway({plan:'${selectedPlan}'})">
+        <button class="btn-rx-pay" onclick="PAYMENT.initGateway({plan:'${currentPlan}'})">
           ${ch.proceedPayment || 'Purchase'}
         </button>
         <button class="btn-rx-consult" onclick="PAYMENT.initGateway({plan:'giftAnalysis'})">
@@ -2886,7 +2886,7 @@ function showSubscriberDashboard(ud) {
     : { fortune:'오늘의 운세', direction:'행운 방향', color:'행운 칼러', workplace:'직장 인간관계', food:'권장 음식', health:'건강 처방' };
 
   const dailyData = generateDailyData(today, birth, isEn);
-
+  const currentPlan = selectedPlan;
   const html = `
     <div class="sub-header">
       <div class="sub-badge"><span class="sub-badge-dot"></span>${isEn ? 'Premium Member' : '프리미엄 구독'}</div>
