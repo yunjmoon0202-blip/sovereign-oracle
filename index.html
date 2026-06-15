@@ -1077,8 +1077,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
       <div class="field-group">
         <label class="field-label" for="gender" data-i18n="genderLabel">Gender</label>
         <select id="gender" class="field-input">
-          <option value="male">Male</option>
-          <option value="female">Female</option>
+          <!-- Options rendered by JS via applyLocale() -->
         </select>
       </div>
     </div>
@@ -2352,17 +2351,19 @@ function applyLocale() {
   /* 커스텀 달력 placeholder 갱신 */
   DP.updateDisplay();
 
+  /* 성별 옵션 — 언어별 렌더 */
+  const genderSel = document.getElementById('gender');
+  if (genderSel && L.ui && L.ui.genderOptions) {
+    const prevGender = genderSel.value;
+    genderSel.innerHTML = L.ui.genderOptions
+      .map(o => `<option value="${o.value}">${o.label}</option>`).join('');
+    if (prevGender) genderSel.value = prevGender;
+  }
+
   /* concern options */
   const concernSel = document.getElementById('concern-area');
   if (concernSel && L.ui && L.ui.concernOptions) {
     concernSel.innerHTML = L.ui.concernOptions
-      .map(o => `<option value="${o.value}">${o.label}</option>`).join('');
-  }
-
-  /* gender options */
-  const genderSel = document.getElementById('gender');
-  if (genderSel && L.ui && L.ui.genderOptions) {
-    genderSel.innerHTML = L.ui.genderOptions
       .map(o => `<option value="${o.value}">${o.label}</option>`).join('');
   }
 
@@ -3346,6 +3347,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const foEn = document.getElementById('footer-products-en');
   if (foKo) foKo.style.display = currentLang === 'ko' ? '' : 'none';
   if (foEn) foEn.style.display = currentLang === 'en' ? '' : 'none';
+  /* footer-biz language init */
+  const bizKo = document.getElementById('footer-biz-ko');
+  const bizEn = document.getElementById('footer-biz-en');
+  if (bizKo) bizKo.style.display = currentLang === 'ko' ? '' : 'none';
+  if (bizEn) bizEn.style.display = currentLang === 'en' ? '' : 'none';
 });
 
 /* ════════════════════════════════════════════════════════════════
@@ -3399,124 +3405,492 @@ async function generateAIReport(userData) {
   if (userData.pulse) healthInfo.push(isKo ? `맥박: ${userData.pulse}회/분` : `Pulse: ${userData.pulse}bpm`);
 
   const currentYear = new Date().getFullYear();
-const nextYear = currentYear + 1;
-const afterYear = currentYear + 2;
-// 플랜별 프롬프트 분기
-const isPalmReading = userData.plan === 'productA';
-const isFaceReading = userData.plan === 'productB';
+  const nextYear = currentYear + 1;
+  const afterYear = currentYear + 2;
+  const todayKo = new Date().toLocaleDateString('ko-KR', {year:'numeric',month:'long',day:'numeric'});
+  const todayEn = new Date().toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
 
-const prompt = isKo ? `
-당신은 대한민국 최고의 사주명리학 마스터입니다.
-자평진전(子平眞詮), 적천수(滴天髓), 궁통보감(窮通寶鑑), 황제내경(黃帝內經), 마의신상(麻衣神相), 동의보감(東醫寶鑑) 원전에 정통하며, 40년 이상의 실전 경험을 보유한 역술 대가입니다.
+  // 플랜별 프롬프트 분기
+  const isPalmReading = userData.plan === 'productA';
+  const isFaceReading = userData.plan === 'productB';
+  const isFourPillars = !isPalmReading && !isFaceReading;
 
-아래 고객 정보를 바탕으로 개인 맞춤 정밀 분석 리포트를 작성하십시오.
+  const birthTimeStr = userData.birthTime ? (isKo ? `출생시각: ${userData.birthTime}` : `Birth Time: ${userData.birthTime}`) : '';
+  const healthStr    = healthInfo.length > 0 ? (isKo ? `건강 지표: ${healthInfo.join(', ')}` : `Health Metrics: ${healthInfo.join(', ')}`) : '';
+  const concernTxt   = userData.concernText ? (isKo ? `구체적 고민: ${userData.concernText}` : `Specific Concern: ${userData.concernText}`) : '';
+
+  /* ══════════════════════════════════════════════
+     수상(손금) 전용 프롬프트 — productA
+  ══════════════════════════════════════════════ */
+  const palmPromptKo = `
+당신은 마의신상(麻衣神相)과 황제내경(黃帝內經) 원전에 정통한 대한민국 최고의 수상(手相) 전문가입니다. 30년 이상 수상 판독만 해온 전문가로서 손금 하나하나의 세부 패턴까지 정밀 분석합니다.
+
+아래 고객 정보를 바탕으로 수상(손금) 정밀 분석 리포트를 작성하십시오.
+
+고객 이름: ${userData.name || '의뢰인'}
+생년월일: ${userData.birthdate} / ${age}세 / ${gender}
+${birthTimeStr}
+주요 고민: ${concern}
+${concernTxt}
+${healthStr}
+작성일: ${todayKo}
+
+핵심 원칙:
+1. 수상(손금) 분석에 90% 집중 — 사주 언급 최소화
+2. 오른손(현생 현실 운세)과 왼손(선천적 기질·잠재력) 구별 분석
+3. 마의신상 원문 인용 필수 (한자 + 한글 해석)
+4. ${currentYear}~${afterYear}년 미래 예측에 70% 집중
+5. 과거 분석 절대 금지, 현재·미래만
+6. 특이한 달만 월별 예측 (매달 쓰지 말 것)
+7. 건강선과 황제내경 연결 분석 필수
+
+리포트 구조:
+# 소버린 오라클 수상(손금) 정밀 분석 리포트
+의뢰인: ${userData.name || '의뢰인'} / ${age}세 / ${gender}
+작성일: ${todayKo}
+
+## 제1장 수상 개요 — 손 전체 기운 판독
+- 손 형태(목/화/토/금/수형 손) 분석
+- 오행 기운과 직업·성격 연결
+- 마의신상 고전 인용: '手者，心之外象也'
+
+## 제2장 생명선(生命線) 정밀 분석
+- 생명력·체력·건강 흐름 판독
+- 약한 구간 / 전환점 시기 예측
+- 황제내경 기혈(氣血) 관점 해석
+
+## 제3장 두뇌선(頭腦線) 정밀 분석
+- 지성·판단력·직업 적성 판독
+- 의사결정 패턴과 성공 전략
+- 사업·직장 적성 구체적 조언
+
+## 제4장 감정선(感情線) 정밀 분석
+- 연애·결혼·인간관계 패턴 판독
+- 이상형과 잘 맞는 상대 유형
+- ${currentYear}~${nextYear}년 연애·부부 운
+
+## 제5장 운명선(運命線) 정밀 분석
+- 인생 전체 흐름과 직업 변화 시기
+- 중년(40~55세)·장년(56~70세)·노년(71세~) 운세
+- 재물 흐름 전환점
+
+## 제6장 ${currentYear}년 하반기 손금 운세
+- 이 시기에 특별히 활성화된 손금 영역
+- 특이한 달만 선택하여 재물/연애/건강 예측
+- 반드시 해야 할 행동 3가지
+
+## 제7장 ${nextYear}년 완전 예측
+- 상반기 / 하반기 구분
+- 재물·사업·연애·건강 분야별 예측
+- ${nextYear}년 최대 기회와 위험 시기
+
+## 제8장 ${afterYear}년 이후 장기 예측
+- 장기 흐름과 운세 전환점
+- 중년·장년·노년 운세 요약
+
+## 제9장 수상 종합 처방
+- 손금이 알려주는 행운의 방향·색상·숫자
+- 건강 처방 (손금 건강선 기반)
+- 지금 당장 해야 할 5가지 행동
+`;
+
+  const palmPromptEn = `
+You are a master palmist trained in the classical tradition of Ma Yi Shen Xiang (麻衣神相) and the Huangdi Neijing (黃帝內經). You have devoted 30+ years exclusively to palm reading, analyzing the subtle micro-patterns that most practitioners miss.
+
+Write a precise palm reading analysis report for this client.
+
+【Client Information】
+- Name: ${userData.name || 'Client'}
+- Date of Birth: ${userData.birthdate} / Age: ${age} / ${gender}
+${birthTimeStr}
+- Primary Concern: ${concern}
+${concernTxt}
+${healthStr}
+- Report Date: ${todayEn}
+
+【Core Principles】
+1. Focus 90% on palm reading — minimal Four Pillars reference
+2. Distinguish Right Hand (present-life fortune & reality) from Left Hand (innate character & potential)
+3. Cite Ma Yi Shen Xiang classical text with interpretation
+4. Focus 70% on future prediction for ${currentYear}–${afterYear}
+5. No past analysis — present and future only
+6. Highlight only notable months in monthly forecasts (do not write every month)
+7. Connect Health Line patterns to Huangdi Neijing organ theory
+
+【Report Structure】
+# ☯ Sovereign Oracle Palm Reading Precision Report
+Client: ${userData.name || 'Client'} / Age ${age} / ${gender}
+Date: ${todayEn}
+
+## Chapter I — Overall Hand Energy Reading
+- Hand shape classification (Wood/Fire/Earth/Metal/Water hand)
+- Five Elements connection to personality and vocation
+- Classical citation: "The hand is the outward image of the heart" — Ma Yi Shen Xiang
+
+## Chapter II — Life Line Precision Analysis
+- Vitality, physical energy, and health arc
+- Weak zones and predicted transition points
+- Huangdi Neijing Qi-Blood interpretation
+
+## Chapter III — Head Line Precision Analysis
+- Intellect, judgment, and vocational aptitude
+- Decision-making patterns and success strategies
+- Career and business suitability
+
+## Chapter IV — Heart Line Precision Analysis
+- Love, marriage, and relationship patterns
+- Ideal partner types and compatibility
+- ${currentYear}–${nextYear} romance and partnership forecast
+
+## Chapter V — Fate Line Precision Analysis
+- Life arc and career transition timing
+- Middle age (40–55) / Later years (56–70) / Elder years (71+) fortune
+- Wealth flow and turning points
+
+## Chapter VI — ${currentYear} Second Half Forecast
+- Active palm zones in this period
+- Notable months only: wealth / love / health predictions
+- 3 essential actions to take now
+
+## Chapter VII — ${nextYear} Complete Forecast
+- First half / Second half breakdown
+- Wealth, career, love, health by domain
+- Peak opportunity and risk periods in ${nextYear}
+
+## Chapter VIII — ${afterYear}+ Long-Term Outlook
+- Long-term fortune arc and major transitions
+- Mid-life, later-life, elder-life summary
+
+## Chapter IX — Comprehensive Palm Prescription
+- Lucky direction, color, number from palm indicators
+- Health prescription based on Health Line reading
+- 5 immediate actions your palm is telling you to take
+`;
+
+  /* ══════════════════════════════════════════════
+     관상 전용 프롬프트 — productB
+  ══════════════════════════════════════════════ */
+  const facePromptKo = `
+당신은 황제내경(黃帝內經) 영추 오색편과 마의신상(麻衣神相)에 정통한 대한민국 최고의 관상(觀相) 전문가입니다. 30년 이상 관상 판독만 전문으로 해온 대가로서 얼굴 하나하나의 세부 형태와 기색(氣色)을 정밀 분석합니다.
+
+아래 고객 정보를 바탕으로 관상(면상) 정밀 분석 리포트를 작성하십시오.
 
 고객 이름: ${userData.name || '의뢰인'}
 생년월일: ${userData.birthdate} / ${age}세 / ${gender}
 주요 고민: ${concern}
-작성일: ${new Date().toLocaleDateString('ko-KR', {year:'numeric',month:'long',day:'numeric'})}
+${concernTxt}
+${healthStr}
+작성일: ${todayKo}
 
 핵심 원칙:
-1. 과거 추측 절대 금지
+1. 관상 분석에 90% 집중 — 사주 언급 최소화
+2. 오관(五官): 눈/코/입/귀/눈썹 각각 정밀 분석
+3. 황제내경 오색(五色)으로 기혈 상태 연결 필수
+4. 마의신상 원문 인용 필수 (한자 + 한글 해석)
+5. ${currentYear}~${afterYear}년 미래 예측에 70% 집중
+6. 특이한 달만 월별 예측 (매달 쓰지 말 것)
+7. 관상으로 보는 건강·장부 분석 포함
+
+리포트 구조:
+# 소버린 오라클 관상(面相) 정밀 분석 리포트
+의뢰인: ${userData.name || '의뢰인'} / ${age}세 / ${gender}
+작성일: ${todayKo}
+
+## 제1장 관상 개요 — 전체 인상 기운 판독
+- 얼굴 형태(목/화/토/금/수형 얼굴) 분석
+- 전체 기운(氣運)과 성격·운명 연결
+- 마의신상 인용: '相者，氣之外見也'
+
+## 제2장 눈(眼) 정밀 분석 — 심성과 운세의 창
+- 눈빛·눈 크기·눈꼬리·쌍꺼풀 형태 분석
+- 황제내경: 눈은 간(肝)의 외상(外象)
+- 연애·사람 보는 능력·직관력 판독
+
+## 제3장 코(鼻) 정밀 분석 — 재물과 의지력
+- 코 높이·콧대·코끝·콧구멍 형태 분석
+- 재물 흐름·사업 판단력·자존감 연결
+- ${currentYear}~${nextYear}년 재물 흐름 예측
+
+## 제4장 입(口) 정밀 분석 — 언변과 복록
+- 입술 두께·입꼬리·치아 형태 분석
+- 언변 능력·인간관계·식복(食福) 판독
+- 대화 스타일과 설득력 분석
+
+## 제5장 귀(耳) 정밀 분석 — 선천 운과 장수
+- 귀 크기·위치·귓불 형태 분석
+- 선천적 수명·건강 기운·초년 운세
+- 가족 관계와 조상 덕 판독
+
+## 제6장 눈썹(眉) 정밀 분석 — 형제·사회 운
+- 눈썹 형태·길이·색깔·간격 분석
+- 형제 운·사회적 성공 패턴
+- 의지력과 리더십 판독
+
+## 제7장 기색(氣色) 분석 — 황제내경 오색 판독
+- 현재 안색(顔色)으로 오장육부 상태 진단
+- 건강 경고 신호 및 강화해야 할 장부
+- 황제내경 영추 오색편 기반 처방
+
+## 제8장 ${currentYear}년 하반기 관상 운세
+- 현재 얼굴에 드러나는 이 시기 기운
+- 특이한 달만 선택하여 재물/연애/건강 예측
+- 반드시 해야 할 행동 3가지
+
+## 제9장 ${nextYear}년 완전 예측
+- 상반기 / 하반기 구분
+- 재물·사업·연애·건강 분야별 예측
+- ${nextYear}년 최대 기회와 위험 시기
+
+## 제10장 관상 종합 처방
+- 관상이 알려주는 행운의 방향·색상·숫자
+- 건강 처방 (오색 기색 기반)
+- 지금 당장 해야 할 5가지 행동
+`;
+
+  const facePromptEn = `
+You are a master physiognomist trained in the Huangdi Neijing Ling Shu — Five Colors Chapter and Ma Yi Shen Xiang (麻衣神相). You have devoted 30+ years exclusively to face reading, decoding the subtle energetic and structural signals that reveal fortune, health, and destiny.
+
+Write a precise face reading analysis report for this client.
+
+【Client Information】
+- Name: ${userData.name || 'Client'}
+- Date of Birth: ${userData.birthdate} / Age: ${age} / ${gender}
+- Primary Concern: ${concern}
+${concernTxt}
+${healthStr}
+- Report Date: ${todayEn}
+
+【Core Principles】
+1. Focus 90% on face reading — minimal Four Pillars reference
+2. Analyze the Five Features (五官): eyes, nose, mouth, ears, eyebrows individually
+3. Connect Huangdi Neijing Five Colors (五色) to Qi-Blood organ states
+4. Cite Ma Yi Shen Xiang classical text with interpretation
+5. Focus 70% on future prediction for ${currentYear}–${afterYear}
+6. Highlight only notable months in monthly forecasts
+7. Include face-based health and organ analysis
+
+【Report Structure】
+# ☯ Sovereign Oracle Face Reading Precision Report
+Client: ${userData.name || 'Client'} / Age ${age} / ${gender}
+Date: ${todayEn}
+
+## Chapter I — Overall Facial Energy Reading
+- Face shape classification (Wood/Fire/Earth/Metal/Water face)
+- Overall energy and personality-destiny connection
+- Classical citation: "Physiognomy is the outward expression of inner vital energy" — Ma Yi Shen Xiang
+
+## Chapter II — Eyes (眼) — The Windows of Heart & Fortune
+- Gaze, size, tail angle, and lid formation analysis
+- Huangdi Neijing: Eyes are the outward expression of the Liver
+- Love intuition, people-reading ability, leadership aura
+
+## Chapter III — Nose (鼻) — Wealth & Willpower
+- Bridge height, tip shape, nostril form analysis
+- Wealth flow, business judgment, self-worth indicators
+- ${currentYear}–${nextYear} wealth trajectory forecast
+
+## Chapter IV — Mouth (口) — Eloquence & Fortune
+- Lip thickness, corner angle, teeth alignment
+- Persuasion ability, social fortune, dietary blessing
+- Communication style and influence
+
+## Chapter V — Ears (耳) — Innate Fortune & Longevity
+- Size, position, and earlobe formation
+- Inherited vitality, longevity indicators, early-life fortune
+- Family karma and ancestral influence
+
+## Chapter VI — Eyebrows (眉) — Social Fortune & Siblings
+- Shape, length, color, and spacing analysis
+- Career and social success patterns
+- Willpower and leadership potential
+
+## Chapter VII — Complexion (氣色) — Five Colors Diagnosis
+- Current skin tone and Qi-Blood organ state assessment
+- Health warning signals and organ reinforcement prescription
+- Based on Huangdi Neijing Ling Shu: Five Colors Chapter
+
+## Chapter VIII — ${currentYear} Second Half Forecast
+- Facial energy active in this period
+- Notable months only: wealth / love / health predictions
+- 3 essential actions to take now
+
+## Chapter IX — ${nextYear} Complete Forecast
+- First half / Second half breakdown
+- Wealth, career, love, health by domain
+- Peak opportunity and risk periods in ${nextYear}
+
+## Chapter X — Comprehensive Face Reading Prescription
+- Lucky direction, color, number from facial indicators
+- Health prescription based on Five Colors complexion
+- 5 immediate actions your face reading reveals
+`;
+
+  /* ══════════════════════════════════════════════
+     사주 / 구독 / 대리 전용 프롬프트 — 기본값
+  ══════════════════════════════════════════════ */
+  const sajuPromptKo = `
+당신은 대한민국 최고의 사주명리학 마스터입니다.
+자평진전(子平眞詮), 적천수(滴天髓), 궁통보감(窮通寶鑑), 황제내경(黃帝內經), 마의신상(麻衣神相), 동의보감(東醫寶鑑) 원전에 정통하며, 40년 이상의 실전 경험을 보유한 역술 대가입니다.
+
+아래 고객 정보를 바탕으로 사주 종합 정밀 분석 리포트를 작성하십시오.
+
+고객 이름: ${userData.name || '의뢰인'}
+생년월일: ${userData.birthdate} / ${age}세 / ${gender}
+${birthTimeStr}
+주요 고민: ${concern}
+${concernTxt}
+${healthStr}
+작성일: ${todayKo}
+
+핵심 원칙:
+1. 과거 분석 절대 금지 — 현재·미래만
 2. ${currentYear}~${afterYear}년 미래 예측에 70% 집중
 3. 모든 한자는 쉬운 한글로 설명
 4. 직장/연인/부부/재물/사업/건강 균등하게
-5. 특이한 달만 월별 예측 (매달 쓰지 말 것)
-6. ${currentYear}년 이후 중년/장년/노년 운세도 포함
-7. 2024/2025년 언급 절대 금지
+5. 특이한 달만 월별 예측 (매달 쓰지 말 것 — 반복 금지)
+6. 중년/장년/노년/말년 운세 흐름 반드시 포함
+7. 고전 인용 시 반드시 한자 + 한글 해석 병기
 
 리포트 구조:
-# 소버린 오라클 정밀 분석 리포트
+# 소버린 오라클 사주 종합 정밀 분석 리포트
 의뢰인: ${userData.name || '의뢰인'} / ${age}세 / ${gender}
-작성일: ${new Date().toLocaleDateString('ko-KR', {year:'numeric',month:'long',day:'numeric'})}
+작성일: ${todayKo}
 
-## 제1장 사주 명반 분석
+## 제1장 사주 명반(命盤) 분석
 - 사주팔자 천간지지 + 쉬운 한글 뜻풀이
-- 오행 분포 (목/화/토/금/수)
+- 오행 분포 (목/화/토/금/수) 강약
 - 용신(내 사주에 가장 이로운 에너지)과 기신 설명
+- 자평진전 고전 인용
 
-## 제2장 현재 상황 진단 (${currentYear}년)
-- 현재 대운 설명 (쉬운 말로)
-- 지금 겪고 있을 주요 상황들
-- ${currentYear}년 지금까지의 흐름
+## 제2장 현재 대운·세운 진단 (${currentYear}년)
+- 현재 대운(10년 주기 큰 흐름) 쉽게 설명
+- ${currentYear}년 세운 에너지 분석
+- 지금 겪고 있을 핵심 상황 3가지
 
-## 제3장 ${currentYear}년 하반기 예측
-- 특이한 달만 선택해서 재물/연애/건강/직업 분야별
+## 제3장 ${currentYear}년 하반기 월별 예측
+- 특이한 달만 선택하여 예측 (전체 달 나열 금지)
+- 각 특이 달: 재물/연애/건강/직업 핵심 포인트
 - 해야 할 일 / 하지 말아야 할 일
 
 ## 제4장 ${nextYear}년 완전 분석
-- 상반기/하반기 구분
-- 재물/사업/연애/부부/가족/건강 분야별
-- ${nextYear}년 최대 기회와 위기 시기
+- 상반기(1~6월) / 하반기(7~12월) 구분
+- 재물·사업·연애·부부·가족·건강 분야별
+- ${nextYear}년 최대 기회의 달과 위기의 달
+- 특이한 달만 선택하여 상세 예측
 
 ## 제5장 ${afterYear}년 이후 장기 운세
-- ${afterYear}년 예측
-- 중년/장년/노년 운세 흐름
+- ${afterYear}년 연간 에너지와 핵심 예측
+- 중년(40~55세) 운세 흐름
+- 장년(56~70세) 운세 흐름
+- 노년·말년(71세~) 운세 흐름
 
-## 제6장 재물 & 사업
-- 돈 버는 방식과 재물 패턴
-- 적합한 직업/사업 분야
+## 제6장 재물 & 사업 운세
+- 돈 버는 방식과 재물 패턴 (용신 기반)
+- 적합한 직업·사업 분야 구체적 제시
+- 재물 피크 시기와 조심 시기
 
 ## 제7장 인간관계 & 연애 & 가족
-- 잘 맞는 유형과 피해야 할 유형
-- 배우자/자녀 관계
+- 잘 맞는 사람 유형과 피해야 할 유형
+- 배우자·자녀 관계 패턴
+- ${currentYear}~${nextYear}년 연애·결혼 운
 
-## 제8장 건강
-- 취약한 장부와 주의할 질환
-- 식이/운동 처방
+## 제8장 건강 분석 — 황제내경·동의보감 처방
+- 사주 오행으로 보는 취약 장부와 주의 질환
+${healthStr ? `- 건강 지표 연동 분석\n` : ''}- 식이·운동·생활 처방 (동의보감 기반)
 
-## 제9장 종합 처방
-- 행운의 색상/방향/숫자/음식
-- 지금 당장 해야 할 일 5가지
-` : `
-You are a master of Korean traditional Four Pillars (Saju), palmistry, and face reading (physiognomy).
-You are deeply versed in classical texts including Japyeongjinjeon, Jeokcheonsu, Huangdi Neijing, and Maui Sinsang.
+## 제9장 종합 처방 — 지금 당장 실천할 것들
+- 행운의 색상·방향·숫자·음식
+- 용신을 강화하는 생활 처방
+- 지금 당장 해야 할 행동 5가지
+`;
 
-Please write a detailed precision analysis report (equivalent to 6 A4 pages) based on the following client information.
+  const sajuPromptEn = `
+You are a grandmaster of Korean classical destiny analysis — Four Pillars (Saju 사주), Five Elements medicine, and classical physiognomy.
+You are deeply versed in Japyeongjinjeon (子平眞詮), Jeokcheonsu (滴天髓), Gungthongbogam (窮通寶鑑), Huangdi Neijing (黃帝內經), Ma Yi Shen Xiang (麻衣神相), and Dongui Bogam (東醫寶鑑).
+
+Write a comprehensive Four Pillars precision analysis report for this client.
 
 【Client Information】
-- Date of Birth: ${userData.birthdate}
-- Age: ${age}
-- Gender: ${gender}
-- Analysis Type: ${plan.en}
+- Name: ${userData.name || 'Client'}
+- Date of Birth: ${userData.birthdate} / Age: ${age} / ${gender}
+${birthTimeStr}
 - Primary Concern: ${concern}
-${userData.birthTime ? `- Birth Time: ${userData.birthTime}` : ''}
-${healthInfo.length > 0 ? `- Health Metrics: ${healthInfo.join(', ')}` : ''}
-${userData.concernText ? `- Specific Concern: ${userData.concernText}` : ''}
+${concernTxt}
+${healthStr}
+- Report Date: ${todayEn}
 
-【Report Guidelines】
-1. Quote classical texts (Japyeongjinjeon, Jeokcheonsu, Huangdi Neijing, Maui Sinsang) with interpretations
-2. Calculate the Four Pillars Heavenly Stems and Earthly Branches from the birth date and analyze Five Elements distribution
-3. Clearly identify the Lucky Element (Yongshin) and Unlucky Element (Gishin)
-4. If health metrics provided, connect them to Five Elements and organ (Jangbu) analysis
-5. Analyze 2025~2026 Grand Fortune (Daewoon) and Annual Fortune (Sewoon) in detail
-6. Provide tailored prescriptions for the concern area (${concern})
-7. Give specific Five Elements dietary, directional, color, number, and career prescriptions
-8. Write in an authoritative tone as if written by a master with decades of experience
+【Core Principles】
+1. No past analysis — present and future only
+2. Focus 70% on future prediction for ${currentYear}–${afterYear}
+3. Highlight only notable months (do not list every month — no repetition)
+4. Include middle age / later years / elder years / twilight years fortune arc
+5. Cite classical texts with original text + interpretation
+6. Write with authority — the voice of a 40-year grandmaster
 
 【Report Structure】
-# ☯ Sovereign Oracle Precision Analysis Report
+# ☯ Sovereign Oracle Four Pillars Comprehensive Report
+Client: ${userData.name || 'Client'} / Age ${age} / ${gender}
+Date: ${todayEn}
 
-## Chapter I — Four Pillars Analysis (Saju & Five Elements)
-[Heavenly Stems & Earthly Branches, Five Elements distribution, Day Master analysis, classical citations]
+## Chapter I — Four Pillars Chart (命盤) Analysis
+- Heavenly Stems & Earthly Branches with meaning
+- Five Elements distribution (Wood/Fire/Earth/Metal/Water) strengths and weaknesses
+- Lucky Element (Yongshin 용신) and Unlucky Element (Gishin) identification
+- Classical citation from Japyeongjinjeon
 
-## Chapter II — Health & Five Elements Medicine Analysis
-[Huangdi Neijing basis, organ analysis, health metrics interpretation, dietary prescription]
+## Chapter II — Current Grand Fortune & Annual Fortune (${currentYear})
+- Current Grand Fortune (Daewoon 대운) explained clearly
+- ${currentYear} Annual Fortune (Sewoon 세운) energy analysis
+- 3 core situations you are likely experiencing now
 
-## Chapter III — Face Reading & Palm Analysis
-[Maui Sinsang citations, facial features analysis, major palm lines analysis]
+## Chapter III — ${currentYear} Second Half Monthly Forecast
+- Notable months only — no exhaustive month-by-month listing
+- For each notable month: wealth / love / health / career key point
+- What to do / What to avoid
 
-## Chapter IV — Fortune & Grand Fortune Analysis (2025~2026)
-[Grand Fortune, Annual Fortune, Monthly Fortune analysis, auspicious/inauspicious periods]
+## Chapter IV — ${nextYear} Complete Analysis
+- First half (Jan–Jun) / Second half (Jul–Dec)
+- Wealth, career, love, marriage, family, health by domain
+- Peak opportunity month and peak risk month in ${nextYear}
+- Notable months only with detailed forecast
 
-## Chapter V — ${concern} Tailored Prescription
-[Specific advice and action plans for the concern area]
+## Chapter V — ${afterYear}+ Long-Term Fortune Arc
+- ${afterYear} annual energy and key predictions
+- Middle years (40–55) fortune trajectory
+- Later years (56–70) fortune trajectory
+- Elder & twilight years (71+) fortune trajectory
 
-## Chapter VI — Comprehensive Five Elements Prescription
-[Lucky Element enhancement, Unlucky Element suppression, color/direction/number/food prescriptions]
+## Chapter VI — Wealth & Career Fortune
+- Wealth-earning pattern based on Lucky Element
+- Specific suitable career and business domains
+- Wealth peak periods and caution periods
 
-Write each chapter thoroughly to achieve a genuine 6 A4-page equivalent length.
+## Chapter VII — Relationships, Love & Family
+- Compatible types and types to avoid
+- Spouse and children relationship patterns
+- ${currentYear}–${nextYear} romance and marriage fortune
+
+## Chapter VIII — Health — Classical Medicine Prescription
+- Vulnerable organs and conditions based on Five Elements chart
+${healthStr ? `- Health metrics cross-analysis\n` : ''}- Dietary, exercise, and lifestyle prescription (Dongui Bogam basis)
+
+## Chapter IX — Comprehensive Prescription — Act Now
+- Lucky color, direction, number, and food
+- Daily practices to strengthen Lucky Element
+- 5 immediate actions to take based on your chart
+
+Write each chapter in depth and authority — this report should feel like a genuine consultation with a grandmaster.
 `;
+
+  // 최종 프롬프트 선택
+  let prompt;
+  if (isPalmReading) {
+    prompt = isKo ? palmPromptKo : palmPromptEn;
+  } else if (isFaceReading) {
+    prompt = isKo ? facePromptKo : facePromptEn;
+  } else {
+    prompt = isKo ? sajuPromptKo : sajuPromptEn;
+  }
 
   try {
     /* Cloudflare Worker를 통해 Claude API 호출 */
