@@ -1278,7 +1278,8 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
   <footer style="border-top:1px solid rgba(255,232,176,.1);margin-top:40px;padding:24px 20px;text-align:center;font-family:'Inter','Noto Sans KR',sans-serif">
     <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:12px">
       <a href="mailto:admin@sovereign-oracle.com" style="color:#A0906E;font-size:12px;text-decoration:none">admin@sovereign-oracle.com</a>
-      <span style="color:#A0906E;font-size:12px"> | 대표: 문윤재 | 사업자등록번호: 242-03-03825 | 전북특별자치도 전주시 완산구 고사평3길 6, 203호</span>
+      <span id="footer-biz-ko" style="color:#A0906E;font-size:12px"> | 대표: 문윤재 | 사업자등록번호: 242-03-03825 | 전북특별자치도 전주시 완산구 고사평3길 6, 203호</span>
+      <span id="footer-biz-en" style="color:#A0906E;font-size:12px;display:none"> | CEO: Moon Yunjae | Business Reg. No: 242-03-03825 | 203, Gosapyeong 3-gil 6, Wansan-gu, Jeonju, Jeonbuk, Korea</span>
       <span style="color:#A0906E;font-size:12px">|</span>
       <span id="footer-products-ko" style="color:#A0906E;font-size:12px">수상 ₩5,000 · 관상 ₩5,000 · 사주(8장) ₩8,000 · 대리분석 ₩8,000 · 월구독 ₩10,000</span>
 <span id="footer-products-en" style="color:#A0906E;font-size:12px;display:none">Palm $4.99 · Face $4.99 · Four Pillars (8p) $7.99 · Proxy $7.99 · Monthly $9.99</span>
@@ -2228,6 +2229,10 @@ function setLang(lang) {
   const en = document.getElementById('footer-products-en');
   if (ko) ko.style.display = lang === 'ko' ? '' : 'none';
   if (en) en.style.display = lang === 'en' ? '' : 'none';
+  const bizKo = document.getElementById('footer-biz-ko');
+  const bizEn = document.getElementById('footer-biz-en');
+  if (bizKo) bizKo.style.display = lang === 'ko' ? '' : 'none';
+  if (bizEn) bizEn.style.display = lang === 'en' ? '' : 'none';
 
   /* 고전 힌트 한/영 교체 */
   const hints = {
