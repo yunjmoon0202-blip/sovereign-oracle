@@ -280,7 +280,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 .upload-icon                             { font-size: 20px; color: var(--gold-400); }
 .upload-label                            { font-family: var(--font-display); font-size: 10px; letter-spacing: .04em; color: var(--text-muted); text-align: center; text-transform: uppercase; line-height: 1.4; font-style: italic; word-break: keep-all; padding: 0 2px; }
 .upload-hint                             { font-family: var(--font-display); font-size: 8px; color: var(--text-muted); opacity: .6; text-align: center; }
-.photo-preview                           { position: absolute; inset: 0; object-fit: cover; display: none; }
+.photo-preview                           { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: none; border-radius: 2px; }
 .photo-preview.visible                   { display: block; }
 .photo-overlay                           { position: absolute; inset: 0; background: rgba(0,0,0,.5); display: none; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 12px; color: var(--gold-200); letter-spacing: .1em; font-style: italic; }
 .photo-preview.visible ~ .photo-overlay { display: flex; }
@@ -1271,7 +1271,30 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
        ═══════════════════════════════════════════ -->
   <div id="view-report" class="report-container"></div>
 
-</div><!-- /app-inner -->
+  <!-- ── AI 추가 상담 채팅창 ── -->
+  <div id="ai-chat-section" style="display:none;max-width:760px;margin:24px auto;padding:0 16px;">
+    <div style="background:rgba(201,168,76,.06);border:1.5px solid rgba(201,168,76,.25);border-radius:4px;padding:24px;">
+      <div style="text-align:center;margin-bottom:20px;">
+        <div style="font-family:'Cormorant Garamond','Noto Serif KR',serif;font-size:18px;color:#c9a84c;letter-spacing:.08em;" id="chat-title">☯ AI 추가 상담</div>
+        <div style="font-size:12px;color:#888;margin-top:6px;" id="chat-subtitle">리포트에서 궁금한 점을 질문해보세요</div>
+      </div>
+      <div id="chat-messages" style="height:320px;overflow-y:auto;background:rgba(0,0,0,.3);border-radius:3px;padding:16px;margin-bottom:16px;display:flex;flex-direction:column;gap:12px;">
+        <div style="background:rgba(201,168,76,.1);border-radius:3px;padding:12px;font-size:13px;color:#c9a84c;font-family:'Cormorant Garamond',serif;line-height:1.7;">
+          ☯ 안녕하세요. 리포트를 바탕으로 추가 질문이 있으시면 무엇이든 물어보세요.
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <input id="chat-input" type="text" 
+          placeholder="질문을 입력하세요..." 
+          style="flex:1;background:rgba(0,0,0,.4);border:1px solid rgba(201,168,76,.2);border-radius:2px;padding:10px 14px;color:#e8d5a3;font-size:13px;font-family:'Inter','Noto Sans KR',sans-serif;outline:none;"
+          onkeydown="if(event.key==='Enter')sendChatMessage()">
+        <button onclick="sendChatMessage()" 
+          style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:2px;padding:10px 18px;color:#c9a84c;font-size:12px;cursor:pointer;font-family:'Cormorant Garamond',serif;letter-spacing:.05em;white-space:nowrap;">
+          전송 ↵
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- ── Footer ── -->
   <footer style="border-top:1px solid rgba(255,232,176,.1);margin-top:40px;padding:24px 20px;text-align:center;font-family:'Inter','Noto Sans KR',sans-serif">
@@ -3999,6 +4022,117 @@ async function generateAndSendReport(userData) {
       ? `<div style="color:#c9a84c;font-size:14px;letter-spacing:.1em;">✅ ${currentLang === 'ko' ? '정밀 분석 리포트가 이메일로 발송되었습니다!' : 'Your precision report has been sent to your email!'}</div><div style="color:#888;font-size:12px;margin-top:8px;">${userData.email}</div>`
       : `<div style="color:#c9a84c;font-size:14px;">⚠ ${currentLang === 'ko' ? '이메일 발송에 실패했습니다. 관리자에게 문의해 주세요.' : 'Email delivery failed. Please contact support.'}</div>`;
     reportEl.prepend(aiBanner);
+  }
+
+  /* 4. AI 채팅 상담창 표시 */
+  const chatSection = document.getElementById('ai-chat-section');
+  if (chatSection) {
+    chatSection.style.display = 'block';
+    // 언어 설정
+    const chatTitle = document.getElementById('chat-title');
+    const chatSubtitle = document.getElementById('chat-subtitle');
+    if (chatTitle) chatTitle.textContent = currentLang === 'ko' ? '☯ AI 추가 상담' : '☯ AI Follow-up Consultation';
+    if (chatSubtitle) chatSubtitle.textContent = currentLang === 'ko' ? '리포트에서 궁금한 점을 질문해보세요' : 'Ask anything about your report';
+    // 채팅 컨텍스트 저장
+    window._chatContext = { userData, aiReport, lang: currentLang };
+    window._chatHistory = [];
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   AI 채팅 상담 함수
+   ════════════════════════════════════════════════════════════ */
+async function sendChatMessage() {
+  const input = document.getElementById('chat-input');
+  const messages = document.getElementById('chat-messages');
+  if (!input || !messages) return;
+
+  const userMsg = input.value.trim();
+  if (!userMsg) return;
+  input.value = '';
+
+  const ctx = window._chatContext || {};
+  const isKo = (ctx.lang || currentLang) === 'ko';
+
+  // 사용자 메시지 표시
+  const userBubble = document.createElement('div');
+  userBubble.style.cssText = 'background:rgba(255,255,255,.05);border-radius:3px;padding:10px 14px;font-size:13px;color:#e8d5a3;text-align:right;';
+  userBubble.textContent = userMsg;
+  messages.appendChild(userBubble);
+  messages.scrollTop = messages.scrollHeight;
+
+  // 로딩 표시
+  const loadingBubble = document.createElement('div');
+  loadingBubble.style.cssText = 'background:rgba(201,168,76,.08);border-radius:3px;padding:10px 14px;font-size:13px;color:#c9a84c;';
+  loadingBubble.textContent = isKo ? '☯ 분석 중...' : '☯ Analyzing...';
+  messages.appendChild(loadingBubble);
+  messages.scrollTop = messages.scrollHeight;
+
+  // 히스토리 업데이트
+  if (!window._chatHistory) window._chatHistory = [];
+  window._chatHistory.push({ role: 'user', content: userMsg });
+
+  // 시스템 프롬프트
+  const systemPrompt = isKo
+    ? `당신은 소버린 오라클의 AI 상담사입니다. 사주명리학, 수상(손금), 관상 전문가로서 아래 고객 리포트를 바탕으로 추가 질문에 답변해주세요.
+
+고객 정보:
+- 이름: ${ctx.userData?.name || '의뢰인'}
+- 생년월일: ${ctx.userData?.birthdate || ''}
+- 성별: ${ctx.userData?.gender || ''}
+- 주요 고민: ${ctx.userData?.concern || ''}
+
+기존 리포트 요약:
+${(ctx.aiReport || '').substring(0, 2000)}
+
+답변 원칙:
+1. 친절하고 전문적으로 답변
+2. 고전 문헌 인용 (자평진전, 황제내경 등)
+3. 구체적이고 실용적인 조언
+4. 200자 이내로 간결하게`
+    : `You are Sovereign Oracle's AI consultant, expert in Four Pillars, palmistry, and physiognomy. Answer follow-up questions based on the client's report below.
+
+Client: ${ctx.userData?.name || 'Client'}, ${ctx.userData?.birthdate || ''}, ${ctx.userData?.gender || ''}
+Concern: ${ctx.userData?.concern || ''}
+
+Report summary:
+${(ctx.aiReport || '').substring(0, 2000)}
+
+Guidelines: Be professional, cite classical texts, give practical advice in under 150 words.`;
+
+  try {
+    const chatMessages = [
+      { role: 'user', content: systemPrompt },
+      ...window._chatHistory.slice(-6)
+    ];
+
+    const response = await fetch('https://sovereign-oracle-api.yunjmoon0202.workers.dev', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: chatMessages })
+    });
+
+    const data = await response.json();
+    const aiReply = data.report || (isKo ? '죄송합니다. 다시 시도해주세요.' : 'Sorry, please try again.');
+
+    // AI 응답 저장
+    window._chatHistory.push({ role: 'assistant', content: aiReply });
+
+    // 로딩 제거 후 응답 표시
+    messages.removeChild(loadingBubble);
+    const aiBubble = document.createElement('div');
+    aiBubble.style.cssText = 'background:rgba(201,168,76,.1);border-radius:3px;padding:12px 14px;font-size:13px;color:#c9a84c;font-family:\'Cormorant Garamond\',serif;line-height:1.7;white-space:pre-wrap;';
+    aiBubble.textContent = '☯ ' + aiReply;
+    messages.appendChild(aiBubble);
+    messages.scrollTop = messages.scrollHeight;
+
+  } catch (err) {
+    messages.removeChild(loadingBubble);
+    const errBubble = document.createElement('div');
+    errBubble.style.cssText = 'background:rgba(255,0,0,.1);border-radius:3px;padding:10px;font-size:12px;color:#f88;';
+    errBubble.textContent = isKo ? '오류가 발생했습니다. 다시 시도해주세요.' : 'Error occurred. Please try again.';
+    messages.appendChild(errBubble);
+    messages.scrollTop = messages.scrollHeight;
   }
 }
 
