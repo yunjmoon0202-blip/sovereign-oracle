@@ -1094,7 +1094,33 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
         <p class="classic-hint-text" id="hint-layer23-text">"얼굴은 오장육부의 거울입니다. 안색은 기혈(氣血)의 상태를 드러내며, 오색(五色)을 살펴 길흉과 운명을 판단합니다. 손금의 무늬는 후천적 삶의 변화를 기록하며, 오른손은 현생의 현실 운세를, 왼손은 선천적 타고난 기질과 잠재력을 담고 있습니다."</p>
         <p class="classic-hint-source" id="hint-layer23-src">— 黃帝內經 靈樞 五色篇 · 麻衣神相 제3권 形神篇</p>
       </div>
-      <div class="photo-grid" style="grid-template-columns:1fr 1fr 1fr;">
+
+      <!-- 손금 가이드 -->
+      <div id="palm-guide" style="margin-bottom:16px;background:rgba(0,0,0,.3);border:1px solid rgba(201,168,76,.15);border-radius:3px;padding:16px;">
+        <div style="text-align:center;font-family:'Cormorant Garamond',serif;font-size:13px;color:#c9a84c;letter-spacing:.05em;margin-bottom:12px;" id="palm-guide-title">☯ 손금 주요 선 안내 — 이 부위를 찍어주세요</div>
+        <svg viewBox="0 0 320 280" style="width:100%;max-width:300px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="160" cy="205" rx="78" ry="68" fill="rgba(201,168,76,.06)" stroke="rgba(201,168,76,.25)" stroke-width="1.5"/>
+          <rect x="100" y="105" width="22" height="68" rx="11" fill="rgba(201,168,76,.06)" stroke="rgba(201,168,76,.2)" stroke-width="1"/>
+          <rect x="128" y="88" width="22" height="84" rx="11" fill="rgba(201,168,76,.06)" stroke="rgba(201,168,76,.2)" stroke-width="1"/>
+          <rect x="156" y="90" width="22" height="82" rx="11" fill="rgba(201,168,76,.06)" stroke="rgba(201,168,76,.2)" stroke-width="1"/>
+          <rect x="184" y="97" width="20" height="74" rx="10" fill="rgba(201,168,76,.06)" stroke="rgba(201,168,76,.2)" stroke-width="1"/>
+          <rect x="210" y="142" width="16" height="50" rx="8" fill="rgba(201,168,76,.06)" stroke="rgba(201,168,76,.2)" stroke-width="1"/>
+          <path d="M 133 158 Q 118 182 113 235" stroke="#e88" stroke-width="2.5" fill="none"/>
+          <path d="M 116 150 Q 158 140 208 150" stroke="#c9a84c" stroke-width="2.5" fill="none"/>
+          <path d="M 118 170 Q 155 167 202 178" stroke="#88aaff" stroke-width="2.5" fill="none"/>
+          <path d="M 158 235 Q 160 192 163 152" stroke="#8c8" stroke-width="2.5" fill="none"/>
+          <text x="78" y="205" fill="#e88" font-size="9" font-family="serif">생명선</text>
+          <text x="210" y="144" fill="#c9a84c" font-size="9" font-family="serif">감정선</text>
+          <text x="210" y="172" fill="#88aaff" font-size="9" font-family="serif">두뇌선</text>
+          <text x="166" y="244" fill="#8c8" font-size="9" font-family="serif">운명선</text>
+        </svg>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:10px;">
+          <span style="font-size:10px;color:#e88;">● 생명선</span>
+          <span style="font-size:10px;color:#c9a84c;">● 감정선</span>
+          <span style="font-size:10px;color:#88aaff;">● 두뇌선</span>
+          <span style="font-size:10px;color:#8c8;">● 운명선</span>
+        </div>
+      </div> style="grid-template-columns:1fr 1fr 1fr;">
         <div class="photo-box">
           <input type="file" id="face-photo" accept="image/*" capture="user"
             onchange="previewPhoto(this,'face-prev')" aria-label="얼굴 이미지 업로드">
