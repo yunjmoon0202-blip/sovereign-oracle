@@ -2533,7 +2533,7 @@ function previewPhoto(input, previewId) {
 /* ════════════════════════════════════════════════════════════════
    DIAGNOSIS FLOW
    ════════════════════════════════════════════════════════════════ */
-function startDiagnosis() {
+async function startDiagnosis() {
   const bd = document.getElementById('birthdate').value;
   const L  = LOCALE[currentLang] || {};
   if (!bd) {
@@ -2545,6 +2545,23 @@ function startDiagnosis() {
     alert(currentLang === 'ko' ? '이메일을 입력해 주세요. 리포트 발송에 필요합니다.' : 'Please enter your email. It is required for report delivery.');
     return;
   }
+
+  /* ── 사진 base64 수집 ── */
+  async function getPhotoBase64(inputId) {
+    const input = document.getElementById(inputId);
+    if (!input || !input.files || !input.files[0]) return null;
+    return new Promise(resolve => {
+      const r = new FileReader();
+      r.onload = e => resolve(e.target.result.split(',')[1]); // base64만 추출
+      r.readAsDataURL(input.files[0]);
+    });
+  }
+
+  const [facePhoto, palmRightPhoto, palmLeftPhoto] = await Promise.all([
+    getPhotoBase64('face-photo'),
+    getPhotoBase64('palm-right-photo'),
+    getPhotoBase64('palm-left-photo')
+  ]);
 
   /* ── 결제 먼저 → Lemon Squeezy 결제 페이지로 이동 ── */
   const userData = {
@@ -2563,7 +2580,10 @@ function startDiagnosis() {
     email:       email,
     plan:        selectedPlan,
     lang:        currentLang,
-    ts:          new Date().toISOString()
+    ts:          new Date().toISOString(),
+    facePhoto:      facePhoto,
+    palmRightPhoto: palmRightPhoto,
+    palmLeftPhoto:  palmLeftPhoto
   };
 
   /* 결제 링크로 이동 */
@@ -3892,12 +3912,35 @@ Write each chapter in depth and authority — this report should feel like a gen
     prompt = isKo ? sajuPromptKo : sajuPromptEn;
   }
 
+  // 사진 메시지 구성
+  let messages;
+  if (isPalmReading && (userData.palmRightPhoto || userData.palmLeftPhoto)) {
+    const content = [];
+    if (userData.palmRightPhoto) {
+      content.push({ type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: userData.palmRightPhoto } });
+      content.push({ type: 'text', text: isKo ? '[위 사진: 오른손 손금]' : '[Above image: Right palm]' });
+    }
+    if (userData.palmLeftPhoto) {
+      content.push({ type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: userData.palmLeftPhoto } });
+      content.push({ type: 'text', text: isKo ? '[위 사진: 왼손 손금]' : '[Above image: Left palm]' });
+    }
+    content.push({ type: 'text', text: prompt });
+    messages = [{ role: 'user', content }];
+  } else if (isFaceReading && userData.facePhoto) {
+    messages = [{ role: 'user', content: [
+      { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: userData.facePhoto } },
+      { type: 'text', text: isKo ? '[위 사진: 의뢰인 얼굴]\n\n' + prompt : '[Above image: Client face]\n\n' + prompt }
+    ]}];
+  } else {
+    messages = [{ role: 'user', content: prompt }];
+  }
+
   try {
     /* Cloudflare Worker를 통해 Claude API 호출 */
     const response = await fetch('https://sovereign-oracle-api.yunjmoon0202.workers.dev', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt: prompt })
+      body: JSON.stringify({ prompt: prompt, messages: messages })
     });
 
     const data = await response.json();
