@@ -2455,7 +2455,7 @@ function applyLocale() {
   }
 
   /* 커스텀 달력 placeholder 갱신 */
-  DP.updateDisplay();
+  try { DP.updateDisplay(); } catch(e) {}
 
   /* 성별 옵션 — 언어별 렌더 */
   const genderSel = document.getElementById('gender');
@@ -4132,6 +4132,7 @@ async function generateAndSendReport(userData) {
     window._chatHistory = [];
     setTimeout(() => chatSection.scrollIntoView({ behavior: 'smooth', block: 'start' }), 500);
   }
+}
 
 /* ════════════════════════════════════════════════════════════
    AI 채팅 상담 함수
