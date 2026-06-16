@@ -265,8 +265,8 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 .bio-unit { font-family: var(--font-display); font-size: 9px; color: var(--text-muted); text-align: center; letter-spacing: .1em; font-style: italic; }
 
 /* ── Photo Upload ── */
-.photo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; max-width: 320px; margin: 0 auto; }
-@media(max-width:480px) { .photo-grid { gap: 5px; max-width: 260px; } }
+.photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 280px; margin: 0 auto; }
+@media(max-width:480px) { .photo-grid { gap: 6px; max-width: 240px; } }
 .photo-box  {
   position: relative; aspect-ratio: 1/1;
   border: 1.5px dashed rgba(201,168,76,.18); border-radius: 2px;
@@ -1026,7 +1026,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
       <span class="layer-tag">Layer 1 · Foundation</span>
       <div class="sec-header">
         <div class="sec-num">I</div>
-        <h2 class="sec-title" data-i18n="sec1Title">Birth Chart Profile</h2>
+        <h2 class="sec-title" data-i18n="sec1Title">사주 기반 데이터</h2>
         <span class="sec-classic">Four Pillars</span>
       </div>
       <div class="classic-hint" id="hint-layer1">
@@ -1069,13 +1069,13 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
         </div>
       </div>
       <div class="field-group">
-        <label class="field-label" for="birth-time" data-i18n="birthTimeLabel">Birth Hour</label>
+        <label class="field-label" for="birth-time" data-i18n="birthTimeLabel">출생 시간 (시주)</label>
         <select id="birth-time" class="field-input">
           <!-- Options rendered by JS via applyLocale() -->
         </select>
       </div>
       <div class="field-group">
-        <label class="field-label" for="gender" data-i18n="genderLabel">Gender</label>
+        <label class="field-label" for="gender" data-i18n="genderLabel">성별</label>
         <select id="gender" class="field-input">
           <!-- Options rendered by JS via applyLocale() -->
         </select>
@@ -1087,7 +1087,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
       <span class="layer-tag">Layer 2·3 · Reading</span>
       <div class="sec-header">
         <div class="sec-num">II</div>
-        <h2 class="sec-title" data-i18n="sec3Title">Face & Palm Reading</h2>
+        <h2 class="sec-title" data-i18n="sec3Title">망진 · 수상 분석</h2>
         <span class="sec-classic">Physiognomy · Palmistry</span>
       </div>
       <div class="classic-hint" id="hint-layer23">
@@ -1096,74 +1096,73 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
       </div>
 
       <!-- 손금 가이드 -->
+      <!-- 손금 가이드 -->
       <div id="palm-guide" style="margin-bottom:16px;background:rgba(0,0,0,.3);border:1px solid rgba(201,168,76,.15);border-radius:3px;padding:14px;">
-        <div style="text-align:center;font-family:'Cormorant Garamond',serif;font-size:13px;color:#c9a84c;letter-spacing:.05em;margin-bottom:10px;" id="palm-guide-title">☯ 손금 주요 선 안내 — 이 부위를 찍어주세요</div>
-        <!-- 손금 안내 다이어그램 -->
-        <div style="display:flex;gap:12px;align-items:flex-start;justify-content:center;">
-          <!-- SVG 손 -->
-          <svg viewBox="0 0 200 260" style="width:140px;flex-shrink:0;" xmlns="http://www.w3.org/2000/svg">
-            <!-- 손바닥 -->
-            <path d="M55 230 Q35 215 33 185 Q30 155 33 130 L35 105 Q36 88 44 85 Q54 82 57 96 L59 118
-                     Q60 96 63 82 Q67 67 77 66 Q88 65 90 80 L91 118
-                     Q92 95 96 80 Q100 65 111 65 Q122 65 123 82 L123 118
-                     Q125 98 130 86 Q135 74 144 77 Q154 80 152 98 L149 125
-                     Q158 115 165 120 Q175 127 170 144 Q165 157 155 160
-                     Q160 172 157 192 Q153 215 142 228 Q124 245 95 246 Q68 244 55 230Z"
-              fill="rgba(201,168,76,.12)" stroke="rgba(201,168,76,.5)" stroke-width="1.5"/>
+        <div style="text-align:center;font-family:'Cormorant Garamond',serif;font-size:13px;color:#c9a84c;letter-spacing:.05em;margin-bottom:10px;" id="palm-guide-title">☯ 손금 주요 선 안내 — 손바닥을 펼쳐서 찍어주세요</div>
+        <div style="display:flex;gap:16px;align-items:flex-start;justify-content:center;">
+          <svg viewBox="0 0 180 240" style="width:130px;flex-shrink:0;" xmlns="http://www.w3.org/2000/svg">
+            <!-- 손바닥 실루엣 (더 자연스러운 형태) -->
+            <path d="
+              M 52 215 Q 36 205 30 182 Q 24 158 27 132 L 28 108
+              Q 29 90 37 86 Q 47 82 50 95 L 52 115
+              Q 53 94 56 80 Q 60 65 70 64 Q 81 63 83 78 L 84 115
+              Q 85 91 89 77 Q 93 62 104 62 Q 115 62 116 78 L 116 112
+              Q 118 93 123 82 Q 128 70 138 73 Q 148 76 146 93 L 143 118
+              Q 152 108 159 113 Q 168 120 163 136 Q 158 149 149 153
+              Q 153 165 150 185 Q 147 205 137 218
+              Q 120 232 95 234 Q 68 233 52 215 Z"
+              fill="rgba(201,168,76,.13)" stroke="rgba(201,168,76,.55)" stroke-width="1.6"/>
             <!-- 엄지 -->
-            <path d="M33 175 Q20 165 18 150 Q16 134 26 127 Q37 121 44 130 L46 148"
-              fill="rgba(201,168,76,.1)" stroke="rgba(201,168,76,.4)" stroke-width="1.2"/>
-            <!-- 생명선 — 엄지 감싸는 호 -->
-            <path d="M72 122 Q57 142 53 170 Q49 198 54 220" stroke="#ff6666" stroke-width="3" fill="none" stroke-linecap="round"/>
-            <!-- 감정선 — 윗 가로선 -->
-            <path d="M44 130 Q80 116 115 120 Q138 123 152 132" stroke="#ffcc44" stroke-width="3" fill="none" stroke-linecap="round"/>
-            <!-- 두뇌선 — 아래 가로선 -->
-            <path d="M48 148 Q82 138 115 141 Q140 144 155 153" stroke="#6699ff" stroke-width="3" fill="none" stroke-linecap="round"/>
-            <!-- 운명선 — 세로 중앙 -->
-            <path d="M106 230 Q105 200 106 175 Q107 155 108 135" stroke="#44cc88" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M 27 160 Q 14 150 12 136 Q 10 120 20 113 Q 30 107 37 116 L 39 135"
+              fill="rgba(201,168,76,.1)" stroke="rgba(201,168,76,.4)" stroke-width="1.3"/>
+            <!-- 손가락 마디 구분선들 -->
+            <line x1="38" y1="98" x2="48" y2="96" stroke="rgba(201,168,76,.2)" stroke-width="0.8"/>
+            <line x1="71" y1="82" x2="80" y2="81" stroke="rgba(201,168,76,.2)" stroke-width="0.8"/>
+            <line x1="100" y1="78" x2="109" y2="78" stroke="rgba(201,168,76,.2)" stroke-width="0.8"/>
+            <line x1="129" y1="84" x2="137" y2="86" stroke="rgba(201,168,76,.2)" stroke-width="0.8"/>
+            <!-- 생명선: 엄지와 검지 사이에서 손목 방향으로 휘어지는 호 -->
+            <path d="M 65 108 Q 50 128 46 155 Q 42 178 46 205"
+              stroke="#ff5555" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- 감정선: 새끼 손가락 아래에서 검지 방향으로 -->
+            <path d="M 37 118 Q 68 106 100 109 Q 122 111 138 120 Q 146 125 148 133"
+              stroke="#ffcc00" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- 두뇌선: 생명선 시작점 근처에서 새끼 방향으로 -->
+            <path d="M 42 132 Q 72 122 104 125 Q 128 128 144 138"
+              stroke="#5588ff" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- 운명선: 손목 중앙에서 중지 방향으로 세로로 -->
+            <path d="M 97 222 Q 96 192 97 168 Q 98 148 100 130 Q 101 116 102 106"
+              stroke="#44dd88" stroke-width="2.5" fill="none" stroke-linecap="round"/>
             <!-- 엄지/새끼 라벨 -->
-            <text x="8" y="152" fill="#c9a84c" font-size="8" font-family="serif" id="pg-thumb">엄지</text>
-            <text x="150" y="82" fill="#c9a84c" font-size="8" font-family="serif" id="pg-pinky">새끼</text>
+            <text x="5" y="140" fill="rgba(201,168,76,.7)" font-size="7.5" font-family="serif" id="pg-thumb">엄지</text>
+            <text x="138" y="78" fill="rgba(201,168,76,.7)" font-size="7.5" font-family="serif" id="pg-pinky">새끼</text>
+            <!-- 화살표로 각 선 가리키기 -->
+            <line x1="42" y1="168" x2="50" y2="162" stroke="#ff5555" stroke-width="0.8"/>
+            <text x="18" y="172" fill="#ff5555" font-size="7.5" font-family="serif" font-weight="bold" id="pg-life">생명선</text>
+            <line x1="146" y1="120" x2="140" y2="123" stroke="#ffcc00" stroke-width="0.8"/>
+            <text x="148" y="118" fill="#ffcc00" font-size="7.5" font-family="serif" font-weight="bold" id="pg-heart">감정선</text>
+            <line x1="146" y1="136" x2="140" y2="138" stroke="#5588ff" stroke-width="0.8"/>
+            <text x="148" y="138" fill="#5588ff" font-size="7.5" font-family="serif" font-weight="bold" id="pg-head">두뇌선</text>
+            <line x1="100" y1="226" x2="106" y2="222" stroke="#44dd88" stroke-width="0.8"/>
+            <text x="108" y="228" fill="#44dd88" font-size="7.5" font-family="serif" font-weight="bold" id="pg-fate">운명선</text>
           </svg>
           <!-- 범례 -->
-          <div style="display:flex;flex-direction:column;gap:8px;padding-top:20px;">
-            <div style="display:flex;align-items:center;gap:6px;">
-              <div style="width:24px;height:3px;background:#ff6666;border-radius:2px;"></div>
-              <span style="font-size:10px;color:#ff6666;font-family:serif;" id="pg-life">생명선</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:6px;">
-              <div style="width:24px;height:3px;background:#ffcc44;border-radius:2px;"></div>
-              <span style="font-size:10px;color:#ffcc44;font-family:serif;" id="pg-heart">감정선</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:6px;">
-              <div style="width:24px;height:3px;background:#6699ff;border-radius:2px;"></div>
-              <span style="font-size:10px;color:#6699ff;font-family:serif;" id="pg-head">두뇌선</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:6px;">
-              <div style="width:24px;height:3px;background:#44cc88;border-radius:2px;"></div>
-              <span style="font-size:10px;color:#44cc88;font-family:serif;" id="pg-fate">운명선</span>
-            </div>
-            <div style="font-size:9px;color:#666;margin-top:4px;line-height:1.5;" id="pg-leg1">손바닥이<br>잘 보이게<br>촬영해주세요</div>
+          <div style="display:flex;flex-direction:column;gap:10px;padding-top:28px;">
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:20px;height:3px;background:#ff5555;border-radius:2px;flex-shrink:0;"></div><span style="font-size:10px;color:#ff5555;font-family:serif;" id="pg-leg1">생명선<br><span style="font-size:8px;color:#666;">생명력·건강</span></span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:20px;height:3px;background:#ffcc00;border-radius:2px;flex-shrink:0;"></div><span style="font-size:10px;color:#ffcc00;font-family:serif;" id="pg-leg2">감정선<br><span style="font-size:8px;color:#666;">연애·관계</span></span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:20px;height:3px;background:#5588ff;border-radius:2px;flex-shrink:0;"></div><span style="font-size:10px;color:#5588ff;font-family:serif;" id="pg-leg3">두뇌선<br><span style="font-size:8px;color:#666;">지성·직업</span></span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:20px;height:3px;background:#44dd88;border-radius:2px;flex-shrink:0;"></div><span style="font-size:10px;color:#44dd88;font-family:serif;" id="pg-leg4">운명선<br><span style="font-size:8px;color:#666;">재물·운명</span></span></div>
           </div>
         </div>
       </div>
+
       <div class="photo-grid">
-        <div class="photo-box">
-          <input type="file" id="face-photo" accept="image/*" capture="user"
-            onchange="previewPhoto(this,'face-prev')" aria-label="얼굴 이미지 업로드">
-          <img class="photo-preview" id="face-prev" src="" alt="">
-          <div class="photo-overlay" data-i18n="photoChange">변경</div>
-          <div class="upload-icon">◉</div>
-          <span class="upload-label" data-i18n="faceLabel">얼굴 이미지</span>
-          <span class="upload-hint" data-i18n="photoHint">카메라 또는 파일</span>
-        </div>
         <div class="photo-box">
           <input type="file" id="palm-right-photo" accept="image/*" capture="environment"
             onchange="previewPhoto(this,'palm-right-prev')" aria-label="오른손 업로드">
           <img class="photo-preview" id="palm-right-prev" src="" alt="">
           <div class="photo-overlay" data-i18n="photoChange">변경</div>
           <div class="upload-icon">✋</div>
-          <span class="upload-label" data-i18n="palmRightLabel">오른손 손금</span>
+          <span class="upload-label" data-i18n="palmRightLabel">오른손</span>
           <span class="upload-hint" data-i18n="photoHint">카메라 또는 파일</span>
         </div>
         <div class="photo-box">
@@ -1172,29 +1171,20 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
           <img class="photo-preview" id="palm-left-prev" src="" alt="">
           <div class="photo-overlay" data-i18n="photoChange">변경</div>
           <div class="upload-icon">🤚</div>
-          <span class="upload-label" data-i18n="palmLeftLabel">왼손 손금</span>
+          <span class="upload-label" data-i18n="palmLeftLabel">왼손</span>
           <span class="upload-hint" data-i18n="photoHint">카메라 또는 파일</span>
         </div>
         <div class="photo-box">
-          <input type="file" id="body-photo" accept="image/*" capture="environment"
-            onchange="previewPhoto(this,'body-prev')" aria-label="전신 업로드">
-          <img class="photo-preview" id="body-prev" src="" alt="">
+          <input type="file" id="face-photo" accept="image/*" capture="user"
+            onchange="previewPhoto(this,'face-prev')" aria-label="얼굴 이미지 업로드">
+          <img class="photo-preview" id="face-prev" src="" alt="">
           <div class="photo-overlay" data-i18n="photoChange">변경</div>
-          <div class="upload-icon">🧍</div>
-          <span class="upload-label" id="bodyPhotoLabel">전신</span>
+          <div class="upload-icon">◉</div>
+          <span class="upload-label" data-i18n="faceLabel">얼굴</span>
           <span class="upload-hint" data-i18n="photoHint">카메라 또는 파일</span>
         </div>
       </div>
     </div>
-
-    <!-- LAYER 4+5: Biometrics -->
-    <div class="form-section">
-      <span class="layer-tag">Layer 4·5 · Biometrics</span>
-      <div class="sec-header">
-        <div class="sec-num">III</div>
-        <h2 class="sec-title" data-i18n="sec2Title">Biometric Vitality Index</h2>
-        <span class="sec-classic">Biometrics</span>
-      </div>
       <div class="classic-hint" id="hint-layer45">
         <p class="classic-hint-text" id="hint-layer45-text">"토기(土氣)는 소화·대사 기능의 축을 주관합니다. 토기의 실조는 소갈(消渴), 즉 현대 대사 질환의 전조를 낳습니다. 화수(火水)의 불균형은 혈맥의 압력 이상으로 드러납니다."</p>
         <p class="classic-hint-source" id="hint-layer45-src">— 東醫寶鑑 內景篇 消渴門 · 五臟六腑篇</p>
@@ -1283,7 +1273,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
     <div class="form-section">
       <div class="sec-header">
         <div class="sec-num">V</div>
-        <h2 class="sec-title" data-i18n="sec5Title">Choose Your Reading</h2>
+        <h2 class="sec-title" data-i18n="sec5Title">리포트 플랜 선택</h2>
       </div>
       <div class="plan-grid" id="planGrid"></div>
 
