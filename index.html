@@ -265,8 +265,8 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
 .bio-unit { font-family: var(--font-display); font-size: 9px; color: var(--text-muted); text-align: center; letter-spacing: .1em; font-style: italic; }
 
 /* ── Photo Upload ── */
-.photo-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; max-width: 280px; margin: 0 auto; }
-@media(max-width:480px) { .photo-grid { gap: 6px; max-width: 240px; } }
+.photo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; max-width: 320px; margin: 0 auto; }
+@media(max-width:480px) { .photo-grid { gap: 5px; max-width: 260px; } }
 .photo-box  {
   position: relative; aspect-ratio: 1/1;
   border: 1.5px dashed rgba(201,168,76,.18); border-radius: 2px;
@@ -1098,107 +1098,55 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
       <!-- 손금 가이드 -->
       <div id="palm-guide" style="margin-bottom:16px;background:rgba(0,0,0,.3);border:1px solid rgba(201,168,76,.15);border-radius:3px;padding:14px;">
         <div style="text-align:center;font-family:'Cormorant Garamond',serif;font-size:13px;color:#c9a84c;letter-spacing:.05em;margin-bottom:10px;" id="palm-guide-title">☯ 손금 주요 선 안내 — 이 부위를 찍어주세요</div>
-        <svg viewBox="0 0 280 360" style="width:100%;max-width:220px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg">
-          <!-- 손바닥 전체 실루엣 -->
-          <path d="
-            M 90 330
-            Q 60 320 52 290 Q 44 255 48 220 Q 50 195 54 175
-            L 56 145 Q 57 118 62 108 Q 68 96 80 96 Q 92 96 95 110 L 97 135
-            Q 97 108 100 92 Q 104 76 116 75 Q 128 74 132 90 L 134 135
-            Q 134 105 138 90 Q 143 74 156 74 Q 170 74 172 92 L 172 132
-            Q 174 108 180 96 Q 186 82 198 85 Q 210 88 210 106 L 206 140
-            Q 218 128 228 134 Q 242 142 236 162 Q 230 178 216 182
-            Q 222 200 218 225 Q 213 255 200 278 Q 185 305 162 318 Q 130 332 90 330 Z"
-            fill="rgba(201,168,76,.1)" stroke="rgba(201,168,76,.4)" stroke-width="1.8"/>
-
-          <!-- 손가락 관절 주름 -->
-          <line x1="68" y1="122" x2="80" y2="120" stroke="rgba(201,168,76,.15)" stroke-width="1"/>
-          <line x1="108" y1="105" x2="122" y2="104" stroke="rgba(201,168,76,.15)" stroke-width="1"/>
-          <line x1="142" y1="102" x2="156" y2="101" stroke="rgba(201,168,76,.15)" stroke-width="1"/>
-          <line x1="174" y1="105" x2="186" y2="107" stroke="rgba(201,168,76,.15)" stroke-width="1"/>
-
-          <!-- 생명선 - 엄지 주위를 감싸는 호 -->
-          <path d="M 104 148 Q 86 170 80 200 Q 74 230 78 268 Q 80 285 88 300"
-            stroke="#e66" stroke-width="2.8" fill="none" stroke-linecap="round"/>
-
-          <!-- 감정선 - 손가락 아래 가로로 길게 -->
-          <path d="M 68 155 Q 100 140 140 142 Q 172 144 200 155 Q 212 160 218 168"
-            stroke="#c9a84c" stroke-width="2.8" fill="none" stroke-linecap="round"/>
-
-          <!-- 두뇌선 - 감정선 아래, 중간 가로 -->
-          <path d="M 74 172 Q 108 163 145 166 Q 175 169 200 180"
-            stroke="#7799ff" stroke-width="2.8" fill="none" stroke-linecap="round"/>
-
-          <!-- 운명선 - 손바닥 중앙 세로 -->
-          <path d="M 148 308 Q 146 270 148 240 Q 150 210 152 185 Q 154 165 156 150"
-            stroke="#55cc88" stroke-width="2.8" fill="none" stroke-linecap="round"/>
-
-          <!-- 태양선 (소지 아래) -->
-          <path d="M 190 308 Q 188 280 186 255 Q 184 232 186 210"
-            stroke="#ffaa44" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-dasharray="4,3"/>
-
-          <!-- 라벨 화살표 + 텍스트 -->
-          <line x1="74" y1="242" x2="90" y2="228" stroke="#e66" stroke-width="1"/>
-          <text x="44" y="248" fill="#e66" font-size="9.5" font-family="serif" font-weight="bold" id="pg-life">생명선</text>
-
-          <line x1="214" y1="150" x2="202" y2="156" stroke="#c9a84c" stroke-width="1"/>
-          <text x="216" y="148" fill="#c9a84c" font-size="9.5" font-family="serif" font-weight="bold" id="pg-heart">감정선</text>
-
-          <line x1="202" y1="175" x2="202" y2="180" stroke="#7799ff" stroke-width="1"/>
-          <text x="206" y="175" fill="#7799ff" font-size="9.5" font-family="serif" font-weight="bold" id="pg-head">두뇌선</text>
-
-          <line x1="154" y1="312" x2="162" y2="308" stroke="#55cc88" stroke-width="1"/>
-          <text x="164" y="314" fill="#55cc88" font-size="9.5" font-family="serif" font-weight="bold" id="pg-fate">운명선</text>
-
-          <!-- 엄지/새끼 표시 -->
-          <text x="26" y="148" fill="rgba(201,168,76,.65)" font-size="9" font-family="serif" id="pg-thumb">엄지 →</text>
-          <text x="188" y="94" fill="rgba(201,168,76,.65)" font-size="9" font-family="serif" id="pg-pinky">← 새끼</text>
-        </svg>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:8px;">
-          <span style="font-size:10px;color:#e66;" id="pg-leg1">● 생명선</span>
-          <span style="font-size:10px;color:#c9a84c;" id="pg-leg2">● 감정선</span>
-          <span style="font-size:10px;color:#7799ff;" id="pg-leg3">● 두뇌선</span>
-          <span style="font-size:10px;color:#55cc88;" id="pg-leg4">● 운명선</span>
-          <span style="font-size:10px;color:#ffaa44;" id="pg-leg5">● 태양선</span>
+        <!-- 손금 안내 다이어그램 -->
+        <div style="display:flex;gap:12px;align-items:flex-start;justify-content:center;">
+          <!-- SVG 손 -->
+          <svg viewBox="0 0 200 260" style="width:140px;flex-shrink:0;" xmlns="http://www.w3.org/2000/svg">
+            <!-- 손바닥 -->
+            <path d="M55 230 Q35 215 33 185 Q30 155 33 130 L35 105 Q36 88 44 85 Q54 82 57 96 L59 118
+                     Q60 96 63 82 Q67 67 77 66 Q88 65 90 80 L91 118
+                     Q92 95 96 80 Q100 65 111 65 Q122 65 123 82 L123 118
+                     Q125 98 130 86 Q135 74 144 77 Q154 80 152 98 L149 125
+                     Q158 115 165 120 Q175 127 170 144 Q165 157 155 160
+                     Q160 172 157 192 Q153 215 142 228 Q124 245 95 246 Q68 244 55 230Z"
+              fill="rgba(201,168,76,.12)" stroke="rgba(201,168,76,.5)" stroke-width="1.5"/>
+            <!-- 엄지 -->
+            <path d="M33 175 Q20 165 18 150 Q16 134 26 127 Q37 121 44 130 L46 148"
+              fill="rgba(201,168,76,.1)" stroke="rgba(201,168,76,.4)" stroke-width="1.2"/>
+            <!-- 생명선 — 엄지 감싸는 호 -->
+            <path d="M72 122 Q57 142 53 170 Q49 198 54 220" stroke="#ff6666" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <!-- 감정선 — 윗 가로선 -->
+            <path d="M44 130 Q80 116 115 120 Q138 123 152 132" stroke="#ffcc44" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <!-- 두뇌선 — 아래 가로선 -->
+            <path d="M48 148 Q82 138 115 141 Q140 144 155 153" stroke="#6699ff" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <!-- 운명선 — 세로 중앙 -->
+            <path d="M106 230 Q105 200 106 175 Q107 155 108 135" stroke="#44cc88" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <!-- 엄지/새끼 라벨 -->
+            <text x="8" y="152" fill="#c9a84c" font-size="8" font-family="serif" id="pg-thumb">엄지</text>
+            <text x="150" y="82" fill="#c9a84c" font-size="8" font-family="serif" id="pg-pinky">새끼</text>
+          </svg>
+          <!-- 범례 -->
+          <div style="display:flex;flex-direction:column;gap:8px;padding-top:20px;">
+            <div style="display:flex;align-items:center;gap:6px;">
+              <div style="width:24px;height:3px;background:#ff6666;border-radius:2px;"></div>
+              <span style="font-size:10px;color:#ff6666;font-family:serif;" id="pg-life">생명선</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <div style="width:24px;height:3px;background:#ffcc44;border-radius:2px;"></div>
+              <span style="font-size:10px;color:#ffcc44;font-family:serif;" id="pg-heart">감정선</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <div style="width:24px;height:3px;background:#6699ff;border-radius:2px;"></div>
+              <span style="font-size:10px;color:#6699ff;font-family:serif;" id="pg-head">두뇌선</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <div style="width:24px;height:3px;background:#44cc88;border-radius:2px;"></div>
+              <span style="font-size:10px;color:#44cc88;font-family:serif;" id="pg-fate">운명선</span>
+            </div>
+            <div style="font-size:9px;color:#666;margin-top:4px;line-height:1.5;" id="pg-leg1">손바닥이<br>잘 보이게<br>촬영해주세요</div>
+          </div>
         </div>
       </div>
-          <!-- 손바닥 -->
-          <path d="M 80 280 Q 60 260 58 220 Q 56 180 60 150 Q 64 130 72 120 L 78 100 Q 80 80 90 78 Q 100 76 102 90 L 104 118
-                   Q 106 95 108 82 Q 110 68 120 66 Q 132 64 134 80 L 136 118
-                   Q 138 92 140 78 Q 142 64 154 64 Q 166 64 168 80 L 168 118
-                   Q 170 96 174 84 Q 178 72 188 74 Q 200 76 200 92 L 198 130
-                   Q 210 118 220 122 Q 234 128 228 148 Q 222 164 210 168
-                   Q 218 180 216 200 Q 214 230 206 258 Q 196 288 180 295 Q 150 305 120 298 Q 90 290 80 280 Z"
-                fill="rgba(201,168,76,.09)" stroke="rgba(201,168,76,.35)" stroke-width="1.5"/>
-          <!-- 엄지 별도 -->
-          <path d="M 60 200 Q 44 190 40 172 Q 36 152 48 142 Q 60 132 72 142 L 76 160"
-                fill="rgba(201,168,76,.09)" stroke="rgba(201,168,76,.3)" stroke-width="1.5"/>
-          <!-- 손금 선들 -->
-          <!-- 생명선 (빨간) - 엄지 아래 호 -->
-          <path d="M 100 140 Q 84 170 82 210 Q 80 240 90 265" stroke="#e77" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-          <!-- 감정선 (금색) - 손가락 아래 가로선 -->
-          <path d="M 76 148 Q 120 134 170 142 Q 190 146 204 152" stroke="#c9a84c" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-          <!-- 두뇌선 (파란) - 중간 가로선 -->
-          <path d="M 82 168 Q 120 160 160 165 Q 190 168 208 178" stroke="#88aaff" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-          <!-- 운명선 (초록) - 세로 중앙선 -->
-          <path d="M 142 270 Q 140 230 142 195 Q 144 165 148 148" stroke="#6c8" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-          <!-- 라벨들 -->
-          <text x="54" y="228" fill="#e77" font-size="9" font-family="serif" id="pg-life">생명선</text>
-          <text x="206" y="145" fill="#c9a84c" font-size="9" font-family="serif" id="pg-heart">감정선</text>
-          <text x="210" y="172" fill="#88aaff" font-size="9" font-family="serif" id="pg-head">두뇌선</text>
-          <text x="148" y="290" fill="#6c8" font-size="9" font-family="serif" id="pg-fate">운명선</text>
-          <!-- 엄지/새끼 -->
-          <text x="30" y="175" fill="rgba(201,168,76,.7)" font-size="9" font-family="serif" id="pg-thumb">엄지</text>
-          <text x="196" y="108" fill="rgba(201,168,76,.7)" font-size="9" font-family="serif" id="pg-pinky">새끼</text>
-        </svg>
-        <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px;">
-          <span style="font-size:10px;color:#e77;" id="pg-leg1">● 생명선 — 생명력·건강</span>
-          <span style="font-size:10px;color:#c9a84c;" id="pg-leg2">● 감정선 — 연애·관계</span>
-          <span style="font-size:10px;color:#88aaff;" id="pg-leg3">● 두뇌선 — 지성·직업</span>
-          <span style="font-size:10px;color:#6c8;" id="pg-leg4">● 운명선 — 재물·운명</span>
-        </div>
-      </div>
-
       <div class="photo-grid">
         <div class="photo-box">
           <input type="file" id="face-photo" accept="image/*" capture="user"
@@ -1225,6 +1173,15 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
           <div class="photo-overlay" data-i18n="photoChange">변경</div>
           <div class="upload-icon">🤚</div>
           <span class="upload-label" data-i18n="palmLeftLabel">왼손 손금</span>
+          <span class="upload-hint" data-i18n="photoHint">카메라 또는 파일</span>
+        </div>
+        <div class="photo-box">
+          <input type="file" id="body-photo" accept="image/*" capture="environment"
+            onchange="previewPhoto(this,'body-prev')" aria-label="전신 업로드">
+          <img class="photo-preview" id="body-prev" src="" alt="">
+          <div class="photo-overlay" data-i18n="photoChange">변경</div>
+          <div class="upload-icon">🧍</div>
+          <span class="upload-label" id="bodyPhotoLabel">전신</span>
           <span class="upload-hint" data-i18n="photoHint">카메라 또는 파일</span>
         </div>
       </div>
@@ -2981,6 +2938,18 @@ function showReport(rpt, ud) {
 
   const rc = document.getElementById('view-report');
   if (rc) { rc.innerHTML = html; rc.classList.add('visible'); }
+  
+  /* 채팅창 즉시 표시 */
+  const chatEl = document.getElementById('ai-chat-section');
+  if (chatEl) {
+    chatEl.style.display = 'block';
+    const chatTitle = document.getElementById('chat-title');
+    const chatSubtitle = document.getElementById('chat-subtitle');
+    if (chatTitle) chatTitle.textContent = currentLang === 'ko' ? '☯ AI 추가 상담' : '☯ AI Follow-up Consultation';
+    if (chatSubtitle) chatSubtitle.textContent = currentLang === 'ko' ? '리포트에서 궁금한 점을 질문해보세요' : 'Ask anything about your report';
+    if (!window._chatHistory) { window._chatHistory = []; }
+  }
+  
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
   setTimeout(() => {
@@ -4160,22 +4129,19 @@ async function generateAndSendReport(userData) {
     reportEl.prepend(aiBanner);
   }
 
-  /* 4. AI 채팅 상담창 표시 */
+  /* 4. AI 채팅 상담창 표시 — 항상 보여줌 */
   const chatSection = document.getElementById('ai-chat-section');
   if (chatSection) {
     chatSection.style.display = 'block';
-    // 언어 설정
+    chatSection.style.visibility = 'visible';
     const chatTitle = document.getElementById('chat-title');
     const chatSubtitle = document.getElementById('chat-subtitle');
     if (chatTitle) chatTitle.textContent = currentLang === 'ko' ? '☯ AI 추가 상담' : '☯ AI Follow-up Consultation';
     if (chatSubtitle) chatSubtitle.textContent = currentLang === 'ko' ? '리포트에서 궁금한 점을 질문해보세요' : 'Ask anything about your report';
-    // 채팅 컨텍스트 저장
-    window._chatContext = { userData, aiReport, lang: currentLang };
+    window._chatContext = { userData, aiReport: aiReport || '', lang: currentLang };
     window._chatHistory = [];
-    // 채팅창으로 스크롤
-    setTimeout(() => chatSection.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
+    setTimeout(() => chatSection.scrollIntoView({ behavior: 'smooth', block: 'start' }), 500);
   }
-}
 
 /* ════════════════════════════════════════════════════════════
    AI 채팅 상담 함수
