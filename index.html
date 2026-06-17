@@ -1099,8 +1099,42 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
       <!-- 손금 가이드 -->
       <div id="palm-guide" style="margin-bottom:16px;">
         <div style="text-align:center;font-family:'Cormorant Garamond',serif;font-size:13px;color:#c9a84c;letter-spacing:.05em;margin-bottom:10px;" id="palm-guide-title">☯ 손금 주요 선 안내 — 손바닥을 펼쳐서 찍어주세요</div>
-        <img id="palm-guide-img" src="palm-guide-ko.png" alt="손금 주요 선 안내도"
-          style="width:100%;max-width:200px;display:block;margin:0 auto;border-radius:4px;">
+        <div style="display:flex;gap:14px;align-items:center;justify-content:center;">
+          <img id="palm-guide-img" src="palm-guide-ko.png" alt="손금 주요 선 안내도"
+            style="width:120px;flex-shrink:0;border-radius:4px;">
+          <!-- 범례 세로 -->
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="width:24px;height:4px;background:#22bb44;border-radius:2px;flex-shrink:0;"></div>
+              <div>
+                <div style="font-size:12px;color:#22bb44;font-family:serif;" id="pg-leg1">생명선</div>
+                <div style="font-size:10px;color:#666;" id="pg-leg1-sub">건강·생명력</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="width:24px;height:4px;background:#ee3333;border-radius:2px;flex-shrink:0;"></div>
+              <div>
+                <div style="font-size:12px;color:#ee3333;font-family:serif;" id="pg-leg2">두뇌선</div>
+                <div style="font-size:10px;color:#666;" id="pg-leg2-sub">지성·직업</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="width:24px;height:4px;background:#3388ff;border-radius:2px;flex-shrink:0;"></div>
+              <div>
+                <div style="font-size:12px;color:#3388ff;font-family:serif;" id="pg-leg3">감정선</div>
+                <div style="font-size:10px;color:#666;" id="pg-leg3-sub">연애·관계</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="width:24px;height:4px;background:#ddaa00;border-radius:2px;flex-shrink:0;"></div>
+              <div>
+                <div style="font-size:12px;color:#ddaa00;font-family:serif;" id="pg-leg4">운명선</div>
+                <div style="font-size:10px;color:#666;" id="pg-leg4-sub">재물·운명</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       </div>
       <div class="photo-grid">
         <div class="photo-box">
@@ -2403,7 +2437,7 @@ function applyLocale() {
   const pgTitle = document.getElementById('palm-guide-title');
   if (pgTitle) pgTitle.textContent = isEn ? '☯ Palm Line Guide — Please photograph your palm' : '☯ 손금 주요 선 안내 — 손바닥을 펼쳐서 찍어주세요';
   const pgImg = document.getElementById('palm-guide-img');
-  if (pgImg) pgImg.src = isEn ? 'palm-guide-en.png' : 'palm-guide-ko.png';
+  if (pgImg) pgImg.src = 'palm-guide-ko.png';
   const pgMap = {
     'pg-pinky': [' Pinky', '새끼'],
     'pg-thumb': ['Thumb', '엄지'],
@@ -2411,14 +2445,14 @@ function applyLocale() {
     'pg-heart': ['Heart Line', '감정선'],
     'pg-head':  ['Head Line', '두뇌선'],
     'pg-fate':  ['Fate Line', '운명선'],
-    'pg-leg1':  ['Life Line', '생명선'],
-    'pg-leg2':  ['Heart Line', '감정선'],
-    'pg-leg3':  ['Head Line', '두뇌선'],
-    'pg-leg4':  ['Fate Line', '운명선'],
-    'pg-leg1-sub': ['Vitality & Health', '생명력·건강'],
-    'pg-leg2-sub': ['Love & Relations', '연애·관계'],
-    'pg-leg3-sub': ['Intellect & Career', '지성·직업'],
-    'pg-leg4-sub': ['Wealth & Destiny', '재물·운명'],
+    'pg-leg1':     ['Life Line',   '생명선'],
+    'pg-leg2':     ['Head Line',   '두뇌선'],
+    'pg-leg3':     ['Heart Line',  '감정선'],
+    'pg-leg4':     ['Fate Line',   '운명선'],
+    'pg-leg1-sub': ['Vitality & Health', '건강·생명력'],
+    'pg-leg2-sub': ['Intellect & Career','지성·직업'],
+    'pg-leg3-sub': ['Love & Relations',  '연애·관계'],
+    'pg-leg4-sub': ['Wealth & Destiny',  '재물·운명'],
   };
   Object.entries(pgMap).forEach(([id, [en, ko]]) => {
     const el = document.getElementById(id);
