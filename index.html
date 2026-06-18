@@ -247,16 +247,16 @@ body  {
 .field-input::placeholder { color: var(--text-muted); font-style: italic; }
 input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia(1) saturate(2) hue-rotate(10deg); cursor: pointer; }
 
-.bio-grid  { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+.bio-grid  { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
 @media(max-width:400px) { .bio-grid { grid-template-columns: 1fr 1fr; } }
-.bio-field { display: flex; flex-direction: column; gap: 5px; align-items: stretch; }
+.bio-field { display: flex; flex-direction: column; gap: 4px; align-items: stretch; }
 .bio-input {
   background: rgba(0,0,0,.45); border: 1px solid rgba(201,168,76,.13); border-radius: 2px;
-  padding: 12px 8px; color: var(--text-primary);
-  font-family: var(--font-body); font-size: 17px;
+  padding: 8px 6px; color: var(--text-primary);
+  font-family: var(--font-body); font-size: 15px;
   text-align: center; outline: none;
   transition: var(--transition); width: 100%;
-  height: 52px;
+  height: 42px;
   -moz-appearance: textfield;
 }
 .bio-input::-webkit-outer-spin-button,
