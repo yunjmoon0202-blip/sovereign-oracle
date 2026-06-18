@@ -61,6 +61,15 @@
   --font-brand:   'Cinzel', 'Cormorant Garamond', serif;
   --font-mono:    'Cormorant Garamond', Georgia, serif;
   --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ── 레이아웃 고정 변수 (수정 금지) ── */
+  --app-max-width: 700px;
+  --section-padding: 18px 16px;
+  --section-margin: 10px;
+  --input-height: 42px;
+  --input-font: 15px;
+  --hint-padding: 6px 10px;
+  --hint-margin: 10px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -96,9 +105,9 @@ body  {
 }
 .app-inner {
   position: relative; z-index: 1;
-  max-width: 700px;
+  max-width: var(--app-max-width);
   margin: 0 auto;
-  padding: 0 20px 100px;
+  padding: 0 20px 60px;
 }
 
 /* ── Header ── */
@@ -186,7 +195,7 @@ body  {
 .form-section {
   background: rgba(255,255,255,.018);
   border: 1px solid rgba(201,168,76,.09); border-radius: 2px;
-  padding: 18px 16px; margin-bottom: 10px;
+  padding: var(--section-padding); margin-bottom: var(--section-margin);
   position: relative; overflow: hidden;
   transition: var(--transition);
 }
@@ -206,13 +215,13 @@ body  {
   border: 1px solid rgba(201,168,76,.12); padding: 3px 8px; border-radius: 1px;
 }
 
-.sec-header  { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+.sec-header  { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
 .sec-num     { width: 22px; height: 22px; border: 1px solid rgba(255,232,176,.45); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--gold-300); font-family: var(--font-display); font-style: italic; flex-shrink: 0; }
 .sec-title   { font-family: var(--font-display); font-size: 15px; letter-spacing: .14em; color: var(--gold-200); text-transform: uppercase; font-style: italic; }
 .sec-classic { font-family: var(--font-display); font-size: 12px; color: var(--text-muted); letter-spacing: .08em; font-style: italic; margin-left: auto; }
 
-.classic-hint { background: rgba(201,168,76,.04); border-left: 2px solid rgba(201,168,76,.25); padding: 10px 14px; margin-bottom: 16px; border-radius: 0 2px 2px 0; }
-.classic-hint-text   { font-family: var(--font-display); font-size: 14px; color: var(--text-secondary); font-style: italic; line-height: 1.9; }
+.classic-hint { background: rgba(201,168,76,.04); border-left: 2px solid rgba(201,168,76,.25); padding: var(--hint-padding); margin-bottom: var(--hint-margin); border-radius: 0 2px 2px 0; }
+.classic-hint-text   { font-family: var(--font-display); font-size: 12px; color: var(--text-secondary); font-style: italic; line-height: 1.6; }
 .classic-hint-source { font-family: var(--font-display); font-size: 10px; color: var(--gold-500); letter-spacing: .1em; margin-top: 4px; }
 
 /* ── Inputs ── */
@@ -256,7 +265,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
   font-family: var(--font-body); font-size: 15px;
   text-align: center; outline: none;
   transition: var(--transition); width: 100%;
-  height: 42px;
+  height: var(--input-height);
   -moz-appearance: textfield;
 }
 .bio-input::-webkit-outer-spin-button,
