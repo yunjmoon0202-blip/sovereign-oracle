@@ -1330,7 +1330,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
           <div style="font-family:'Cormorant Garamond',serif;font-size:12px;color:#888;text-align:center;margin-bottom:8px;" id="chat-pay-title">상담 플랜 선택 (결제 후 이용)</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
             <div style="cursor:pointer;border:1px solid rgba(201,168,76,.25);border-radius:3px;padding:8px;text-align:center;background:rgba(0,0,0,.2);" onclick="openChatPayment('once')">
-              <div style="font-size:12px;color:#c9a84c;font-family:'Cormorant Garamond',serif;" id="cp-once-name">1회 상담권</div>
+              <div style="font-size:12px;color:#c9a84c;font-family:'Cormorant Garamond',serif;" id="cp-once-name">1시간</div>
               <div style="font-size:15px;color:#e8d5a3;font-weight:500;margin:3px 0;" id="cp-once-price">₩3,000</div>
               <div style="font-size:10px;color:#666;" id="cp-once-desc">당일 30분</div>
             </div>
@@ -2486,18 +2486,18 @@ function applyLocale() {
   /* 채팅 결제 플랜 언어 전환 */
   const cpMap = {
     'chat-pay-title': ['Consultation Plan', '상담 플랜 선택 (결제 후 이용)'],
-    'cp-once-name':  ['Single Session', '1회 상담권'],
-    'cp-once-price': ['$3', '₩3,000'],
-    'cp-once-desc':  ['30 min today', '당일 30분'],
+    'cp-once-name':  ['1-Hour Session', '1시간'],
+    'cp-once-price': ['$2.99', '₩3,000'],
+    'cp-once-desc':  ['1 hour today', '당일 1시간'],
     'cp-day-name':   ['1-Day Unlimited', '1일 무제한'],
-    'cp-day-price':  ['$5', '₩5,000'],
+    'cp-day-price':  ['$4.99', '₩5,000'],
     'cp-day-desc':   ['Unlimited today', '당일 무제한'],
     'cp-week-name':  ['1-Week Unlimited', '1주 무제한'],
-    'cp-week-price': ['$12', '₩12,000'],
+    'cp-week-price': ['$7.99', '₩8,000'],
     'cp-week-desc':  ['7 days unlimited', '7일 무제한'],
     'cp-month-badge':['⭐ Best Value', '⭐ 추천'],
     'cp-month-name': ['1-Month Unlimited', '1달 무제한'],
-    'cp-month-price':['$28', '₩30,000'],
+    'cp-month-price':['$11.99', '₩12,000'],
     'cp-month-desc': ['30 days unlimited', '30일 무제한'],
     'cp-premium-hint':['💡 <span style="color:#c9a84c;">Premium subscription</span> = 1 hour free daily!', '💡 <span style="color:#c9a84c;">프리미엄 구독</span>하면 매일 1시간 무료!'],
   };
