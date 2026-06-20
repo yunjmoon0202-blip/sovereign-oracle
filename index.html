@@ -93,8 +93,7 @@ body  {
     radial-gradient(ellipse at 82% 100%, rgba(201,168,76,.05) 0%, transparent 55%),
     var(--black-900);
   position: relative;
-  overflow-x: clip;
-  overflow-y: visible;
+  overflow: hidden;
 }
 #so-app::before {
   content: '';
@@ -1491,18 +1490,26 @@ const DP = (() => {
     _open = true; _ymView = null;
     const popup = document.getElementById('dp-popup');
     const wrap  = document.getElementById('datepicker-wrap');
+    /* body에 붙여서 부모 overflow 영향 완전히 벗어나기 */
+    if (popup && wrap && popup.parentElement !== document.body) {
+      document.body.appendChild(popup);
+    }
     popup?.classList.add('active');
     document.getElementById('dp-display')?.classList.add('open');
     render();
-    /* 팝업이 화면 아래로 잘리면 위로 열기 */
+    /* 위치 계산: wrap 기준으로 절대 좌표 */
     if (popup && wrap) {
-      const rect = popup.getBoundingClientRect();
-      const viewH = window.innerHeight;
-      if (rect.bottom > viewH) {
+      const rect = wrap.getBoundingClientRect();
+      popup.style.position = 'fixed';
+      popup.style.left = rect.left + 'px';
+      popup.style.width = rect.width + 'px';
+      popup.style.zIndex = '99999';
+      const spaceBelow = window.innerHeight - rect.bottom;
+      if (spaceBelow < 280) {
+        popup.style.bottom = (window.innerHeight - rect.top + 6) + 'px';
         popup.style.top = 'auto';
-        popup.style.bottom = 'calc(100% + 6px)';
       } else {
-        popup.style.top = 'calc(100% + 6px)';
+        popup.style.top = (rect.bottom + 6) + 'px';
         popup.style.bottom = 'auto';
       }
     }
