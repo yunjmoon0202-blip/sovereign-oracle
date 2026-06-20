@@ -1496,7 +1496,6 @@ const DP = (() => {
     }
     popup?.classList.add('active');
     document.getElementById('dp-display')?.classList.add('open');
-    render();
     /* 위치 계산: wrap 기준으로 절대 좌표 */
     if (popup && wrap) {
       const rect = wrap.getBoundingClientRect();
@@ -1513,6 +1512,7 @@ const DP = (() => {
         popup.style.bottom = 'auto';
       }
     }
+    render();
     setTimeout(() => document.addEventListener('click', outsideClick), 0);
   }
   function close() {
