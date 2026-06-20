@@ -3125,7 +3125,9 @@ function showSubscriberDashboard(ud) {
   }
   dash.innerHTML = html;
   dash.classList.add('visible');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  const reportEl = document.getElementById('view-report');
+if (reportEl) reportEl.scrollIntoView({ behavior: 'smooth' });
+else window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function generateLotteryNumbers(birth) {
