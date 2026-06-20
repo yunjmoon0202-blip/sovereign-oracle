@@ -1522,7 +1522,9 @@ const DP = (() => {
     document.removeEventListener('click', outsideClick);
   }
   function outsideClick(e) {
-    if (!document.getElementById('datepicker-wrap')?.contains(e.target)) close();
+    const wrap = document.getElementById('datepicker-wrap');
+    const popup = document.getElementById('dp-popup');
+    if (!wrap?.contains(e.target) && !popup?.contains(e.target)) close();
   }
 
   function render() {
