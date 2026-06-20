@@ -2733,6 +2733,9 @@ async function startDiagnosis() {
     });
   }
 
+  /* 팝업 차단 방지: 클릭 제스처 유지 위해 await 전에 미리 창 열기 */
+  const paymentWindow = window.open("", "_blank");
+
   const [facePhoto, palmRightPhoto, palmLeftPhoto] = await Promise.all([
     getPhotoBase64('face-photo'),
     getPhotoBase64('palm-right-photo'),
@@ -2763,7 +2766,7 @@ async function startDiagnosis() {
   };
 
   /* 결제 링크로 이동 */
-  PAYMENT.initGateway({ plan: selectedPlan, email: email });
+  PAYMENT.initGateway({ plan: selectedPlan, email: email }, paymentWindow);
 
   /* 결제창 열린 후 미리보기 리포트 생성 (결제 완료 후 이메일 발송 안내) */
   document.getElementById('view-input').style.display = 'none';
@@ -3229,7 +3232,7 @@ function doShare(platform) {
    PATCH 4 — PAYMENT LAYER (가격 완전 동기화)
    ════════════════════════════════════════════════════════════════ */
 const PAYMENT = {
-  initGateway(order) {
+  initGateway(order, paymentWindow) {
     const planKey = order.plan || 'productC';
     const url = LS_LINKS[planKey];
     if (!url) {
@@ -3239,7 +3242,7 @@ const PAYMENT = {
     /* 이메일 prefill */
     const email = order.email || (document.getElementById('user-email') || {}).value || '';
     const finalUrl = email ? url + '?checkout[email]=' + encodeURIComponent(email) : url;
-    window.open(finalUrl, '_blank');
+    if (paymentWindow) { paymentWindow.location.href = finalUrl; } else { window.open(finalUrl, '_blank'); }
   },
 
   onSuccess(r) { console.log('Payment success', r); },
