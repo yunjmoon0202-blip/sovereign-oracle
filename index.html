@@ -3010,7 +3010,9 @@ function showReport(rpt, ud) {
     if (!window._chatHistory) { window._chatHistory = []; }
   }
   
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  const reportEl = document.getElementById('view-report');
+if (reportEl) reportEl.scrollIntoView({ behavior: 'smooth' });
+else window.scrollTo({ top: 0, behavior: 'smooth' });
 
   setTimeout(() => {
     document.querySelectorAll('.el-bar-fill').forEach(b => {
