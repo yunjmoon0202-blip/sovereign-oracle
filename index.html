@@ -24,8 +24,8 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Sovereign Oracle — Precision Destiny Analysis">
 <meta property="og:description" content="Four Pillars · Five Elements · Classical Face & Palm Reading">
-<meta property="og:image" content="https://yourdomain.com/og-image.jpg">
-<meta property="og:url" content="https://yourdomain.com">
+<meta property="og:image" content="https://sovereign-oracle.com/icon-512.png">
+<meta property="og:url" content="https://sovereign-oracle.com">
 <meta name="twitter:card" content="summary_large_image">
 <title>Sovereign Oracle — Precision Destiny Analysis</title>
 
@@ -3239,12 +3239,12 @@ const PAYMENT = {
     /* 이메일 prefill */
     const email = order.email || (document.getElementById('user-email') || {}).value || '';
     const finalUrl = email ? url + '?checkout[email]=' + encodeURIComponent(email) : url;
-    localStorage.setItem('so_bd', document.getElementById('birthdate').value);
-localStorage.setItem('so_bd', document.getElementById('user-email').value);
-localStorage.setItem('so_bd', document.getElementById('user-name')?.value || '');
-localStorage.setItem('so_bd', document.querySelector('input[name="gender"]:checked')?.value || 'female');
-localStorage.setItem('so_bd', order.plan || selectedPlan);
-window.open(finalUrl, '_blank');
+    localStorage.setItem('so_bd',     document.getElementById('birthdate').value);
+    localStorage.setItem('so_email',  document.getElementById('user-email').value);
+    localStorage.setItem('so_name',   document.getElementById('user-name')?.value || '');
+    localStorage.setItem('so_gender', document.querySelector('input[name="gender"]:checked')?.value || 'female');
+    localStorage.setItem('so_plan',   order.plan || selectedPlan);
+    window.open(finalUrl, '_blank');
   },
 
   onSuccess(r) { console.log('Payment success', r); },
@@ -4234,10 +4234,10 @@ async function generateAndSendReport(userData) {
 function openChatPayment(plan) {
   const isKo = currentLang === 'ko';
   const plans = {
-    once:  { ko: 'https://sovereign-oracle.lemonsqueezy.com/checkout/buy/chat-once',  en: 'https://sovereign-oracle.lemonsqueezy.com/checkout/buy/chat-once'  },
-    day:   { ko: 'https://sovereign-oracle.lemonsqueezy.com/checkout/buy/chat-day',   en: 'https://sovereign-oracle.lemonsqueezy.com/checkout/buy/chat-day'   },
-    week:  { ko: 'https://sovereign-oracle.lemonsqueezy.com/checkout/buy/chat-week',  en: 'https://sovereign-oracle.lemonsqueezy.com/checkout/buy/chat-week'  },
-    month: { ko: 'https://sovereign-oracle.lemonsqueezy.com/checkout/buy/chat-month', en: 'https://sovereign-oracle.lemonsqueezy.com/checkout/buy/chat-month' },
+    once:  { ko: 'https://sovereign-oracle.lemonsqueezy.com/checkout/buy/775d804e-171a-4562-85ff-e3ee1114e084',  en: 'https://sovereign-oracle.lemonsqueezy.com/checkout/buy/775d804e-171a-4562-85ff-e3ee1114e084'  },
+    day:   { ko: 'https://sovereign-oracle.lemonsqueezy.com/checkout/buy/9fde60c3-2b0c-4d6a-b738-f345aae6d877',   en: 'https://sovereign-oracle.lemonsqueezy.com/checkout/buy/9fde60c3-2b0c-4d6a-b738-f345aae6d877'   },
+    week:  { ko: 'https://sovereign-oracle.lemonsqueezy.com/checkout/buy/7276f5fc-577a-46d4-98e9-710bcbe1856c',  en: 'https://sovereign-oracle.lemonsqueezy.com/checkout/buy/7276f5fc-577a-46d4-98e9-710bcbe1856c'  },
+    month: { ko: 'https://sovereign-oracle.lemonsqueezy.com/checkout/buy/63e68ef7-4f86-4db5-906a-39873f828e1d', en: 'https://sovereign-oracle.lemonsqueezy.com/checkout/buy/63e68ef7-4f86-4db5-906a-39873f828e1d' },
   };
   const url = plans[plan]?.[isKo ? 'ko' : 'en'];
   
