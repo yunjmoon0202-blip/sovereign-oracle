@@ -3244,7 +3244,7 @@ localStorage.setItem('so_bd', document.getElementById('user-email').value);
 localStorage.setItem('so_bd', document.getElementById('user-name')?.value || '');
 localStorage.setItem('so_bd', document.querySelector('input[name="gender"]:checked')?.value || 'female');
 localStorage.setItem('so_bd', order.plan || selectedPlan);
-window.open(finalUrl, '_blank');
+window.location.href = finalUrl;
   },
 
   onSuccess(r) { console.log('Payment success', r); },
