@@ -2467,7 +2467,7 @@ function applyLocale() {
   Object.entries(pgMap).forEach(([id, [en, ko]]) => {
     const el = document.getElementById(id);
     if (el) {
-        if (id === 'palm-guide-img-src') {
+        if (id === 'palm-guide-img') {
           el.src = isEn ? en : ko;
         } else {
           el.textContent = isEn ? en : ko;
