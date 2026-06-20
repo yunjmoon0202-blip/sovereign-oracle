@@ -93,7 +93,8 @@ body  {
     radial-gradient(ellipse at 82% 100%, rgba(201,168,76,.05) 0%, transparent 55%),
     var(--black-900);
   position: relative;
-  overflow: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
 }
 #so-app::before {
   content: '';
@@ -556,6 +557,10 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
   box-shadow: 0 12px 40px rgba(0,0,0,.7);
   animation: fadeUp .2s ease;
   min-width: 280px;
+  overflow: visible;
+}
+.dp-days {
+  overflow: visible !important;
 }
 .datepicker-popup.active { display: block; }
 
@@ -1484,9 +1489,23 @@ const DP = (() => {
 
   function open() {
     _open = true; _ymView = null;
-    document.getElementById('dp-popup')  ?.classList.add('active');
+    const popup = document.getElementById('dp-popup');
+    const wrap  = document.getElementById('datepicker-wrap');
+    popup?.classList.add('active');
     document.getElementById('dp-display')?.classList.add('open');
     render();
+    /* 팝업이 화면 아래로 잘리면 위로 열기 */
+    if (popup && wrap) {
+      const rect = popup.getBoundingClientRect();
+      const viewH = window.innerHeight;
+      if (rect.bottom > viewH) {
+        popup.style.top = 'auto';
+        popup.style.bottom = 'calc(100% + 6px)';
+      } else {
+        popup.style.top = 'calc(100% + 6px)';
+        popup.style.bottom = 'auto';
+      }
+    }
     setTimeout(() => document.addEventListener('click', outsideClick), 0);
   }
   function close() {
