@@ -3000,7 +3000,16 @@ function showReport(rpt, ud) {
     </div>`;
 
   const rc = document.getElementById('view-report');
-  if (rc) { rc.innerHTML = html; rc.classList.add('visible'); }
+  if (rc) {
+    rc.innerHTML = html;
+    rc.classList.add('visible');
+    /* 부모가 숨겨져 있으면 body로 이동 */
+    const parent = rc.parentElement;
+    if (parent && (parent.id === 'view-input' || getComputedStyle(parent).display === 'none')) {
+      document.body.appendChild(rc);
+    }
+    rc.style.display = 'block';
+  }
   
   /* 채팅창 즉시 표시 */
   const chatEl = document.getElementById('ai-chat-section');
