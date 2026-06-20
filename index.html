@@ -3239,11 +3239,11 @@ const PAYMENT = {
     /* 이메일 prefill */
     const email = order.email || (document.getElementById('user-email') || {}).value || '';
     const finalUrl = email ? url + '?checkout[email]=' + encodeURIComponent(email) : url;
-    sessionStorage.setItem('so_bd', document.getElementById('birthdate').value);
-sessionStorage.setItem('so_email', document.getElementById('user-email').value);
-sessionStorage.setItem('so_name', document.getElementById('user-name')?.value || '');
-sessionStorage.setItem('so_gender', document.querySelector('input[name="gender"]:checked')?.value || 'female');
-sessionStorage.setItem('so_plan', order.plan || selectedPlan);
+    localStorage.setItem('so_bd', document.getElementById('birthdate').value);
+localStorage.setItem('so_bd', document.getElementById('user-email').value);
+localStorage.setItem('so_bd', document.getElementById('user-name')?.value || '');
+localStorage.setItem('so_bd', document.querySelector('input[name="gender"]:checked')?.value || 'female');
+localStorage.setItem('so_bd', order.plan || selectedPlan);
 window.open(finalUrl, '_blank');
   },
 
@@ -3551,11 +3551,11 @@ document.addEventListener('DOMContentLoaded', () => {
   /* 결제 완료 감지 */
 const urlParams = new URLSearchParams(window.location.search);
 if (urlParams.get('payment') === 'success') {
-  const bd = sessionStorage.getItem('so_bd');
-  const email = sessionStorage.getItem('so_email');
-  const name = sessionStorage.getItem('so_name');
-  const gender = sessionStorage.getItem('so_gender');
-  const plan = sessionStorage.getItem('so_plan');
+  const bd = localStorage.getItem('so_bd');
+  const email = localStorage.getItem('so_email');
+  const name = localStorage.getItem('so_name');
+  const gender = localStorage.getItem('so_gender');
+  const plan = localStorage.getItem('so_plan');
   if (bd) document.getElementById('birthdate').value = bd;
   if (email) document.getElementById('user-email').value = email;
   if (name && document.getElementById('user-name')) document.getElementById('user-name').value = name;
