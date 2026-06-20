@@ -3239,7 +3239,12 @@ const PAYMENT = {
     /* 이메일 prefill */
     const email = order.email || (document.getElementById('user-email') || {}).value || '';
     const finalUrl = email ? url + '?checkout[email]=' + encodeURIComponent(email) : url;
-    window.open(finalUrl, '_blank');
+    sessionStorage.setItem('so_bd', document.getElementById('birthdate').value);
+sessionStorage.setItem('so_email', document.getElementById('user-email').value);
+sessionStorage.setItem('so_name', document.getElementById('user-name')?.value || '');
+sessionStorage.setItem('so_gender', document.querySelector('input[name="gender"]:checked')?.value || 'female');
+sessionStorage.setItem('so_plan', order.plan || selectedPlan);
+window.open(finalUrl, '_blank');
   },
 
   onSuccess(r) { console.log('Payment success', r); },
@@ -3546,7 +3551,17 @@ document.addEventListener('DOMContentLoaded', () => {
   /* 결제 완료 감지 */
 const urlParams = new URLSearchParams(window.location.search);
 if (urlParams.get('payment') === 'success') {
-  startDiagnosis();
+  const bd = sessionStorage.getItem('so_bd');
+  const email = sessionStorage.getItem('so_email');
+  const name = sessionStorage.getItem('so_name');
+  const gender = sessionStorage.getItem('so_gender');
+  const plan = sessionStorage.getItem('so_plan');
+  if (bd) document.getElementById('birthdate').value = bd;
+  if (email) document.getElementById('user-email').value = email;
+  if (name && document.getElementById('user-name')) document.getElementById('user-name').value = name;
+  if (gender) { const r = document.querySelector(`input[name="gender"][value="${gender}"]`); if(r) r.checked = true; }
+  if (plan) selectedPlan = plan;
+  if (bd && email) setTimeout(() => startDiagnosis(), 500);
 }
 
   /* 생년월일 hidden input max 세팅 */
@@ -4225,7 +4240,8 @@ function openChatPayment(plan) {
     month: { ko: 'https://sovereign-oracle.lemonsqueezy.com/checkout/buy/chat-month', en: 'https://sovereign-oracle.lemonsqueezy.com/checkout/buy/chat-month' },
   };
   const url = plans[plan]?.[isKo ? 'ko' : 'en'];
-  if (url) window.open(url, '_blank');
+  
+window.open(url, '_blank');
 }
 
 /* ════════════════════════════════════════════════════════════
