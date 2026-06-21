@@ -1319,7 +1319,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
   <div id="view-report" class="report-container"></div>
 
   <!-- ── AI 추가 상담 채팅창 ── -->
-  <div id="ai-chat-section" style="display:none;max-width:680px;margin:16px auto;padding:0 16px;">
+  <div id="ai-chat-section" style="display:block;max-width:680px;margin:16px auto;padding:0 16px;">
     <div style="background:rgba(201,168,76,.06);border:1.5px solid rgba(201,168,76,.25);border-radius:4px;padding:16px;">
       <div style="text-align:center;margin-bottom:12px;">
         <div style="font-family:'Cormorant Garamond','Noto Serif KR',serif;font-size:16px;color:#c9a84c;letter-spacing:.08em;" id="chat-title">☯ AI 추가 상담</div>
@@ -1330,33 +1330,35 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
         </div>
 
         <!-- 채팅 결제 플랜 -->
-        <div style="margin-top:12px;">
+        <div style="margin-top:12px;" id="chat-plan-select">
           <div style="font-family:'Cormorant Garamond',serif;font-size:12px;color:#888;text-align:center;margin-bottom:8px;" id="chat-pay-title">상담 플랜 선택 (결제 후 이용)</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
             <div style="cursor:pointer;border:1px solid rgba(201,168,76,.25);border-radius:3px;padding:8px;text-align:center;background:rgba(0,0,0,.2);" onclick="openChatPayment('once')">
-              <div style="font-size:12px;color:#c9a84c;font-family:'Cormorant Garamond',serif;" id="cp-once-name">1시간</div>
+              <div style="font-size:12px;color:#c9a84c;font-family:'Cormorant Garamond',serif;" id="cp-once-name">1시간권</div>
               <div style="font-size:15px;color:#e8d5a3;font-weight:500;margin:3px 0;" id="cp-once-price">₩3,000</div>
-              <div style="font-size:10px;color:#666;" id="cp-once-desc">당일 30분</div>
+              <div style="font-size:10px;color:#666;" id="cp-once-desc">10회 메시지</div>
             </div>
             <div style="cursor:pointer;border:1px solid rgba(201,168,76,.25);border-radius:3px;padding:8px;text-align:center;background:rgba(0,0,0,.2);" onclick="openChatPayment('day')">
-              <div style="font-size:12px;color:#c9a84c;font-family:'Cormorant Garamond',serif;" id="cp-day-name">1일 무제한</div>
+              <div style="font-size:12px;color:#c9a84c;font-family:'Cormorant Garamond',serif;" id="cp-day-name">1일권</div>
               <div style="font-size:15px;color:#e8d5a3;font-weight:500;margin:3px 0;" id="cp-day-price">₩5,000</div>
-              <div style="font-size:10px;color:#666;" id="cp-day-desc">당일 무제한</div>
+              <div style="font-size:10px;color:#666;" id="cp-day-desc">20회 메시지</div>
             </div>
             <div style="cursor:pointer;border:1px solid rgba(201,168,76,.25);border-radius:3px;padding:8px;text-align:center;background:rgba(0,0,0,.2);" onclick="openChatPayment('week')">
-              <div style="font-size:12px;color:#c9a84c;font-family:'Cormorant Garamond',serif;" id="cp-week-name">1주 무제한</div>
-              <div style="font-size:15px;color:#e8d5a3;font-weight:500;margin:3px 0;" id="cp-week-price">₩12,000</div>
-              <div style="font-size:10px;color:#666;" id="cp-week-desc">7일 무제한</div>
+              <div style="font-size:12px;color:#c9a84c;font-family:'Cormorant Garamond',serif;" id="cp-week-name">1주권</div>
+              <div style="font-size:15px;color:#e8d5a3;font-weight:500;margin:3px 0;" id="cp-week-price">₩8,000</div>
+              <div style="font-size:10px;color:#666;" id="cp-week-desc">50회 메시지</div>
             </div>
             <div style="cursor:pointer;border:1.5px solid rgba(201,168,76,.5);border-radius:3px;padding:8px;text-align:center;background:rgba(201,168,76,.08);" onclick="openChatPayment('month')">
               <div style="font-size:9px;color:#c9a84c;margin-bottom:2px;" id="cp-month-badge">⭐ 추천</div>
-              <div style="font-size:12px;color:#c9a84c;font-family:'Cormorant Garamond',serif;" id="cp-month-name">1달 무제한</div>
-              <div style="font-size:15px;color:#e8d5a3;font-weight:500;margin:3px 0;" id="cp-month-price">₩30,000</div>
-              <div style="font-size:10px;color:#666;" id="cp-month-desc">30일 무제한</div>
+              <div style="font-size:12px;color:#c9a84c;font-family:'Cormorant Garamond',serif;" id="cp-month-name">1달권</div>
+              <div style="font-size:15px;color:#e8d5a3;font-weight:500;margin:3px 0;" id="cp-month-price">₩12,000</div>
+              <div style="font-size:10px;color:#666;" id="cp-month-desc">150회 메시지</div>
             </div>
           </div>
-          <div style="text-align:center;margin-top:8px;font-size:10px;color:#666;" id="cp-premium-hint">💡 <span style="color:#c9a84c;">프리미엄 구독</span>하면 매일 1시간 무료!</div>
+          <div style="text-align:center;margin-top:8px;font-size:10px;color:#666;" id="cp-premium-hint">💡 <span style="color:#c9a84c;">프리미엄 구독</span>하면 매일 10회 무료!</div>
         </div>
+        <!-- 남은 횟수 표시 -->
+        <div id="chat-counter" style="text-align:right;font-size:11px;color:#888;margin-top:6px;display:none;"></div>
       </div>
       <div id="chat-messages" style="height:220px;overflow-y:auto;background:rgba(0,0,0,.3);border-radius:3px;padding:12px;margin-bottom:12px;display:flex;flex-direction:column;gap:10px;">
         <div style="background:rgba(201,168,76,.1);border-radius:3px;padding:10px 12px;font-size:13px;color:#c9a84c;font-family:'Cormorant Garamond',serif;line-height:1.7;" id="chat-welcome-msg">
@@ -3047,6 +3049,14 @@ function showReport(rpt, ud) {
   const chatEl = document.getElementById('ai-chat-section');
   if (chatEl) {
     chatEl.style.display = 'block';
+    /* 구독자 매일 10회 무료 체크 */
+    const subPlan = localStorage.getItem('so_plan');
+    if (subPlan === 'subscription' && !localStorage.getItem('so_chat')) {
+      activateChatPlan('subscription', null);
+    }
+    /* 카운터 표시 */
+    const counterEl = document.getElementById('chat-counter');
+    if (counterEl && getChatRemaining() > 0) { counterEl.style.display = 'block'; updateChatCounter(); }
     const chatTitle = document.getElementById('chat-title');
     const chatSubtitle = document.getElementById('chat-subtitle');
     if (chatTitle) chatTitle.textContent = currentLang === 'ko' ? '☯ AI 추가 상담' : '☯ AI Follow-up Consultation';
@@ -4256,6 +4266,65 @@ async function generateAndSendReport(userData) {
 /* ════════════════════════════════════════════════════════════
    채팅 상담 결제 함수
    ════════════════════════════════════════════════════════════ */
+/* 플랜별 횟수 제한 */
+const CHAT_LIMITS = { once: 10, day: 20, week: 50, month: 150 };
+
+function getChatRemaining() {
+  const data = JSON.parse(localStorage.getItem('so_chat') || '{}');
+  if (!data.plan) return 0;
+  /* 프리미엄 구독: 매일 10회 리셋 */
+  if (data.plan === 'subscription') {
+    const today = new Date().toDateString();
+    if (data.resetDate !== today) {
+      data.used = 0;
+      data.resetDate = today;
+      data.limit = 10;
+      localStorage.setItem('so_chat', JSON.stringify(data));
+    }
+    return Math.max(0, (data.limit || 10) - (data.used || 0));
+  }
+  /* 기간 만료 체크 */
+  if (data.expiry && Date.now() > data.expiry) {
+    localStorage.removeItem('so_chat');
+    return 0;
+  }
+  return Math.max(0, (data.limit || 0) - (data.used || 0));
+}
+
+function useChatCount() {
+  const data = JSON.parse(localStorage.getItem('so_chat') || '{}');
+  data.used = (data.used || 0) + 1;
+  localStorage.setItem('so_chat', JSON.stringify(data));
+}
+
+function updateChatCounter() {
+  const remaining = getChatRemaining();
+  const el = document.getElementById('chat-counter');
+  if (el) {
+    const isKo = currentLang === 'ko';
+    el.textContent = isKo ? `남은 상담 횟수: ${remaining}회` : `Remaining: ${remaining} messages`;
+    el.style.color = remaining <= 3 ? '#e57373' : '#888';
+  }
+}
+
+function activateChatPlan(plan, expireMs) {
+  const data = {
+    plan,
+    limit: CHAT_LIMITS[plan] || 10,
+    used: 0,
+    expiry: expireMs ? Date.now() + expireMs : null,
+    resetDate: null
+  };
+  localStorage.setItem('so_chat', JSON.stringify(data));
+  updateChatCounter();
+  /* 채팅 입력창 활성화 */
+  const input = document.getElementById('chat-input');
+  const sendBtn = document.getElementById('chat-send-btn');
+  if (input) input.disabled = false;
+  if (sendBtn) sendBtn.disabled = false;
+  document.getElementById('chat-plan-select')?.style.setProperty('display','none');
+}
+
 function openChatPayment(plan) {
   const isKo = currentLang === 'ko';
   const plans = {
@@ -4265,8 +4334,17 @@ function openChatPayment(plan) {
     month: { ko: 'https://sovereign-oracle.lemonsqueezy.com/checkout/buy/63e68ef7-4f86-4db5-906a-39873f828e1d', en: 'https://sovereign-oracle.lemonsqueezy.com/checkout/buy/63e68ef7-4f86-4db5-906a-39873f828e1d' },
   };
   const url = plans[plan]?.[isKo ? 'ko' : 'en'];
-  
-window.open(url, '_blank');
+  const expiry = { once: null, day: 86400000, week: 604800000, month: 2592000000 };
+  /* 결제창 열고 확인 메시지 */
+  window.open(url, '_blank');
+  const msg = isKo
+    ? `결제 완료 후 아래 버튼을 눌러 상담을 시작하세요.`
+    : `After payment, click below to start your consultation.`;
+  /* 결제 확인 버튼 표시 */
+  const confirmDiv = document.getElementById('chat-confirm-' + plan);
+  if (confirmDiv) confirmDiv.style.display = 'block';
+  /* 임시: 결제 확인 없이 바로 활성화 (테스트용) */
+  setTimeout(() => activateChatPlan(plan, expiry[plan]), 500);
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -4279,6 +4357,16 @@ async function sendChatMessage() {
 
   const userMsg = input.value.trim();
   if (!userMsg) return;
+
+  /* 횟수 제한 체크 */
+  const remaining = getChatRemaining();
+  if (remaining <= 0) {
+    const isKo2 = currentLang === 'ko';
+    alert(isKo2 ? '상담 횟수가 모두 소진되었습니다. 플랜을 선택해 주세요.' : 'No messages remaining. Please select a plan.');
+    document.getElementById('chat-plan-select')?.style.setProperty('display','block');
+    return;
+  }
+  useChatCount();
   input.value = '';
 
   const ctx = window._chatContext || {};
@@ -4305,6 +4393,8 @@ async function sendChatMessage() {
   // 시스템 프롬프트
   const systemPrompt = isKo
     ? `당신은 소버린 오라클의 AI 상담사입니다. 사주명리학, 수상(손금), 관상 전문가로서 아래 고객 리포트를 바탕으로 추가 질문에 답변해주세요.
+
+중요: 반드시 사주, 운세, 수상, 관상, 풍수, 건강(한의학), 연애/결혼운, 재물운, 직업운 관련 질문에만 답변하세요. 그 외 주제(코딩, 번역, 일반 상식 등)는 '저는 운명 분석 전문 AI입니다. 운세 관련 질문을 해주세요.'라고 답변하세요.
 
 고객 정보:
 - 이름: ${ctx.userData?.name || '의뢰인'}
