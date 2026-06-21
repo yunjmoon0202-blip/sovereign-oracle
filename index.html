@@ -1336,23 +1336,23 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
             <div style="cursor:pointer;border:1px solid rgba(201,168,76,.25);border-radius:3px;padding:8px;text-align:center;background:rgba(0,0,0,.2);" onclick="openChatPayment('once')">
               <div style="font-size:12px;color:#c9a84c;font-family:'Cormorant Garamond',serif;" id="cp-once-name">1시간권</div>
               <div style="font-size:15px;color:#e8d5a3;font-weight:500;margin:3px 0;" id="cp-once-price">₩3,000</div>
-              <div style="font-size:10px;color:#666;" id="cp-once-desc">10회 메시지</div>
+              <div style="font-size:10px;color:#c9a84c;font-weight:500;">10회</div>
             </div>
             <div style="cursor:pointer;border:1px solid rgba(201,168,76,.25);border-radius:3px;padding:8px;text-align:center;background:rgba(0,0,0,.2);" onclick="openChatPayment('day')">
               <div style="font-size:12px;color:#c9a84c;font-family:'Cormorant Garamond',serif;" id="cp-day-name">1일권</div>
               <div style="font-size:15px;color:#e8d5a3;font-weight:500;margin:3px 0;" id="cp-day-price">₩5,000</div>
-              <div style="font-size:10px;color:#666;" id="cp-day-desc">20회 메시지</div>
+              <div style="font-size:10px;color:#c9a84c;font-weight:500;">20회</div>
             </div>
             <div style="cursor:pointer;border:1px solid rgba(201,168,76,.25);border-radius:3px;padding:8px;text-align:center;background:rgba(0,0,0,.2);" onclick="openChatPayment('week')">
               <div style="font-size:12px;color:#c9a84c;font-family:'Cormorant Garamond',serif;" id="cp-week-name">1주권</div>
               <div style="font-size:15px;color:#e8d5a3;font-weight:500;margin:3px 0;" id="cp-week-price">₩8,000</div>
-              <div style="font-size:10px;color:#666;" id="cp-week-desc">50회 메시지</div>
+              <div style="font-size:10px;color:#c9a84c;font-weight:500;">50회</div>
             </div>
             <div style="cursor:pointer;border:1.5px solid rgba(201,168,76,.5);border-radius:3px;padding:8px;text-align:center;background:rgba(201,168,76,.08);" onclick="openChatPayment('month')">
               <div style="font-size:9px;color:#c9a84c;margin-bottom:2px;" id="cp-month-badge">⭐ 추천</div>
               <div style="font-size:12px;color:#c9a84c;font-family:'Cormorant Garamond',serif;" id="cp-month-name">1달권</div>
               <div style="font-size:15px;color:#e8d5a3;font-weight:500;margin:3px 0;" id="cp-month-price">₩12,000</div>
-              <div style="font-size:10px;color:#666;" id="cp-month-desc">150회 메시지</div>
+              <div style="font-size:10px;color:#c9a84c;font-weight:500;">150회</div>
             </div>
           </div>
           <div style="text-align:center;margin-top:8px;font-size:10px;color:#666;" id="cp-premium-hint">💡 <span style="color:#c9a84c;">프리미엄 구독</span>하면 매일 10회 무료!</div>
@@ -1367,8 +1367,9 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
       </div>
       <div style="display:flex;gap:8px;">
         <input id="chat-input" type="text"
-          placeholder="질문을 입력하세요..."
-          style="flex:1;background:rgba(0,0,0,.4);border:1px solid rgba(201,168,76,.2);border-radius:2px;padding:9px 12px;color:#e8d5a3;font-size:13px;font-family:'Inter','Noto Sans KR',sans-serif;outline:none;"
+          placeholder="플랜 선택 후 이용 가능합니다..."
+          disabled
+          style="flex:1;background:rgba(0,0,0,.4);border:1px solid rgba(201,168,76,.2);border-radius:2px;padding:9px 12px;color:#e8d5a3;font-size:13px;font-family:'Inter','Noto Sans KR',sans-serif;outline:none;opacity:0.5;"
           onkeydown="if(event.key==='Enter')sendChatMessage()">
         <button onclick="sendChatMessage()"
           id="chat-send-btn"
@@ -4343,8 +4344,7 @@ function openChatPayment(plan) {
   /* 결제 확인 버튼 표시 */
   const confirmDiv = document.getElementById('chat-confirm-' + plan);
   if (confirmDiv) confirmDiv.style.display = 'block';
-  /* 임시: 결제 확인 없이 바로 활성화 (테스트용) */
-  setTimeout(() => activateChatPlan(plan, expiry[plan]), 500);
+
 }
 
 /* ════════════════════════════════════════════════════════════
