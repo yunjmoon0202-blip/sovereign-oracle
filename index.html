@@ -1336,17 +1336,17 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
             <div style="cursor:pointer;border:1px solid rgba(201,168,76,.25);border-radius:3px;padding:8px;text-align:center;background:rgba(0,0,0,.2);" onclick="openChatPayment('once')">
               <div style="font-size:12px;color:#c9a84c;font-family:'Cormorant Garamond',serif;" id="cp-once-name">1시간권</div>
               <div style="font-size:15px;color:#e8d5a3;font-weight:500;margin:3px 0;" id="cp-once-price">₩3,000</div>
-              <div style="font-size:10px;color:#c9a84c;font-weight:500;">10회</div>
+              <div style="font-size:10px;color:#c9a84c;font-weight:500;">5회</div>
             </div>
             <div style="cursor:pointer;border:1px solid rgba(201,168,76,.25);border-radius:3px;padding:8px;text-align:center;background:rgba(0,0,0,.2);" onclick="openChatPayment('day')">
               <div style="font-size:12px;color:#c9a84c;font-family:'Cormorant Garamond',serif;" id="cp-day-name">1일권</div>
               <div style="font-size:15px;color:#e8d5a3;font-weight:500;margin:3px 0;" id="cp-day-price">₩5,000</div>
-              <div style="font-size:10px;color:#c9a84c;font-weight:500;">20회</div>
+              <div style="font-size:10px;color:#c9a84c;font-weight:500;">10회</div>
             </div>
             <div style="cursor:pointer;border:1px solid rgba(201,168,76,.25);border-radius:3px;padding:8px;text-align:center;background:rgba(0,0,0,.2);" onclick="openChatPayment('week')">
               <div style="font-size:12px;color:#c9a84c;font-family:'Cormorant Garamond',serif;" id="cp-week-name">1주권</div>
               <div style="font-size:15px;color:#e8d5a3;font-weight:500;margin:3px 0;" id="cp-week-price">₩8,000</div>
-              <div style="font-size:10px;color:#c9a84c;font-weight:500;">50회</div>
+              <div style="font-size:10px;color:#c9a84c;font-weight:500;">30회</div>
             </div>
             <div style="cursor:pointer;border:1.5px solid rgba(201,168,76,.5);border-radius:3px;padding:8px;text-align:center;background:rgba(201,168,76,.08);" onclick="openChatPayment('month')">
               <div style="font-size:9px;color:#c9a84c;margin-bottom:2px;" id="cp-month-badge">⭐ 추천</div>
@@ -4287,7 +4287,7 @@ function checkVipFree(name, birth) {
 }
 
 /* 플랜별 횟수 제한 */
-const CHAT_LIMITS = { once: 10, day: 20, week: 50, month: 150 };
+const CHAT_LIMITS = { once: 5, day: 10, week: 30, month: 150 };
 
 function getChatRemaining() {
   const data = JSON.parse(localStorage.getItem('so_chat') || '{}');
