@@ -4171,7 +4171,7 @@ Write each chapter in depth and authority — this report should feel like a gen
 
   try {
     /* Cloudflare Worker를 통해 Claude API 호출 */
-    const response = await fetch('https://sovereign-oracle-api.yunjmoon0202.workers.dev', {
+    const response = await fetch('https://sovereign-oracle-worker.vercel.app/api/claude', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt: prompt, messages: messages })
@@ -4333,7 +4333,7 @@ Guidelines: Be professional, cite classical texts, give practical advice in unde
       ...window._chatHistory.slice(-6)
     ];
 
-    const response = await fetch('https://sovereign-oracle-api.yunjmoon0202.workers.dev', {
+    const response = await fetch('https://sovereign-oracle-worker.vercel.app/api/claude', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ messages: chatMessages })
