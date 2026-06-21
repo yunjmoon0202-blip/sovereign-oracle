@@ -3051,8 +3051,9 @@ function showReport(rpt, ud) {
   if (chatEl) {
     chatEl.style.display = 'block';
     /* VIP 무료 체크 */
-    const vipEmail = document.getElementById('user-email')?.value || '';
-    if (checkVipFree(vipEmail)) {
+    const vipName  = document.getElementById('user-name')?.value || '';
+    const vipBirth = document.getElementById('birthdate')?.value || '';
+    if (checkVipFree(vipName, vipBirth)) {
       localStorage.setItem('so_chat', JSON.stringify({ plan:'vip', limit:9999, used:0, expiry:null }));
     }
     /* 구독자 매일 10회 무료 체크 */
@@ -4272,15 +4273,17 @@ async function generateAndSendReport(userData) {
 /* ════════════════════════════════════════════════════════════
    채팅 상담 결제 함수
    ════════════════════════════════════════════════════════════ */
-/* ── VIP 무료 이용 화이트리스트 (이메일) ── */
+/* ── VIP 무료 이용 화이트리스트 (이름 + 생년월일) ── */
 const VIP_FREE = [
-  /* 여기에 이메일 추가/제거 */
-  /* 예: 'friend@gmail.com', */
+  /* { name: '홍길동', birth: '1990-01-01' }, */
 ];
 
-function checkVipFree(email) {
-  if (!email) return false;
-  return VIP_FREE.includes(email.trim().toLowerCase());
+function checkVipFree(name, birth) {
+  if (!name || !birth) return false;
+  return VIP_FREE.some(v =>
+    v.name.trim() === name.trim() &&
+    v.birth === birth
+  );
 }
 
 /* 플랜별 횟수 제한 */
