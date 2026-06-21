@@ -3050,6 +3050,11 @@ function showReport(rpt, ud) {
   const chatEl = document.getElementById('ai-chat-section');
   if (chatEl) {
     chatEl.style.display = 'block';
+    /* VIP 무료 체크 */
+    const vipEmail = document.getElementById('user-email')?.value || '';
+    if (checkVipFree(vipEmail)) {
+      localStorage.setItem('so_chat', JSON.stringify({ plan:'vip', limit:9999, used:0, expiry:null }));
+    }
     /* 구독자 매일 10회 무료 체크 */
     const subPlan = localStorage.getItem('so_plan');
     if (subPlan === 'subscription' && !localStorage.getItem('so_chat')) {
@@ -4267,6 +4272,17 @@ async function generateAndSendReport(userData) {
 /* ════════════════════════════════════════════════════════════
    채팅 상담 결제 함수
    ════════════════════════════════════════════════════════════ */
+/* ── VIP 무료 이용 화이트리스트 (이메일) ── */
+const VIP_FREE = [
+  /* 여기에 이메일 추가/제거 */
+  /* 예: 'friend@gmail.com', */
+];
+
+function checkVipFree(email) {
+  if (!email) return false;
+  return VIP_FREE.includes(email.trim().toLowerCase());
+}
+
 /* 플랜별 횟수 제한 */
 const CHAT_LIMITS = { once: 10, day: 20, week: 50, month: 150 };
 
