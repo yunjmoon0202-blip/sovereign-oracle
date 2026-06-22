@@ -2354,6 +2354,10 @@ function setLang(lang) {
   if (etaEl) etaEl.textContent = lang === 'ko' ? '📧 분석 완료 후 3분 이내 이메일 발송' : '📧 Email will be sent within 3 minutes';
   const chatInput = document.getElementById('chat-input');
   if (chatInput && chatInput.disabled) chatInput.placeholder = lang === 'ko' ? '플랜 선택 후 이용 가능합니다...' : 'Select a plan to start chatting...';
+  const chatTitle2 = document.getElementById('chat-title');
+  const chatSubtitle2 = document.getElementById('chat-subtitle');
+  if (chatTitle2) chatTitle2.textContent = lang === 'ko' ? '☯ AI 추가 상담' : '☯ AI Consultation';
+  if (chatSubtitle2) chatSubtitle2.textContent = lang === 'ko' ? '리포트에서 궁금한 점을 질문해보세요' : 'Ask anything about your report';
   const payTitle = document.getElementById('chat-pay-title');
   if (payTitle) payTitle.textContent = lang === 'ko' ? '상담 플랜 선택 (결제 후 이용)' : 'Select Consultation Plan';
   /* 횟수 표시 언어 전환 */
