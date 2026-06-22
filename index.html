@@ -1336,23 +1336,23 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia
             <div style="cursor:pointer;border:1px solid rgba(201,168,76,.25);border-radius:3px;padding:8px;text-align:center;background:rgba(0,0,0,.2);" onclick="openChatPayment('once')">
               <div style="font-size:12px;color:#c9a84c;font-family:'Cormorant Garamond',serif;" id="cp-once-name">1시간권</div>
               <div style="font-size:15px;color:#e8d5a3;font-weight:500;margin:3px 0;" id="cp-once-price">₩3,000</div>
-              <div style="font-size:10px;color:#c9a84c;font-weight:500;">5회</div>
+              <div id="cp-once-count" style="font-size:10px;color:#c9a84c;font-weight:500;">5회</div>
             </div>
             <div style="cursor:pointer;border:1px solid rgba(201,168,76,.25);border-radius:3px;padding:8px;text-align:center;background:rgba(0,0,0,.2);" onclick="openChatPayment('day')">
               <div style="font-size:12px;color:#c9a84c;font-family:'Cormorant Garamond',serif;" id="cp-day-name">1일권</div>
               <div style="font-size:15px;color:#e8d5a3;font-weight:500;margin:3px 0;" id="cp-day-price">₩5,000</div>
-              <div style="font-size:10px;color:#c9a84c;font-weight:500;">10회</div>
+              <div id="cp-day-count" style="font-size:10px;color:#c9a84c;font-weight:500;">10회</div>
             </div>
             <div style="cursor:pointer;border:1px solid rgba(201,168,76,.25);border-radius:3px;padding:8px;text-align:center;background:rgba(0,0,0,.2);" onclick="openChatPayment('week')">
               <div style="font-size:12px;color:#c9a84c;font-family:'Cormorant Garamond',serif;" id="cp-week-name">1주권</div>
               <div style="font-size:15px;color:#e8d5a3;font-weight:500;margin:3px 0;" id="cp-week-price">₩8,000</div>
-              <div style="font-size:10px;color:#c9a84c;font-weight:500;">30회</div>
+              <div id="cp-week-count" style="font-size:10px;color:#c9a84c;font-weight:500;">30회</div>
             </div>
             <div style="cursor:pointer;border:1.5px solid rgba(201,168,76,.5);border-radius:3px;padding:8px;text-align:center;background:rgba(201,168,76,.08);" onclick="openChatPayment('month')">
               <div style="font-size:9px;color:#c9a84c;margin-bottom:2px;" id="cp-month-badge">⭐ 추천</div>
               <div style="font-size:12px;color:#c9a84c;font-family:'Cormorant Garamond',serif;" id="cp-month-name">1달권</div>
               <div style="font-size:15px;color:#e8d5a3;font-weight:500;margin:3px 0;" id="cp-month-price">₩12,000</div>
-              <div style="font-size:10px;color:#c9a84c;font-weight:500;">150회</div>
+              <div id="cp-month-count" style="font-size:10px;color:#c9a84c;font-weight:500;">150회</div>
             </div>
           </div>
           <div style="text-align:center;margin-top:8px;font-size:10px;color:#666;" id="cp-premium-hint">💡 <span style="color:#c9a84c;">프리미엄 구독</span>하면 매일 10회 무료!</div>
@@ -2356,6 +2356,12 @@ function setLang(lang) {
   if (chatInput && chatInput.disabled) chatInput.placeholder = lang === 'ko' ? '플랜 선택 후 이용 가능합니다...' : 'Select a plan to start chatting...';
   const payTitle = document.getElementById('chat-pay-title');
   if (payTitle) payTitle.textContent = lang === 'ko' ? '상담 플랜 선택 (결제 후 이용)' : 'Select Consultation Plan';
+  /* 횟수 표시 언어 전환 */
+  const countMap = { 'cp-once-count': ['5회','5 msg'], 'cp-day-count': ['10회','10 msg'], 'cp-week-count': ['30회','30 msg'], 'cp-month-count': ['150회','150 msg'] };
+  Object.entries(countMap).forEach(([id, [ko2, en2]]) => {
+    const el2 = document.getElementById(id);
+    if (el2) el2.textContent = lang === 'ko' ? ko2 : en2;
+  });
   const btn = document.getElementById('lang-' + lang);
   if (btn) btn.classList.add('active');
   document.documentElement.lang = lang;
