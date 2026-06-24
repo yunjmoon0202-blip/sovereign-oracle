@@ -4255,19 +4255,24 @@ Write each chapter in depth and authority — this report should feel like a gen
 /* ── EmailJS 발송 ── */
 async function sendReportEmail(userData, reportContent) {
   try {
-    await emailjs.send(
-      EMAILJS_CONFIG.serviceId,
-      EMAILJS_CONFIG.templateId,
-      {
-        to_email:       userData.email,
+    const res = await fetch('https://sovereign-oracle-api.yunjmoon0202.workers.dev/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        to_email: userData.email,
+        name: userData.name || userData.email,
         report_content: reportContent,
-        name:           userData.email
-      }
-    );
-    console.log('이메일 발송 성공!');
-    return true;
+        lang: currentLang
+      })
+    });
+    const data = await res.json();
+    if (data.success) {
+      console.log('이메일 발송 성공!');
+      return true;
+    }
+    throw new Error(data.error || 'Send failed');
   } catch (err) {
-    console.error('EmailJS 발송 실패:', err);
+    console.error('이메일 발송 실패:', err);
     return false;
   }
 }
