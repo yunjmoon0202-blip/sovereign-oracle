@@ -4290,13 +4290,22 @@ async function generateAndSendReport(userData) {
   /* 3. 화면에 AI 리포트 표시 */
   const reportEl = document.getElementById('view-report');
   if (reportEl) {
-    /* 기존 미리보기 위에 AI 리포트 배너 추가 */
+    /* 이메일 발송 상태 배너 */
     const aiBanner = document.createElement('div');
     aiBanner.style.cssText = 'background:rgba(201,168,76,.1);border:1.5px solid rgba(201,168,76,.4);border-radius:2px;padding:20px;margin-bottom:20px;text-align:center;';
     aiBanner.innerHTML = sent
       ? `<div style="color:#c9a84c;font-size:14px;letter-spacing:.1em;">✅ ${currentLang === 'ko' ? '정밀 분석 리포트가 이메일로 발송되었습니다!' : 'Your precision report has been sent to your email!'}</div><div style="color:#888;font-size:12px;margin-top:8px;">${userData.email}</div>`
       : `<div style="color:#c9a84c;font-size:14px;">⚠ ${currentLang === 'ko' ? '이메일 발송에 실패했습니다. 관리자에게 문의해 주세요.' : 'Email delivery failed. Please contact support.'}</div>`;
     reportEl.prepend(aiBanner);
+
+    /* 리포트 전체 내용 웹에 표시 */
+    const reportContent = document.createElement('div');
+    reportContent.style.cssText = 'background:rgba(10,10,20,.6);border:1px solid rgba(201,168,76,.2);border-radius:4px;padding:32px;margin-top:20px;color:#e8e8e8;font-size:15px;line-height:1.9;white-space:pre-wrap;font-family:inherit;';
+    reportContent.textContent = aiReport;
+    reportEl.appendChild(reportContent);
+
+    /* 스크롤 */
+    setTimeout(() => reportEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
   }
 
   /* 4. AI 채팅 상담창 표시 — 항상 보여줌 */
