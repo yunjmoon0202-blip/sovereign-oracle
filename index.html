@@ -3378,8 +3378,7 @@ function closePWA() {
 }
 
 if ('serviceWorker' in navigator) {
-  const sw = `const C='so-v26';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['/']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request))));`;
-  navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw], { type: 'application/javascript' }))).catch(() => {});
+  navigator.serviceWorker.register('/sw.js').catch(() => {});
 }
 
 (function() {
