@@ -4210,18 +4210,42 @@ Write each chapter in depth and authority — this report should feel like a gen
   }
 
   try {
-    /* Cloudflare Worker를 통해 Claude API 호출 */
+    /* Cloudflare Worker를 통해 Claude API 스트리밍 호출 */
     const response = await fetch('https://sovereign-oracle-api.yunjmoon0202.workers.dev', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt: prompt, messages: messages })
+      body: JSON.stringify({ prompt: prompt, messages: messages, stream: true })
     });
 
-    const data = await response.json();
-    if (data.report) {
-      return data.report;
+    if (!response.ok) {
+      const errData = await response.json().catch(() => ({}));
+      throw new Error(errData.error || 'API error');
     }
-    throw new Error(data.error || 'API response error');
+
+    /* 스트리밍 읽기 */
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let fullReport = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const chunk = decoder.decode(value, { stream: true });
+      const lines = chunk.split('\n');
+      for (const line of lines) {
+        if (line.startsWith('data: ')) {
+          const data = line.slice(6).trim();
+          if (data === '[DONE]') break;
+          try {
+            const parsed = JSON.parse(data);
+            if (parsed.delta) fullReport += parsed.delta;
+          } catch(e) {}
+        }
+      }
+    }
+
+    if (fullReport) return fullReport;
+    throw new Error('Empty response');
   } catch (err) {
     console.error('AI API Error:', err);
     return null;
